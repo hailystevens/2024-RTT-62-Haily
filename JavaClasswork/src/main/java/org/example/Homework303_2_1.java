@@ -1,5 +1,7 @@
 package org.example;
 
+import java.text.DecimalFormat;
+
 public class Homework303_2_1 {
     public static void main(String[] args) {
 
@@ -75,7 +77,18 @@ public class Homework303_2_1 {
         // The products could be beverages like coffee, cappuccino, espresso, green tea, etc.
         // Assign prices to each product. Create two more variables called subtotal and totalSale
         // and complete an “order” for three items of the first product, four items of the second
-        // product, and two items of the third product. Add them all together to calculate the subtotal. Create a constant called SALES_TAX and add sales tax to the subtotal to obtain the totalSale amount. Be sure to format the results to two decimal places.
-
-
+        // product, and two items of the third product. Add them all together to calculate the subtotal.
+        // Create a constant called SALES_TAX and add sales tax to the subtotal to obtain the totalSale
+        // amount. Be sure to format the results to two decimal places.
+        double coffeePrice = 5.0;
+        double cappuccinoPrice = 6.0;
+        double espressoPrice = 2.5;
+        int coffeeQuantity = 3;
+        int cappuccinoQuantity = 4;
+        int espressoQuantity = 2;
+        double subTotal = (coffeePrice*coffeeQuantity) + (cappuccinoPrice*cappuccinoQuantity) + (espressoPrice*espressoQuantity);
+        double SALES_TAX = 0.053 * subTotal;
+        double totalSale = subTotal + SALES_TAX;
+        System.out.println("The total cost is $" + totalSale );
+        //find out how to format decimal
     }}
