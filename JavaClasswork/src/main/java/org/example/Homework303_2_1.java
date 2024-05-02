@@ -63,9 +63,13 @@ public class Homework303_2_1 {
         newY = q;
         System.out.println("The double value of " + q + " is " + newY);
 
-
-
         //Write a program that declares a named constant and uses it in a calculation. Print the result.
+        int f = 12;
+        int p = 4;
+        int NUMBER_OF_FLOWERS = f;
+        int NUMBER_OF_BOUQUETS = p;
+        int TOTAL_FLOWERS = f*p;
+        System.out.println("I have " + TOTAL_FLOWERS + " flowers");
 
         //Write a program where you create three variables that represent products at a cafe.
         // The products could be beverages like coffee, cappuccino, espresso, green tea, etc.
