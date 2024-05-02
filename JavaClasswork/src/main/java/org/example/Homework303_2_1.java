@@ -49,7 +49,7 @@ public class Homework303_2_1 {
         System.out.println("The quotient of " + var1 + " and " + var2 + " is " + divide);
         double result = 1.6;
         int newInt = (int) result;
-        System.out.println("The integer result is: " + newInt);
+        System.out.println("The integer result(modulus) is: " + newInt);
 
         //Write a program that declares two integer variables, x and y, and assigns the number 5
         // to x and the number 6 to y. Declare a variable q and assign y/x to it and print q.
