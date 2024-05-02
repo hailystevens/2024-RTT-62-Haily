@@ -45,15 +45,24 @@ public class Homework303_2_1 {
         // Now, cast the result to an integer. Print out the result again.
         double var1 = 100;
         double var2 = 20;
-        double divide = (double)v1 / (double)v2;
+        double divide = (double)var1 / (double)var2;
         System.out.println("The quotient of " + var1 + " and " + var2 + " is " + divide);
-        double result = 1.6;
+        double result = 5;
         int newInt = (int) result;
-        System.out.println("The integer result(modulus) is: " + newInt);
+        System.out.println("The integer result is " + newInt);
 
         //Write a program that declares two integer variables, x and y, and assigns the number 5
         // to x and the number 6 to y. Declare a variable q and assign y/x to it and print q.
         // Now, cast y to a double and assign it to q. Print q again.
+        int X, Y;
+        X = 5;
+        Y = 6;
+        int q = Y/X;
+        System.out.println("The integer value of X/Y is " + q);
+        double newY = (Y);
+        newY = q;
+        System.out.println("The double value of " + q + " is " + newY);
+
 
 
         //Write a program that declares a named constant and uses it in a calculation. Print the result.
