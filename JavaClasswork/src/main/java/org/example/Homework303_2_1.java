@@ -19,7 +19,7 @@ public class Homework303_2_1 {
 
         double dSum = d1 + d2;
 
-        System.out.println(dSum);
+        System.out.println("The sum of " + d1 +" and " + d2 + " is " + dSum);
 
         //Write a program that declares an integer variable and a double variable, assigns
         // numbers to each, and adds them together. Assign the sum to a variable. Print out
@@ -29,7 +29,7 @@ public class Homework303_2_1 {
 
         double sum3 = x + y;
 
-        System.out.println(sum3);
+        System.out.println("The sum of " + x + " and " + y + " is " + sum3);
 
         //Write a program that declares two integer variables, assigns an integer to each, and
         // divides the larger number by the smaller number. Assign the result to a variable.
@@ -38,12 +38,18 @@ public class Homework303_2_1 {
         int v1 = 80;
         int v2 = 50;
         double div = (double)v1 / (double)v2;
-        System.out.println(div);
+        System.out.println("The quotient of " + v1 + " and " + v2 + " is " + div);
 
         //Write a program that declares two double variables, assigns a number to each, and divides
         // the larger by the smaller number. Assign the result to a variable. Print out the result.
         // Now, cast the result to an integer. Print out the result again.
-
+        double var1 = 100;
+        double var2 = 20;
+        double divide = (double)v1 / (double)v2;
+        System.out.println("The quotient of " + var1 + " and " + var2 + " is " + divide);
+        double result = 1.6;
+        int newInt = (int) result;
+        System.out.println("The integer result is: " + newInt);
 
         //Write a program that declares two integer variables, x and y, and assigns the number 5
         // to x and the number 6 to y. Declare a variable q and assign y/x to it and print q.
