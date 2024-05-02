@@ -1,6 +1,5 @@
 package org.example;
 
-import java.text.DecimalFormat;
 
 public class Homework303_2_1 {
     public static void main(String[] args) {
@@ -89,6 +88,7 @@ public class Homework303_2_1 {
         double subTotal = (coffeePrice*coffeeQuantity) + (cappuccinoPrice*cappuccinoQuantity) + (espressoPrice*espressoQuantity);
         double SALES_TAX = 0.053 * subTotal;
         double totalSale = subTotal + SALES_TAX;
+        totalSale = Math.round(totalSale * 100.0) / 100.0; //I found this 0.00 solution online not on my own
         System.out.println("The total cost is $" + totalSale );
         //find out how to format decimal
     }}
@@ -101,4 +101,4 @@ public class Homework303_2_1 {
 //The integer value of X/Y is 1
 //The double value of 1 is 1.0
 //I have 48 flowers
-//The total cost is $46.332
+//The total cost is $46.33
