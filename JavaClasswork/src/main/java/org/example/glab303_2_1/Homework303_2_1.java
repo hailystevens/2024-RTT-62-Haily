@@ -1,4 +1,4 @@
-package org.example;
+package org.example.glab303_2_1;
 
 
 public class Homework303_2_1 {
@@ -20,7 +20,7 @@ public class Homework303_2_1 {
 
         double dSum = d1 + d2;
 
-        System.out.println("The sum of " + d1 +" and " + d2 + " is " + dSum);
+        System.out.println("The sum of " + d1 + " and " + d2 + " is " + dSum);
 
         //Write a program that declares an integer variable and a double variable, assigns
         // numbers to each, and adds them together. Assign the sum to a variable. Print out
@@ -38,7 +38,7 @@ public class Homework303_2_1 {
         // What corrections are needed?
         int v1 = 80;
         int v2 = 50;
-        double div = (double)v1 / (double)v2;
+        double div = (double) v1 / (double) v2;
         System.out.println("The quotient of " + v1 + " and " + v2 + " is " + div);
 
         //Write a program that declares two double variables, assigns a number to each, and divides
@@ -46,7 +46,7 @@ public class Homework303_2_1 {
         // Now, cast the result to an integer. Print out the result again.
         double var1 = 100;
         double var2 = 20;
-        double divide = (double)var1 / (double)var2;
+        double divide = (double) var1 / (double) var2;
         System.out.println("The quotient of " + var1 + " and " + var2 + " is " + divide);
         double result = 5;
         int newInt = (int) result;
@@ -58,7 +58,7 @@ public class Homework303_2_1 {
         int X, Y;
         X = 5;
         Y = 6;
-        int q = Y/X;
+        int q = Y / X;
         System.out.println("The integer value of X/Y is " + q);
         double newY = (Y);
         newY = q;
@@ -69,7 +69,7 @@ public class Homework303_2_1 {
         int p = 4;
         int NUMBER_OF_FLOWERS = f;
         int NUMBER_OF_BOUQUETS = p;
-        int TOTAL_FLOWERS = f*p;
+        int TOTAL_FLOWERS = f * p;
         System.out.println("I have " + TOTAL_FLOWERS + " flowers");
 
         //Write a program where you create three variables that represent products at a cafe.
@@ -85,13 +85,14 @@ public class Homework303_2_1 {
         int coffeeQuantity = 3;
         int cappuccinoQuantity = 4;
         int espressoQuantity = 2;
-        double subTotal = (coffeePrice*coffeeQuantity) + (cappuccinoPrice*cappuccinoQuantity) + (espressoPrice*espressoQuantity);
+        double subTotal = (coffeePrice * coffeeQuantity) + (cappuccinoPrice * cappuccinoQuantity) + (espressoPrice * espressoQuantity);
         double SALES_TAX = 0.053 * subTotal;
         double totalSale = subTotal + SALES_TAX;
         totalSale = Math.round(totalSale * 100.0) / 100.0; //I found this 0.00 solution online not on my own
-        System.out.println("The total cost is $" + totalSale );
+        System.out.println("The total cost is $" + totalSale);
         //find out how to format decimal
-    }}
+    }
+}
 //Terminal Output
 //The sum of 10.5 and 30.5 is 41.0
 //The sum of 30 and 50.55 is 80.55
