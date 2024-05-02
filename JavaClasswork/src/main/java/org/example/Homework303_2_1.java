@@ -92,3 +92,13 @@ public class Homework303_2_1 {
         System.out.println("The total cost is $" + totalSale );
         //find out how to format decimal
     }}
+//Terminal Output
+//The sum of 10.5 and 30.5 is 41.0
+//The sum of 30 and 50.55 is 80.55
+//The quotient of 80 and 50 is 1.6
+//The quotient of 100.0 and 20.0 is 5.0
+//The integer result is 5
+//The integer value of X/Y is 1
+//The double value of 1 is 1.0
+//I have 48 flowers
+//The total cost is $46.332
