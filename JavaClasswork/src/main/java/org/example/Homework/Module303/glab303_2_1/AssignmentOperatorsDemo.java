@@ -1,7 +1,7 @@
 package org.example.Homework.Module303.glab303_2_1;
 
 public class AssignmentOperatorsDemo {
-       public static void main(String args[]) {
+       public static void main(String[] args) {
            //   Assigning Primitive Values
        int j, k;
        j = 10; // j gets the value 10.

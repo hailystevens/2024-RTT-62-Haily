@@ -3,7 +3,7 @@ package org.example.Homework.Module303.glab303_3_1.JavaStringMethods;
 //compareTo() method:
 //The Java String compareTo() method compares the given string with the current string. It is a method of ‘Comparable’ interface that is implemented by the String class. It either returns a positive number, a negative number, or 0. For example:
 public class CompareToExample{
-public static void main(String args[]){
+public static void main(String[] args){
 String s1="hello";
 String s2="hello";
 String s3="hemlo";
