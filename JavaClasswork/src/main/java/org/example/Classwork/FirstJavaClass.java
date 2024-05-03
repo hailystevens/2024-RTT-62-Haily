@@ -1,4 +1,4 @@
-package org.example;
+package org.example.Classwork;
 
 public class FirstJavaClass {
     public static void main(String[] args) {
