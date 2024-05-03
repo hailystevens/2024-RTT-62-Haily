@@ -1,4 +1,4 @@
-package org.example.glab303_2_2.CoreJavaTypeCasting;
+package org.example.Homework.CoreJavaTypeCasting;
 
 public class AutoTypeConversion {
     public static void main(String[] args) {

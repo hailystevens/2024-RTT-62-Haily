@@ -1,4 +1,4 @@
-package org.example.glab303_3_1.JavaStringMethods;
+package org.example.Homework.JavaStringMethods;
 
 import java.util.Arrays;
 

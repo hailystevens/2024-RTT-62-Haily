@@ -1,4 +1,4 @@
-package org.example.glab303_3_2;
+package org.example.Homework.glab303_3_2;
 import java.util.Scanner;
 
     //Guided Lab 303.3.2 - Reading a String From the Console

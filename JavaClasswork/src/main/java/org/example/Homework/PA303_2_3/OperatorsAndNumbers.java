@@ -1,4 +1,4 @@
-package org.example.PA303_2_3;
+package org.example.Homework.PA303_2_3;
 
 public class OperatorsAndNumbers {
     //PA - 303.2.3 - Practice Assignment

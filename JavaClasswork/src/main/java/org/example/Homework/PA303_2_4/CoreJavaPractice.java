@@ -1,4 +1,4 @@
-package org.example.PA303_2_4;
+package org.example.Homework.PA303_2_4;
 
 public class CoreJavaPractice {
     //PA - 303.2.4 - Practice Assignment

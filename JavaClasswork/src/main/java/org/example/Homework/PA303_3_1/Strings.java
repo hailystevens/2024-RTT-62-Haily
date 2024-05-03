@@ -1,4 +1,4 @@
-package org.example.PA303_3_1;
+package org.example.Homework.PA303_3_1;
 
 public class Strings {
     //PA 303.3.1 - Practice Assignment - Strings

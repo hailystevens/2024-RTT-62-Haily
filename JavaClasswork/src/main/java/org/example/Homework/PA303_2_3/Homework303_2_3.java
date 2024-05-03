@@ -1,4 +1,4 @@
-package org.example.PA303_2_3;
+package org.example.Homework.PA303_2_3;
 
 public class Homework303_2_3 {
     public static void main(String[] args) {

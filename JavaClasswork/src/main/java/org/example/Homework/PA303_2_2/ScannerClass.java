@@ -1,4 +1,4 @@
-package org.example.PA303_2_2;
+package org.example.Homework.PA303_2_2;
 
 public class ScannerClass {
     //PA 303.2.2 - Practice Assignment -
