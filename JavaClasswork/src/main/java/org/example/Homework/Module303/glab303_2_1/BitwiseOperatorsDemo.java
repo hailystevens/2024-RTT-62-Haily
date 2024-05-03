@@ -1,4 +1,4 @@
-package org.example.Homework.glab303_2_1.CoreJavaOperators;
+package org.example.Homework.Module303.glab303_2_1;
 
 public class BitwiseOperatorsDemo {
        public static void main(String[] args)
