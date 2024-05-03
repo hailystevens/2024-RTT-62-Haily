@@ -1,4 +1,4 @@
-package org.example.Homework.JavaStringMethods;
+package org.example.Homework.glab303_3_1.JavaStringMethods;
 
 public class StringTrimExample {
     public static void main(String args[]){

@@ -1,4 +1,4 @@
-package org.example.Homework.CoreJavaOperators;
+package org.example.Homework.glab303_2_1.CoreJavaOperators;
 
 public class LogicalOperatorsDemo {
            public static void main(String[] args)

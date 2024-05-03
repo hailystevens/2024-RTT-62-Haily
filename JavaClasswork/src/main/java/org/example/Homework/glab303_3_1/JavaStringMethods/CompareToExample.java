@@ -1,4 +1,4 @@
-package org.example.Homework.JavaStringMethods;
+package org.example.Homework.glab303_3_1.JavaStringMethods;
 
 //compareTo() method:
 //The Java String compareTo() method compares the given string with the current string. It is a method of ‘Comparable’ interface that is implemented by the String class. It either returns a positive number, a negative number, or 0. For example:

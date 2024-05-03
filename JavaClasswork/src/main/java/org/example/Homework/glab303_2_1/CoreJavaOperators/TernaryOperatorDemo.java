@@ -1,4 +1,4 @@
-package org.example.Homework.CoreJavaOperators;
+package org.example.Homework.glab303_2_1.CoreJavaOperators;
 
 public class TernaryOperatorDemo {
        public static void main(String[] args) {
