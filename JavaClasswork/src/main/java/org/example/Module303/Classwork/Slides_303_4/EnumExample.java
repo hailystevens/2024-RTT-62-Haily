@@ -2,6 +2,7 @@ package org.example.Module303.Classwork.Slides_303_4;
 
 public class EnumExample {
 
+
     enum Cars {
         BMW,
         JEEP,
@@ -11,37 +12,42 @@ public class EnumExample {
         CHEVY,
         FIAT;
     }
-    public static void main(String[] args) {
 
-        //Declaring enum variable
+
+    public static void main(String args[]) {
+
+        // Declaring Enum variable
         Cars c;
         c = Cars.AUDI;
-        //switch keyword
+        // Switch keyword
         switch (c) {
+            // Case statements
             case BMW:
-                System.out.println("You chose BMW !");
+                System.out.println("You choose BMW !");
                 break;
             case JEEP:
-                System.out.println("You chose JEEP !");
+                System.out.println("You choose JEEP !");
                 break;
             case AUDI:
-                System.out.println("You chose AUDI !");
+                System.out.println("You choose AUDI !");
                 break;
             case VOLKSWAGON:
-                System.out.println("You chose VOLKSWAGON !");
+                System.out.println("You choose VOLKSWAGON !");
                 break;
             case NANO:
-                System.out.println("You chose NANO !");
-                break;
-            case CHEVY:
-                System.out.println("You chose CHEVY !");
+                System.out.println("You choose NANO !");
                 break;
             case FIAT:
-                System.out.println("You chose FIAT !");
-                break;
+                System.out.println("You choose FIAT !");
             default:
-                System.out.println("Unrecognized car selection.");
+                System.out.println("NEW BRAND'S CAR.");
                 break;
         }
+
+        if (c != Cars.AUDI) {
+
+        }
     }
+
+
 }
