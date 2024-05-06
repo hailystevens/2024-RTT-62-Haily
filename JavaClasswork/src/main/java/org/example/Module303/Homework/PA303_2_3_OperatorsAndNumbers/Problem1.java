@@ -14,16 +14,19 @@ public class Problem1 {
         System.out.println("Value of x after left shift by 1: " + x);
         System.out.println("Binary representation of x after left shift by 1: " + Integer.toBinaryString(x));
 
+        //9
         int y = 9;
         y = y << 1;
         System.out.println("Value of y after left shift by 1: " + y);
         System.out.println("Binary representation of y after left shift by 1: " + Integer.toBinaryString(y));
 
+        //17
         int z = 17;
         z = z << 1;
         System.out.println("Value of z after left shift by 1: " + z);
         System.out.println("Binary representation of z after left shift by 1: " + Integer.toBinaryString(z));
 
+        //88
         int w = 88;
         w = w << 1;
         System.out.println("Value of w after left shift by 1: " + w);

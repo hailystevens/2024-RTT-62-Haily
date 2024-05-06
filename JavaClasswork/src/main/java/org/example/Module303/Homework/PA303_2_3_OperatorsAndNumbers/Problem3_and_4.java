@@ -7,5 +7,19 @@ package org.example.Module303.Homework.PA303_2_3_OperatorsAndNumbers;
 //Now, with the preceding values, use the bitwise and operator to calculate the “or” value between x and y.
 // As before, write a comment that indicates what you predict the values to be before printing them out.
 
-public class Problem4 {
+public class Problem3_and_4 {
+
+    public static void main(String[] args) {
+        int x = 7;   //define two variables
+        int y = 17;
+        int z = (x & y);  //perform bitwise AND operation
+
+        //display the result in binary and decimal format
+        System.out.println("Binary: " + Integer.toBinaryString(z));
+        System.out.println("Decimal: " + z);
+
+        int c = (x | y);
+        System.out.println("Binary: " + Integer.toBinaryString(c));
+        System.out.println("Decimal: " + c);
+    }
 }

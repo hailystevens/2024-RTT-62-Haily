@@ -7,4 +7,12 @@ package org.example.Module303.Homework.PA303_2_3_OperatorsAndNumbers;
 // x, and then calculated the sum, while the second configuration calculated the sum, and then incremented x.
 
 public class Problem7 {
+    public static void main(String[] args) {
+        int x = 5;
+        int y = 8;
+        int sum = (++x + y);
+        System.out.println("Prefix increment: " + sum);
+        int newSum = (x++ + y);
+        System.out.println("Postfix increment: " + sum);
+    }
 }
