@@ -10,7 +10,7 @@ public class Pyramid {
         //haha jk
     }
 }
-//       The output for this code didnt work for me:
+//       The output for this code didn't work for me:
 //        for (int i = 1; i <= 5; i++) {
 //            for (int j = 1; j <= i; j++) {
 //                System.out.println("* ");
