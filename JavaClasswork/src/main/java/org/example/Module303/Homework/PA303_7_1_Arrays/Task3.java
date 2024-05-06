@@ -11,8 +11,5 @@ public class Task3 {
         System.out.println("Array length: " + colors.length);
         String[] cloneColor = colors.clone();
         System.out.println("Copied array: " + Arrays.toString(cloneColor));
-
-
-
     }
 }

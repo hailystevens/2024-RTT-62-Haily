@@ -8,9 +8,8 @@ public class Task5 {
         int[] array = {5, 4, 3, 2, 1};
         for (int i = 0; i < 5; i++) {
         }
-        System.out.println(array.length);
         for (int i = 0; i < array.length; i++) {
-            System.out.println("Corresponding array index " + i + " is " + array[i] + ".");
+            System.out.println(i + " is " + array[i] + ".");
         }
     }
 }
