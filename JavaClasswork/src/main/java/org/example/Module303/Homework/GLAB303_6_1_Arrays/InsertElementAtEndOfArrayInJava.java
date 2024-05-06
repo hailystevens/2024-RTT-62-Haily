@@ -1,4 +1,4 @@
-package org.example.Module303.Homework.GLAB303_6_1;
+package org.example.Module303.Homework.GLAB303_6_1_Arrays;
 
 import java.util.Scanner;
 

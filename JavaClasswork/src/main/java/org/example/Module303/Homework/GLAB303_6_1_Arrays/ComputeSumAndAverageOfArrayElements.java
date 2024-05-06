@@ -1,4 +1,4 @@
-package org.example.Module303.Homework.GLAB303_6_1;
+package org.example.Module303.Homework.GLAB303_6_1_Arrays;
 
 public class ComputeSumAndAverageOfArrayElements {
     public static void main(String[] args) {
