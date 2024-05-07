@@ -1,29 +1,33 @@
 package org.example.Module303.Classwork.Slides_303_6;
 
-public class ArrayDelete {
+import java.util.Arrays;
+import java.util.Scanner;
+
+class ArrayDelete {
+    public static Scanner scanner = new Scanner(System.in);
+    static String[] arr = {"A", "B", "C", "D", "E", "F"};
     public static void main(String[] args) {
-        int[] array = {1, 2, 3, 4, 5};
+        System.out.println("Enter the position of the item to delete: ");
+        int position = scanner.nextInt();
+        delete(arr,position);
+    }
 
-
-        int deletedPosition = 4;
-        if ( deletedPosition < 0 || deletedPosition > array.length) {
-            System.out.println("position to delete array is invalid");
+    public static void delete(String[] source, int atPos) {
+        String[] array = source;
+        String[] newArray = new String[array.length - 1];
+        if (atPos > array.length - 1 || atPos < 0) {
+            System.out.println("Position is out of bounds");
+            return;
         }
-
-        // 1- create a new array with 1 less length
-        int[] delete = new int[array.length - 1];
-
-        // 2- copy the first part up to but not included the deleted position
-        for (int pos = 0; pos < 4; pos++) {
-            delete[pos] = array[pos];
+        System.out.println("Ok, we are deleting " + array[atPos] + "!");
+        for (int i = 0; i < newArray.length; i++) {
+            if (i < atPos) {
+                newArray[i] = array[i];
+            } else {
+                newArray[i] = array[i + 1];
+            }
         }
-        // 3- copy the last elements into a pos-1 in the new array
-        for (int pos = deletedPosition + 1; pos < array.length ; pos++) {
-            delete[pos - 1] = array[pos];
-        }
-
-        for (int value : delete) {
-            System.out.println(value);
-        }
+        System.out.println("Changing Array from: " + Arrays.toString(array));
+        System.out.println("To: " + Arrays.toString(newArray));
     }
 }
