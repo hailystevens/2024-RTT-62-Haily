@@ -1,6 +1,7 @@
 package org.example.Module303.Classwork.Slides303_9_Inheritance;
 
-public class Square extends Shape{
+
+public class Square extends Shape {
 
     private int width;
 
@@ -9,6 +10,12 @@ public class Square extends Shape{
         return width * width;
     }
 
+    @Override
+    public double calculatePerimeter() {
+        return 4 * width;
+    }
+
+
     public int getWidth() {
         return width;
     }
@@ -16,4 +23,6 @@ public class Square extends Shape{
     public void setWidth(int width) {
         this.width = width;
     }
+
+
 }

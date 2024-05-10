@@ -1,10 +1,25 @@
 package org.example.Module303.Classwork.Slides303_9_Inheritance;
 
-public abstract class Shape {
+public abstract class Shape implements Perimeter {
 
     public static double area;
 
     private String name;
+
+    // this is the definition for a method that all child classes
+    // must implement.  There is no implementation here
+    public abstract double calculateArea();
+
+
+    public void officialNameOfShape() {
+        System.out.println("Shape");
+    }
+
+
+    public int bedtime() {
+        return 10;
+    }
+
 
     public Shape() {
 
@@ -17,8 +32,6 @@ public abstract class Shape {
     protected void printName() {
         System.out.println("The name of the shape is " + name);
     }
-
-    public abstract double calculateArea();
 
 
     public String getName() {
