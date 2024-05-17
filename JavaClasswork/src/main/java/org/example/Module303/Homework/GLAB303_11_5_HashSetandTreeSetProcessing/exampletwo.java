@@ -1,4 +1,4 @@
-package org.example.Module303.Homework.GLAB_303_11_5_HashSetandTreeSetProcessing;
+package org.example.Module303.Homework.GLAB303_11_5_HashSetandTreeSetProcessing;
 
 import java.util.HashSet;
 
