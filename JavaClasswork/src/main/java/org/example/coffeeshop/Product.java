@@ -1,6 +1,6 @@
 package org.example.coffeeshop;
 
-public class Products {
+public class Product {
 
     private double price;
     private String name;
@@ -9,13 +9,13 @@ public class Products {
 
 
     // constructor with no args - by default this is included with the java language
-    public Products() {
+    public Product() {
         System.out.println("No args constructor called");
     }
 
     // constructor with all args
     // it is only if you want to have a custom constructor that you add it
-    public Products(double price, String name, boolean beverage, int quantityAvailable) {
+    public Product(double price, String name, boolean beverage, int quantityAvailable) {
         this.price = price;
         this.name = name;
         this.beverage = beverage;
