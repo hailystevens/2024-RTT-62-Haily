@@ -1,0 +1,151 @@
+-- homework
+-- 304.4.1 glab
+
+SELECT    order_line_number, order_id, quantity_ordered * price_each
+FROM    orderdetails
+ORDER BY   quantity_ordered * price_each DESC;
+
+SELECT
+    order_id
+    quantity_ordered,
+    quantity_ordered * price_each AS subtotal
+FROM    orderdetails
+ORDER BY subtotal DESC;
+
+SELECT    firstname, lastname, reports_to
+FROM    employees
+ORDER BY reports_to;
+
+SELECT    firstname, lastname, reports_to
+FROM    employees
+ORDER BY reports_to DESC;
+
+-- 304.5.1 glab AGGREGATE FUNCTIONS
+
+SELECT order_id, SUM(quantity_ordered) as Qty,
+    IF(MOD(SUM(quantity_ordered),2),'Odd', 'Even') as oddOrEven
+FROM    orderdetails
+GROUP BY    order_id
+ORDER BY    order_id;
+
+SELECT TRUNCATE(1.555,1);
+
+SELECT product_id, AVG(quantity_ordered * price_each) as avg_order_value
+FROM orderdetails
+GROUP BY product_id;
+
+SELECT     product_id,
+  ROUND(AVG(quantity_ordered * price_each)) as avg_order_item_value
+FROM     orderdetails
+GROUP BY    product_id;
+
+
+SELECT   TRUNCATE(1.999,1),  ROUND(1.999,1);
+
+
+-- error 1175
+UPDATE products
+SET product_description = REPLACE(product_description, 'abuot', 'about');
+
+SELECT DATEDIFF('2011-08-17','2011-08-17');
+#Result  :   0 day
+
+SELECT DATEDIFF('2011-08-17','2011-08-08');
+#Result:  9 days
+
+SELECT DATEDIFF('2011-08-08','2011-08-17');
+#Result:  -9 days
+
+SELECT id, DATEDIFF(required_date, shipped_date) as status
+FROM     orders
+ORDER BY  status DESC;
+
+SELECT id, DATEDIFF(required_date, order_date) as status
+FROM    orders
+WHERE    status = 'In Process'
+ORDER BY status;
+
+SELECT
+    id,
+    ROUND(DATEDIFF(required_date, order_date) / 7, 2),
+    ROUND(DATEDIFF(required_date, order_date) / 30,2)
+FROM     orders
+WHERE    status = 'In Process';
+
+SELECT
+    id,
+    DATE_FORMAT(order_date, '%Y-%m-%d') order_date,
+    DATE_FORMAT(required_date, '%a %D %b %Y') required_date,
+    DATE_FORMAT(shipped_date, '%W %D %M %Y') shipped_date
+FROM    orders;
+
+SELECT     id,
+    DATE_FORMAT(shipped_date, '%W %D %M %Y')  as 'Shipped date'
+FROM    orders
+ORDER BY shipped_date;
+
+-- employees
+SELECT firstname, LPAD(firstname,10,'kk'), LPAD(firstname,5,'kk'), LPAD(firstname,4,'kk') FROM classic_models.employees;
+
+
+SELECT RTRIM('SQL RTRIM function   ');
+
+
+SELECT YEAR('2002-01-01');
+
+SELECT YEAR(shipped_date) as year,  COUNT(id) as orderQty
+FROM    orders
+GROUP BY YEAR(shipped_date)
+ORDER BY YEAR(shipped_date);
+
+SELECT DAY('2022-01-15');
+
+SELECT  DAY(order_date) as dayofmonth, COUNT(*)
+FROM    orders WHERE    YEAR(order_date) = 2004
+GROUP BY dayofmonth
+ORDER BY dayofmonth;
+
+-- GLAB - 304.5.2 - Operators
+
+SELECT    customer_name, country
+FROM    customers
+WHERE    country = 'USA' OR country = 'France';
+
+SELECT    customer_name, country, credit_limit
+FROM    customers
+WHERE (country = 'USA' OR country = 'France') AND credit_limit > 100000;
+
+SELECT  customer_name, country, credit_limit FROM    customers
+WHERE    country = 'USA' OR country = 'France' AND credit_limit > 100000;
+
+SELECT     product_code,  product_name,  buy_price
+FROM    products
+WHERE     buy_price BETWEEN 90 AND 100;
+
+SELECT product_code, product_name, buy_price
+FROM products
+WHERE  buy_price >= 90 AND buy_price <= 100;
+
+SELECT product_code, product_name, buy_price FROM products
+WHERE buy_price NOT BETWEEN 20 AND 100;
+
+SELECT product_code, product_name, buy_price FROM products
+WHERE  buy_price < 20     OR     buy_price > 100;
+
+SELECT customer_name, country, sales_rep_employee_id
+FROM customers
+WHERE sales_rep_employee_id IS NULL
+ORDER BY  customer_name;
+
+SELECT customer_name, country, sales_rep_employee_id
+FROM  customers
+WHERE  sales_rep_employee_id IS NOT NULL
+ORDER BY customer_name;
+
+-- 1054
+SELECT  c.customer_id, c.customer_name,  id, o.STATUS
+FROM customers c
+LEFT JOIN orders o
+ON c.customer_id = o.id
+WHERE  id IS NULL;
+
