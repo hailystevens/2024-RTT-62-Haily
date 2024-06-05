@@ -1,37 +1,32 @@
 package org.example.database.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.sql.Date;
+import java.util.Date;
 
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
-@Table (name = "orders")
+@Table(name = "orders")
 public class Order {
-    @Id // this is telling hibernate this column is the PK
-    @GeneratedValue(strategy = GenerationType.IDENTITY)  // this telling hibernate that the PK is auto increment
-    @Column(name = "id")
-    private Integer id;
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
     @Column(name = "customer_id")
-    private Integer customerId;
-
+    private int customerId;
     @Column(name = "order_date")
+    @Temporal(TemporalType.DATE)
     private Date orderDate;
-
     @Column(name = "required_date")
+    @Temporal(TemporalType.DATE)
     private Date requiredDate;
-
-    @Column(name = "shipped_date")
-    private Date shippedDate;
-
     @Column(name = "status")
     private String status;
-
-    @Column(name = "comment")
-    private String comment;
 
 }
