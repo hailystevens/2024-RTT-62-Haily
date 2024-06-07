@@ -6,14 +6,15 @@ import java.util.Scanner;
 public class JDBCDemo {
 
     public static void main(String[] args) throws ClassNotFoundException {
+        String dburl = "jdbc:mysql://localhost:3306/classic_models";
+        String user = "root";
+        String password = "Xanax444";
         System.out.println("-------- MySQL JDBC Connection Demo ------------");
-        String url = "jdbc:mysql://localhost:3306/classic_models";
-        String user = "root"; // Change to your MySQL username
-        String password = "Xanax444"; // Change to your MySQL password
+
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection connection = DriverManager.getConnection(url, user, password);
+            Connection connection = DriverManager.getConnection(dburl, user, password);
 
             Scanner scanner = new Scanner(System.in);
             System.out.println("Enter the first name of the employee you want to search for: ");

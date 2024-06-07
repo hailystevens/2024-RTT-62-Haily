@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.type.descriptor.jdbc.SmallIntJdbcType;
 
 import java.math.BigDecimal;
 
@@ -15,20 +14,25 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "orderdetails")
-public class OrderDetail {
+public class OrderDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer id;
-    @Column(name = "order_id")
-    private Integer orderID;
+
+    @ManyToOne
+    @JoinColumn(name = "order_id")
+    private Order order;
+
     @Column(name = "product_id")
-    private Integer productID;
+    private Integer productId;
+
     @Column(name = "quantity_ordered")
     private Integer quantityOrdered;
+
     @Column(name = "price_each")
     private BigDecimal priceEach;
+
     @Column(name = "order_line_number")
     private Short orderLineNumber;
-
 }

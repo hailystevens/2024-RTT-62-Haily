@@ -6,27 +6,42 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
 import java.util.Date;
 
 @Getter
 @Setter
+@Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
 @Table(name = "orders")
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-    @Column(name = "customer_id")
-    private int customerId;
+    @Column(name = "id")
+    private Integer id;
+
+    @ManyToOne
+    @JoinColumn(name = "customer_id")
+    private Customer customer;
+
     @Column(name = "order_date")
-    @Temporal(TemporalType.DATE)
     private Date orderDate;
+
     @Column(name = "required_date")
-    @Temporal(TemporalType.DATE)
     private Date requiredDate;
+
+    @Column(name = "shipped_date")
+    private Date shippedDate;
+
     @Column(name = "status")
     private String status;
 
+    @Column(name = "comments")
+    private String comments;
+
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<OrderDetails> orderDetails;
 }
+
+

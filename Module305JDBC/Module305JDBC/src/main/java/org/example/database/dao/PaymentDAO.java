@@ -1,7 +1,7 @@
 package org.example.database.dao;
 
 import jakarta.persistence.TypedQuery;
-import org.example.database.entity.Employee;
+import org.example.database.entity.Payment;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -9,7 +9,7 @@ import org.hibernate.cfg.Configuration;
 
 import java.util.List;
 
-public class EmployeeDAO {
+public class PaymentDAO {
     private static SessionFactory sessionFactory;
 
     static {
@@ -20,40 +20,40 @@ public class EmployeeDAO {
         }
     }
 
-    public void insert(Employee employee) {
+    public void insert(Payment payment) {
         try (Session session = sessionFactory.openSession()) {
             Transaction transaction = session.beginTransaction();
-            session.save(employee);
+            session.save(payment);
             transaction.commit();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void update(Employee employee) {
+    public void update(Payment payment) {
         try (Session session = sessionFactory.openSession()) {
             Transaction transaction = session.beginTransaction();
-            session.merge(employee);
+            session.merge(payment);
             transaction.commit();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void delete(Employee employee) {
+    public void delete(Payment payment) {
         try (Session session = sessionFactory.openSession()) {
             Transaction transaction = session.beginTransaction();
-            session.delete(employee);
+            session.delete(payment);
             transaction.commit();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public Employee findById(Integer id) {
+    public Payment findById(Integer id) {
         try (Session session = sessionFactory.openSession()) {
-            String hql = "SELECT e FROM Employee e WHERE e.id = :id";
-            TypedQuery<Employee> query = session.createQuery(hql, Employee.class);
+            String hql = "SELECT p FROM Payment p WHERE p.id = :id";
+            TypedQuery<Payment> query = session.createQuery(hql, Payment.class);
             query.setParameter("id", id);
             return query.getSingleResult();
         } catch (Exception e) {
@@ -62,23 +62,11 @@ public class EmployeeDAO {
         }
     }
 
-    public List<Employee> findByFirstName(String firstName) {
+    public List<Payment> findByCustomerId(Integer customerId) {
         try (Session session = sessionFactory.openSession()) {
-            String hql = "SELECT e FROM Employee e WHERE e.firstname = :firstname";
-            TypedQuery<Employee> query = session.createQuery(hql, Employee.class);
-            query.setParameter("firstname", firstName);
-            return query.getResultList();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    public List<Employee> findByLastName(String lastName) {
-        try (Session session = sessionFactory.openSession()) {
-            String hql = "SELECT e FROM Employee e WHERE e.lastname = :lastname";
-            TypedQuery<Employee> query = session.createQuery(hql, Employee.class);
-            query.setParameter("lastname", lastName);
+            String hql = "SELECT p FROM Payment p WHERE p.customer.id = :customerId";
+            TypedQuery<Payment> query = session.createQuery(hql, Payment.class);
+            query.setParameter("customerId", customerId);
             return query.getResultList();
         } catch (Exception e) {
             e.printStackTrace();
@@ -86,3 +74,4 @@ public class EmployeeDAO {
         }
     }
 }
+

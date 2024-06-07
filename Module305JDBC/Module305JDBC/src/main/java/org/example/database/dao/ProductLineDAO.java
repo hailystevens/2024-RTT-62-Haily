@@ -1,7 +1,7 @@
 package org.example.database.dao;
 
 import jakarta.persistence.TypedQuery;
-import org.example.database.entity.Employee;
+import org.example.database.entity.ProductLine;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -9,7 +9,7 @@ import org.hibernate.cfg.Configuration;
 
 import java.util.List;
 
-public class EmployeeDAO {
+public class ProductLineDAO {
     private static SessionFactory sessionFactory;
 
     static {
@@ -20,40 +20,40 @@ public class EmployeeDAO {
         }
     }
 
-    public void insert(Employee employee) {
+    public void insert(ProductLine productLine) {
         try (Session session = sessionFactory.openSession()) {
             Transaction transaction = session.beginTransaction();
-            session.save(employee);
+            session.save(productLine);
             transaction.commit();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void update(Employee employee) {
+    public void update(ProductLine productLine) {
         try (Session session = sessionFactory.openSession()) {
             Transaction transaction = session.beginTransaction();
-            session.merge(employee);
+            session.merge(productLine);
             transaction.commit();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void delete(Employee employee) {
+    public void delete(ProductLine productLine) {
         try (Session session = sessionFactory.openSession()) {
             Transaction transaction = session.beginTransaction();
-            session.delete(employee);
+            session.delete(productLine);
             transaction.commit();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public Employee findById(Integer id) {
+    public ProductLine findById(Integer id) {
         try (Session session = sessionFactory.openSession()) {
-            String hql = "SELECT e FROM Employee e WHERE e.id = :id";
-            TypedQuery<Employee> query = session.createQuery(hql, Employee.class);
+            String hql = "SELECT pl FROM ProductLine pl WHERE pl.id = :id";
+            TypedQuery<ProductLine> query = session.createQuery(hql, ProductLine.class);
             query.setParameter("id", id);
             return query.getSingleResult();
         } catch (Exception e) {
@@ -62,23 +62,10 @@ public class EmployeeDAO {
         }
     }
 
-    public List<Employee> findByFirstName(String firstName) {
+    public List<ProductLine> findAll() {
         try (Session session = sessionFactory.openSession()) {
-            String hql = "SELECT e FROM Employee e WHERE e.firstname = :firstname";
-            TypedQuery<Employee> query = session.createQuery(hql, Employee.class);
-            query.setParameter("firstname", firstName);
-            return query.getResultList();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    public List<Employee> findByLastName(String lastName) {
-        try (Session session = sessionFactory.openSession()) {
-            String hql = "SELECT e FROM Employee e WHERE e.lastname = :lastname";
-            TypedQuery<Employee> query = session.createQuery(hql, Employee.class);
-            query.setParameter("lastname", lastName);
+            String hql = "SELECT pl FROM ProductLine pl";
+            TypedQuery<ProductLine> query = session.createQuery(hql, ProductLine.class);
             return query.getResultList();
         } catch (Exception e) {
             e.printStackTrace();
@@ -86,3 +73,4 @@ public class EmployeeDAO {
         }
     }
 }
+

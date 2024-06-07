@@ -5,10 +5,48 @@ import org.example.database.entity.Customer;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
-import java.util.List;
-import java.util.Scanner;
 
-class CustomerDAO {
+import java.util.List;
+
+public class CustomerDAO {
+
+    //-----------------------------Method findByCustomerName----------------------
+
+    public List<Customer> findByCustomerName(String customer) {
+        SessionFactory factory = new Configuration().configure().buildSessionFactory();
+        Session session = factory.openSession();
+
+        String hqlCustomer = "SELECT c FROM Customer c WHERE c.customerName = :xcustomerName";
+
+        TypedQuery<Customer> query = session.createQuery(hqlCustomer, Customer.class);
+        query.setParameter("xcustomerName", customer);
+
+        List<Customer> result = query.getResultList();
+
+        session.close();
+
+        return result;
+
+    }
+    //--------------------Method fidByContactFirstName-----------------------
+
+    public List<Customer> findByContactFirstName(String contactName) {
+        SessionFactory factory = new Configuration().configure().buildSessionFactory();
+        Session session = factory.openSession();
+        String hqlCustomer = "SELECT c FROM Customer c WHERE c.contactFirstname = :whatever";
+
+        TypedQuery<Customer> query = session.createQuery(hqlCustomer, Customer.class);
+        query.setParameter("whatever", contactName);
+
+        List<Customer> result = query.getResultList();
+
+        session.close();
+
+        return result;
+
+    }
+//------------------------Method insert------------------------------------------
+
     public void insert(Customer customer) {
         SessionFactory factory = new Configuration().configure().buildSessionFactory();
         Session session = factory.openSession();
@@ -18,33 +56,22 @@ class CustomerDAO {
         session.close();
     }
 
-    void update(Customer customer) {
+    //------------------method findById--------------------
+
+    public Customer findById(Integer id) {
+
         SessionFactory factory = new Configuration().configure().buildSessionFactory();
         Session session = factory.openSession();
-        session.getTransaction().begin();
-        session.merge(customer);
-        session.getTransaction().commit();
-        session.close();
-    }
 
-    void delete(Customer customer) {
-        SessionFactory factory = new Configuration().configure().buildSessionFactory();
-        Session session = factory.openSession();
-        session.getTransaction().begin();
-        session.delete(customer);
-        session.getTransaction().commit();
-        session.close();
-    }
+        String hql = "SELECT c FROM Customer c where c.id = :xid";
+        TypedQuery<Customer> query = session.createQuery(hql, Customer.class);
+        query.setParameter("xid", id);
 
-    public List<Customer> findByCustomerName(String customerName) {
-        System.out.println("-------- MySQL JDBC Connection Demo ------------");
-        SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
-        Session session = sessionFactory.openSession();
-        String hql = "SELECT c FROM Customer c WHERE c.customerName = :customerName";
+        // we are querying a PK so the result can be found or not
+        //this implementation will throw an exception in codes 2010 and under if the record is not found, so we put a
+        // try-catch
         try {
-            TypedQuery<Customer> query = session.createQuery(hql, Customer.class);
-            query.setParameter("customerName", customerName);
-            List<Customer> result = query.getResultList();
+            Customer result = query.getSingleResult();
             return result;
         } catch (Exception e) {
             return null;
@@ -53,38 +80,16 @@ class CustomerDAO {
         }
     }
 
-    List<Customer> findByContactFirstName(String firstName) {
-        System.out.println("-------- MySQL JDBC Connection Demo ------------");
-        SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
-        Session session = sessionFactory.openSession();
-        String hql = "SELECT c FROM Customer c WHERE c.contactFirstname = :contactFirstName and c.salesRepEmployeeId IS NOT null";
-        TypedQuery<Customer> query = session.createQuery(hql, Customer.class);
-        query.setParameter("contactFirstName", firstName);
-        List<Customer> result = query.getResultList();
-        session.close();
-        return result;
-    }
 
-    void findCustomerById() {
-        System.out.println("-------- MySQL JDBC Connection Demo ------------");
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter Customer ID: ");
-        Integer customerId = scanner.nextInt();
-        System.out.println("Enter New Contact's First Name: ");
-        String firstName = scanner.next();
-        System.out.println("Enter New Contact's Last Name: ");
-        String lastName = scanner.next();
-        SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
-        Session session = sessionFactory.openSession();
-        String hql = "SELECT c FROM Customer c WHERE c.id = :id and c.salesRepEmployeeId IS NOT null";
+    //-------------------method update----------------------
 
-        TypedQuery<Customer> query = session.createQuery(hql, Customer.class);
-        query.setParameter("id", customerId);
-        Customer result = query.getSingleResult();
-        result.setContactFirstname(firstName);
-        result.setContactLastname(lastName);
-        update(result);
-        System.out.println("Done! Contact updated to: " + result.getContactFirstname() + " " + result.getContactLastname());
+    public void update(Customer customer) {
+        SessionFactory factory = new Configuration().configure().buildSessionFactory();
+        Session session = factory.openSession();
+        session.getTransaction().begin();
+        session.merge(customer);
+        session.getTransaction().commit();
         session.close();
     }
+
 }
