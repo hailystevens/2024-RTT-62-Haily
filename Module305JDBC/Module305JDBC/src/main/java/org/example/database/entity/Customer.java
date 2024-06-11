@@ -20,6 +20,10 @@ public class Customer {
     @Column(name = "id")
     private Integer id;
 
+    @ManyToOne
+    @JoinColumn(name = "sales_rep_employee_id")
+    private Employee salesRepEmployee;
+
     @Column(name = "customer_name")
     private String customerName;
 
@@ -49,10 +53,6 @@ public class Customer {
 
     @Column(name = "country")
     private String country;
-
-    @ManyToOne
-    @JoinColumn(name = "sales_rep_employee_id")
-    private Employee salesRepEmployee;
 
     @Column(name = "credit_limit")
     private Double creditLimit;

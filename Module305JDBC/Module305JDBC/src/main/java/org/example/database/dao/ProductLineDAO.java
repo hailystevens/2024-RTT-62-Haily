@@ -1,6 +1,5 @@
 package org.example.database.dao;
 
-import jakarta.persistence.TypedQuery;
 import org.example.database.entity.ProductLine;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -52,10 +51,7 @@ public class ProductLineDAO {
 
     public ProductLine findById(Integer id) {
         try (Session session = sessionFactory.openSession()) {
-            String hql = "SELECT pl FROM ProductLine pl WHERE pl.id = :id";
-            TypedQuery<ProductLine> query = session.createQuery(hql, ProductLine.class);
-            query.setParameter("id", id);
-            return query.getSingleResult();
+            return session.get(ProductLine.class, id);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -64,13 +60,12 @@ public class ProductLineDAO {
 
     public List<ProductLine> findAll() {
         try (Session session = sessionFactory.openSession()) {
-            String hql = "SELECT pl FROM ProductLine pl";
-            TypedQuery<ProductLine> query = session.createQuery(hql, ProductLine.class);
-            return query.getResultList();
+            return session.createQuery("from ProductLine", ProductLine.class).list();
         } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
     }
 }
+
 

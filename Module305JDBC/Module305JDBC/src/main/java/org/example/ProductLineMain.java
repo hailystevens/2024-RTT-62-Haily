@@ -14,20 +14,21 @@ public class ProductLineMain {
 
     public void run() {
         while (true) {
-            System.out.println("1. List all product lines");
-            System.out.println("2. Add new product line");
-            System.out.println("3. Update existing product line");
-            System.out.println("4. Delete product line");
+            System.out.println("1. Create ProductLine");
+            System.out.println("2. Read ProductLines");
+            System.out.println("3. Update ProductLine");
+            System.out.println("4. Delete ProductLine");
+            System.out.println("5. Exit");
             System.out.print("Choose an option: ");
             int choice = scanner.nextInt();
-            scanner.nextLine(); // Clear the newline character
+            scanner.nextLine(); // Consume newline
 
             switch (choice) {
                 case 1:
-                    listAllProductLines();
+                    createProductLine();
                     break;
                 case 2:
-                    addNewProductLine();
+                    readProductLines();
                     break;
                 case 3:
                     updateProductLine();
@@ -35,153 +36,80 @@ public class ProductLineMain {
                 case 4:
                     deleteProductLine();
                     break;
+                case 5:
+                    System.out.println("Exiting...");
+                    return;
                 default:
-                    System.out.println("Invalid choice.");
-            }
-
-            System.out.println("Would you like to perform another operation? (yes/no)");
-            String continueSearch = scanner.nextLine().trim().toLowerCase();
-            if (!continueSearch.equals("yes")) {
-                break;
+                    System.out.println("Invalid choice. Please try again.");
             }
         }
     }
 
-    private void listAllProductLines() {
-        List<ProductLine> productLines = productLineDAO.findAll();
-        printProductLines(productLines);
-    }
-
-    private void printProductLines(List<ProductLine> productLines) {
-        if (productLines == null || productLines.isEmpty()) {
-            System.out.println("No product lines found.");
-            return;
-        }
-
-        System.out.println("Product Line ID | Product Line | Text Description | HTML Description | Image");
-        System.out.println("================================================================================");
-        for (ProductLine productLine : productLines) {
-            System.out.printf("%d | %s | %s | %s | %s%n",
-                    productLine.getId(),
-                    productLine.getProductLine(),
-                    productLine.getTextDescription(),
-                    productLine.getHtmlDescription(),
-                    productLine.getImage());
-        }
-        System.out.println("\n");
-    }
-
-    private void addNewProductLine() {
-        ProductLine productLine = new ProductLine();
-
+    private void createProductLine() {
         System.out.print("Enter product line: ");
-        productLine.setProductLine(scanner.nextLine().trim());
+        String productLine = scanner.nextLine();
+        System.out.print("Enter description: ");
+        String description = scanner.nextLine();
 
-        System.out.print("Enter text description: ");
-        productLine.setTextDescription(scanner.nextLine().trim());
+        ProductLine newProductLine = new ProductLine();
+        newProductLine.setProductLine(productLine);
+        newProductLine.setDescription(description);
 
-        System.out.print("Enter HTML description: ");
-        productLine.setHtmlDescription(scanner.nextLine().trim());
+        productLineDAO.insert(newProductLine);
+        System.out.println("ProductLine created successfully.");
+    }
 
-        System.out.print("Enter image URL: ");
-        productLine.setImage(scanner.nextLine().trim());
-
-        productLineDAO.insert(productLine);
-        System.out.println("Product line added successfully!");
+    private void readProductLines() {
+        List<ProductLine> productLines = productLineDAO.findAll();
+        if (productLines.isEmpty()) {
+            System.out.println("No product lines found.");
+        } else {
+            for (ProductLine productLine : productLines) {
+                System.out.println(productLine);
+            }
+        }
     }
 
     private void updateProductLine() {
-        Integer productLineId = promptForProductLineId();
-        ProductLine productLine = productLineDAO.findById(productLineId);
+        System.out.print("Enter product line ID to update: ");
+        int id = scanner.nextInt();
+        scanner.nextLine(); // Consume newline
 
-        if (productLine != null) {
-            String field = promptForFieldToUpdate();
-            if (field != null) {
-                updateProductLineField(productLine, field);
-                productLineDAO.update(productLine);
-                System.out.println("Product line updated successfully!");
-            }
-        } else {
-            System.out.println("Product line not found.");
+        ProductLine productLine = productLineDAO.findById(id);
+        if (productLine == null) {
+            System.out.println("ProductLine not found.");
+            return;
         }
+
+        System.out.print("Enter new product line: ");
+        String newProductLine = scanner.nextLine();
+        System.out.print("Enter new description: ");
+        String newDescription = scanner.nextLine();
+
+        productLine.setProductLine(newProductLine);
+        productLine.setDescription(newDescription);
+
+        productLineDAO.update(productLine);
+        System.out.println("ProductLine updated successfully.");
     }
 
     private void deleteProductLine() {
-        Integer productLineId = promptForProductLineId();
-        ProductLine productLine = productLineDAO.findById(productLineId);
+        System.out.print("Enter product line ID to delete: ");
+        int id = scanner.nextInt();
+        scanner.nextLine(); // Consume newline
 
-        if (productLine != null) {
-            productLineDAO.delete(productLine);
-            System.out.println("Product line deleted successfully!");
-        } else {
-            System.out.println("Product line not found.");
+        ProductLine productLine = productLineDAO.findById(id);
+        if (productLine == null) {
+            System.out.println("ProductLine not found.");
+            return;
         }
-    }
 
-    private Integer promptForProductLineId() {
-        while (true) {
-            try {
-                System.out.print("Enter a product line ID: ");
-                int productLineId = scanner.nextInt();
-                scanner.nextLine(); // Clear the newline character
-                return productLineId;
-            } catch (InputMismatchException e) {
-                System.out.println("Please enter a valid number.");
-                scanner.nextLine(); // Clear the invalid input
-            }
-        }
-    }
-
-    private String promptForFieldToUpdate() {
-        System.out.println("Which field would you like to update?");
-        System.out.println("1. Product Line");
-        System.out.println("2. Text Description");
-        System.out.println("3. HTML Description");
-        System.out.println("4. Image URL");
-        System.out.print("Enter the number of the field you want to update (or 'exit' to cancel): ");
-        String choice = scanner.nextLine().trim().toLowerCase();
-
-        switch (choice) {
-            case "1":
-                return "productLine";
-            case "2":
-                return "textDescription";
-            case "3":
-                return "htmlDescription";
-            case "4":
-                return "image";
-            case "exit":
-                return null;
-            default:
-                System.out.println("Invalid choice. Please try again.");
-                return promptForFieldToUpdate();
-        }
-    }
-
-    private void updateProductLineField(ProductLine productLine, String field) {
-        System.out.print("Enter the new value for " + field + ": ");
-        String newValue = scanner.nextLine().trim();
-        switch (field) {
-            case "productLine":
-                productLine.setProductLine(newValue);
-                break;
-            case "textDescription":
-                productLine.setTextDescription(newValue);
-                break;
-            case "htmlDescription":
-                productLine.setHtmlDescription(newValue);
-                break;
-            case "image":
-                productLine.setImage(newValue);
-                break;
-            default:
-                System.out.println("Unknown field. No updates made.");
-        }
+        productLineDAO.delete(productLine);
+        System.out.println("ProductLine deleted successfully.");
     }
 
     public static void main(String[] args) {
-        ProductLineMain plm = new ProductLineMain();
-        plm.run();
+        ProductLineMain productLineMain = new ProductLineMain();
+        productLineMain.run();
     }
 }
-

@@ -4,147 +4,88 @@ import org.example.database.dao.EmployeeDAO;
 import org.example.database.entity.Employee;
 
 import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Scanner;
 
 public class EmployeeMain {
 
-    private EmployeeDAO employeeDAO = new EmployeeDAO();
-    private Scanner scanner = new Scanner(System.in);
+    private static EmployeeDAO employeeDAO = new EmployeeDAO();
+    private static Scanner scanner = new Scanner(System.in);
+
+    public static void main(String[] args) {
+        EmployeeMain main = new EmployeeMain();
+        main.run();
+    }
 
     public void run() {
         while (true) {
-            Integer employeeId = promptForEmployeeId();
-            Employee employee = employeeDAO.findById(employeeId);
+            System.out.println("1. Find Employee by ID");
+            System.out.println("2. Find Employees by First Name");
+            System.out.println("3. Insert New Employee");
+            System.out.println("4. Exit");
+            System.out.print("Choose an option: ");
+            int option = scanner.nextInt();
+            scanner.nextLine(); // Consume newline
 
-            if (employee != null) {
-                printEmployeeDetails(employee);
-                String field = promptForFieldToUpdate();
-                if (field != null) {
-                    updateEmployeeField(employee, field);
-                    employeeDAO.update(employee);
-                    System.out.println("Employee details updated successfully!");
-                }
-            } else {
-                System.out.println("Employee not found.");
-            }
-
-            System.out.println("Would you like to modify another employee? (yes/no)");
-            String continueSearch = scanner.nextLine().trim().toLowerCase();
-            if (!continueSearch.equals("yes")) {
-                break;
-            }
-        }
-    }
-
-    private Integer promptForEmployeeId() {
-        while (true) {
-            try {
-                System.out.print("Enter an employee ID: ");
-                int employeeId = scanner.nextInt();
-                scanner.nextLine(); // Clear the newline character
-                return employeeId;
-            } catch (InputMismatchException e) {
-                System.out.println("Please enter a valid number.");
-                scanner.nextLine(); // Clear the invalid input
+            switch (option) {
+                case 1:
+                    findEmployeeById();
+                    break;
+                case 2:
+                    findEmployeesByFirstName();
+                    break;
+                case 3:
+                    insertEmployee();
+                    break;
+                case 4:
+                    System.exit(0);
+                    break;
+                default:
+                    System.out.println("Invalid option. Please try again.");
             }
         }
     }
 
-    private void printEmployeeDetails(Employee employee) {
-        System.out.println("Employee ID: " + employee.getId());
-        System.out.println("First Name: " + employee.getFirstname());
-        System.out.println("Last Name: " + employee.getLastname());
-        System.out.println("Email: " + employee.getEmail());
-        System.out.println("Job Title: " + employee.getJobTitle());
-        System.out.println("Extension: " + employee.getExtension());
-        System.out.println("Office ID: " + employee.getOfficeId());
-        System.out.println("Reports To: " + employee.getReportsTo());
-        System.out.println("Vacation Hours: " + employee.getVacationHours());
-        System.out.println("Profile Image URL: " + employee.getProfileImageUrl());
-    }
-
-    private String promptForFieldToUpdate() {
-        System.out.println("Which field would you like to update?");
-        System.out.println("1. First Name");
-        System.out.println("2. Last Name");
-        System.out.println("3. Email");
-        System.out.println("4. Job Title");
-        System.out.println("5. Extension");
-        System.out.println("6. Office ID");
-        System.out.println("7. Reports To");
-        System.out.println("8. Vacation Hours");
-        System.out.println("9. Profile Image URL");
-        System.out.print("Enter the number of the field you want to update (or 'exit' to cancel): ");
-        String choice = scanner.nextLine().trim().toLowerCase();
-
-        switch (choice) {
-            case "1": return "firstname";
-            case "2": return "lastname";
-            case "3": return "email";
-            case "4": return "jobTitle";
-            case "5": return "extension";
-            case "6": return "officeId";
-            case "7": return "reportsTo";
-            case "8": return "vacationHours";
-            case "9": return "profileImageUrl";
-            case "exit": return null;
-            default:
-                System.out.println("Invalid choice. Please try again.");
-                return promptForFieldToUpdate();
+    private void findEmployeeById() {
+        System.out.print("Enter Employee ID: ");
+        int id = scanner.nextInt();
+        scanner.nextLine(); // Consume newline
+        Employee employee = employeeDAO.findById(id);
+        if (employee != null) {
+            System.out.println("Employee Found: " + employee.getFirstname() + " " + employee.getLastname());
+        } else {
+            System.out.println("Employee not found.");
         }
     }
 
-    private void updateEmployeeField(Employee employee, String field) {
-        System.out.print("Enter the new value for " + field + ": ");
-        String newValue = scanner.nextLine().trim();
-        switch (field) {
-            case "firstname":
-                employee.setFirstname(newValue);
-                break;
-            case "lastname":
-                employee.setLastname(newValue);
-                break;
-            case "email":
-                employee.setEmail(newValue);
-                break;
-            case "jobTitle":
-                employee.setJobTitle(newValue);
-                break;
-            case "extension":
-                employee.setExtension(newValue);
-                break;
-            case "officeId":
-                try {
-                    employee.setOfficeId(Integer.parseInt(newValue));
-                } catch (NumberFormatException e) {
-                    System.out.println("Invalid number format for office ID.");
-                }
-                break;
-            case "reportsTo":
-                try {
-                    employee.setReportsTo(Integer.parseInt(newValue));
-                } catch (NumberFormatException e) {
-                    System.out.println("Invalid number format for reports to.");
-                }
-                break;
-            case "vacationHours":
-                try {
-                    employee.setVacationHours(Integer.parseInt(newValue));
-                } catch (NumberFormatException e) {
-                    System.out.println("Invalid number format for vacation hours.");
-                }
-                break;
-            case "profileImageUrl":
-                employee.setProfileImageUrl(newValue);
-                break;
-            default:
-                System.out.println("Unknown field. No updates made.");
+    private void findEmployeesByFirstName() {
+        System.out.print("Enter Employee First Name: ");
+        String firstName = scanner.nextLine();
+        List<Employee> employees = employeeDAO.findByFirstName(firstName);
+        if (!employees.isEmpty()) {
+            for (Employee employee : employees) {
+                System.out.println("Employee: " + employee.getFirstname() + " " + employee.getLastname());
+            }
+        } else {
+            System.out.println("No employees found with the given first name.");
         }
     }
 
-    public static void main(String[] args) {
-        EmployeeMain em = new EmployeeMain();
-        em.run();
+    private void insertEmployee() {
+        Employee employee = new Employee();
+        System.out.print("Enter First Name: ");
+        employee.setFirstname(scanner.nextLine());
+        System.out.print("Enter Last Name: ");
+        employee.setLastname(scanner.nextLine());
+        System.out.print("Enter Email: ");
+        employee.setEmail(scanner.nextLine());
+        System.out.print("Enter Job Title: ");
+        employee.setJobTitle(scanner.nextLine());
+
+        employeeDAO.insert(employee);
+        System.out.println("Employee inserted successfully.");
     }
 }
+
+
 

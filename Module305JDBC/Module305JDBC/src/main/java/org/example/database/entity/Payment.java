@@ -34,4 +34,3 @@ public class Payment {
     @Column(name = "amount")
     private BigDecimal amount;
 }
-

@@ -20,6 +20,7 @@ public class OrderDetailsDAO {
         }
     }
 
+    // Insert a new OrderDetails entry
     public void insert(OrderDetails orderDetails) {
         try (Session session = sessionFactory.openSession()) {
             Transaction transaction = session.beginTransaction();
@@ -30,6 +31,7 @@ public class OrderDetailsDAO {
         }
     }
 
+    // Update an existing OrderDetails entry
     public void update(OrderDetails orderDetails) {
         try (Session session = sessionFactory.openSession()) {
             Transaction transaction = session.beginTransaction();
@@ -40,19 +42,19 @@ public class OrderDetailsDAO {
         }
     }
 
-    public void delete(OrderDetails orderDetails) {
-        try (Session session = sessionFactory.openSession()) {
-            Transaction transaction = session.beginTransaction();
-            session.delete(orderDetails);
-            transaction.commit();
-        } catch (Exception e) {
-            e.printStackTrace();
+    // Save (insert or update) an OrderDetails entry
+    public void save(OrderDetails orderDetails) {
+        if (orderDetails.getId() == null) {
+            insert(orderDetails);
+        } else {
+            update(orderDetails);
         }
     }
 
+    // Find an OrderDetails entry by its ID
     public OrderDetails findById(Integer id) {
         try (Session session = sessionFactory.openSession()) {
-            String hql = "SELECT od FROM OrderDetails od WHERE od.id = :id";
+            String hql = "SELECT od FROM OrderDetails od JOIN FETCH od.product WHERE od.id = :id";
             TypedQuery<OrderDetails> query = session.createQuery(hql, OrderDetails.class);
             query.setParameter("id", id);
             return query.getSingleResult();
@@ -62,9 +64,10 @@ public class OrderDetailsDAO {
         }
     }
 
+    // Find OrderDetails entries by order ID
     public List<OrderDetails> findByOrderId(Integer orderId) {
         try (Session session = sessionFactory.openSession()) {
-            String hql = "SELECT od FROM OrderDetails od WHERE od.order.id = :orderId";
+            String hql = "SELECT od FROM OrderDetails od JOIN FETCH od.product WHERE od.order.id = :orderId";
             TypedQuery<OrderDetails> query = session.createQuery(hql, OrderDetails.class);
             query.setParameter("orderId", orderId);
             return query.getResultList();
@@ -73,5 +76,17 @@ public class OrderDetailsDAO {
             return null;
         }
     }
-}
 
+    // Find an OrderDetails entry by product ID and order ID
+    public OrderDetails findByProductIdAndOrderId(Integer productId, Integer orderId) {
+        try (Session session = sessionFactory.openSession()) {
+            String hql = "SELECT od FROM OrderDetails od WHERE od.product.id = :productId AND od.order.id = :orderId";
+            TypedQuery<OrderDetails> query = session.createQuery(hql, OrderDetails.class);
+            query.setParameter("productId", productId);
+            query.setParameter("orderId", orderId);
+            return query.getSingleResult();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+}

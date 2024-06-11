@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Getter
 @Setter
@@ -39,12 +40,15 @@ public class Product {
     private String productDescription;
 
     @Column(name = "quantity_in_stock")
-    private Integer quantityInStock;
+    private Short quantityInStock;
 
     @Column(name = "buy_price")
     private BigDecimal buyPrice;
 
     @Column(name = "msrp")
     private BigDecimal msrp;
+
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<OrderDetails> orderDetails;
 }
 

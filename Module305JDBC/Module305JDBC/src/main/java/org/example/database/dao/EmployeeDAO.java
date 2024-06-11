@@ -10,6 +10,7 @@ import org.hibernate.cfg.Configuration;
 import java.util.List;
 
 public class EmployeeDAO {
+
     private static SessionFactory sessionFactory;
 
     static {
@@ -44,6 +45,19 @@ public class EmployeeDAO {
         try (Session session = sessionFactory.openSession()) {
             Transaction transaction = session.beginTransaction();
             session.delete(employee);
+            transaction.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteById(Integer id) {
+        try (Session session = sessionFactory.openSession()) {
+            Transaction transaction = session.beginTransaction();
+            Employee employee = session.get(Employee.class, id);
+            if (employee != null) {
+                session.delete(employee);
+            }
             transaction.commit();
         } catch (Exception e) {
             e.printStackTrace();

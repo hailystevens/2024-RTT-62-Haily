@@ -20,6 +20,9 @@ public class Employee {
     @Column(name = "id")
     private Integer id;
 
+    @OneToMany(mappedBy = "salesRepEmployee", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Customer> customers;
+
     @Column(name = "office_id")
     private Integer officeId;
 
@@ -46,7 +49,4 @@ public class Employee {
 
     @Column(name = "profile_image_url")
     private String profileImageUrl;
-
-    @OneToMany(mappedBy = "salesRepEmployee", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Customer> customers;
 }

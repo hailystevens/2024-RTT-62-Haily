@@ -48,7 +48,7 @@ public class ProductMain {
     }
 
     public void updateQuantityInStock(Product product, int quantity) {
-        product.setQuantityInStock((int) quantity);
+        product.setQuantityInStock((short) quantity);
         productDAO.update(product);
     }
 

@@ -23,15 +23,10 @@ public class ProductLine {
     @Column(name = "product_line")
     private String productLine;
 
-    @Column(name = "text_description")
-    private String textDescription;
+    @Column(name = "description")
+    private String description;
 
-    @Column(name = "html_description")
-    private String htmlDescription;
-
-    @Column(name = "image")
-    private String image;
-
-    @OneToMany(mappedBy = "productLine", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "productlineId", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Product> products;
 }
+
