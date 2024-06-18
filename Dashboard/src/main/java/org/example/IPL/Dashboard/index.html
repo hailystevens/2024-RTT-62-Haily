@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>IPL Dashboard</title>
+    <script>
+        async function loadMatches() {
+            const response = await fetch('/api/matches');
+            const matches = await response.json();
+            const matchesList = document.getElementById('matches');
+            matchesList.innerHTML = '';
+            matches.forEach(match => {
+                const li = document.createElement('li');
+                li.textContent = `${match.team1} vs ${match.team2} at ${match.venue} on ${match.date}`;
+                matchesList.appendChild(li);
+            });
+        }
+
+        async function uploadFile(event) {
+            event.preventDefault();
+            const formData = new FormData();
+            const fileInput = document.getElementById('fileInput');
+            formData.append('file', fileInput.files[0]);
+
+            const response = await fetch('/api/upload', {
+                method: 'POST',
+                body: formData
+            });
+
+            const result = await response.text();
+            alert(result);
+            loadMatches();
+        }
+
+        window.onload = loadMatches;
+    </script>
+</head>
+<body>
+<h1>IPL Dashboard</h1>
+<form onsubmit="uploadFile(event)">
+    <input type="file" id="fileInput" required />
+    <button type="submit">Upload Matches</button>
+</form>
+<ul id="matches"></ul>
+</body>
+</html>
