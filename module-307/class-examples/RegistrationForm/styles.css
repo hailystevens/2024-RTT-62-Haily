@@ -1,3 +1,4 @@
+/* Existing CSS */
 * {
     box-sizing: border-box;
 }
@@ -35,7 +36,6 @@ body {
     width: 50%;
     z-index: 2;
     color: rgb(255, 255, 255);
-
 }
 
 .sign-up-container {
@@ -44,7 +44,6 @@ body {
     opacity: 0;
     z-index: 1;
     color: rgb(255, 255, 255);
-
 }
 
 .container.right-panel-active .sign-in-container {
@@ -85,7 +84,8 @@ input {
     border: none;
     padding: 12px 45px;
     margin-top: 10px;
-    background-color: #ff00e1; 
+    background: -webkit-linear-gradient(to right, #0800ff, #ff00e1);
+    background: linear-gradient(to right, #ff00e1, #0800ff); 
     color: rgb(255, 255, 255);
     font-size: 12px;
     cursor: pointer;
@@ -94,12 +94,14 @@ input {
 }
 
 .button:hover {
-    background-color: #ff00e191; 
+    background: linear-gradient(to right, #0800ff94, #ff00e190); /* Gradient for hover state */
+    background: linear-gradient(to right, #ff00e190, #0800ff94); /* Different gradient for hover state */
 }
 
 .ghost {
     background-color: transparent;
-    border-color: #ffffff;
+    color: #ffffff; /* Hot pink */
+    border-radius: 20px;
 }
 
 .overlay-container {
