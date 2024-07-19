@@ -5,7 +5,8 @@
 <div class="container">
     <div class="row justify-content-center pt-5">
         <div class="col-8 text-center">
-            <h4>Additional</h4>
+            <h1>Homework</h1>
+            <h2>${homeworkMessage}</h2>
         </div>
     </div>
 </div>

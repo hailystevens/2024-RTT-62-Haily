@@ -1,4 +1,95 @@
+/* global.css */
 
-.page-title {
-    color: blue;
+/* Base Styles */
+body, html {
+    height: 100%;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0; /* Light grey background */
+    color: #333; /* Dark grey text */
+}
+
+/* Header Styles */
+.navbar {
+    background-color: #444; /* Darker grey for navbar */
+}
+
+.navbar-brand, .navbar-nav .nav-link {
+    color: #fff !important; /* White text for navbar links */
+}
+
+.navbar-toggler {
+    border-color: #fff; /* White border for toggler */
+}
+
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba%28255, 255, 255, 1%29' stroke-width='2' linecap='round' linejoin='round' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+}
+
+/* Footer Styles */
+footer {
+    background-color: #444; /* Darker grey for footer */
+    color: #fff; /* White text for footer */
+    padding: 20px 0;
+}
+
+footer a {
+    color: #bbb; /* Light grey links in footer */
+    text-decoration: none;
+}
+
+footer a:hover {
+    color: #fff; /* White links on hover */
+    text-decoration: none;
+}
+
+/* Section Styles */
+.container h1, .container h2, .container h3, .container h4, .container h5, .container h6 {
+    color: #333; /* Dark grey headings */
+}
+
+.container {
+    background-color: #fff; /* White background for main container */
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    border-radius: 8px; /* Rounded corners */
+    margin-top: 20px;
+}
+
+/* Table Styles */
+.table {
+    background-color: #fff; /* White background for tables */
+    color: #333; /* Dark grey text */
+    border-collapse: separate;
+    border-spacing: 0;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.table th, .table td {
+    padding: 12px 15px;
+}
+
+.table thead th {
+    background-color: #555; /* Medium grey for table headers */
+    color: #fff; /* White text for table headers */
+}
+
+.table tbody tr:nth-child(odd) {
+    background-color: #f9f9f9; /* Light grey for odd rows */
+}
+
+.table tbody tr:hover {
+    background-color: #f1f1f1; /* Slightly darker grey for hover */
+}
+
+/* Button Styles */
+.btn-primary {
+    background-color: #555; /* Medium grey for buttons */
+    border-color: #555; /* Matching border color */
+}
+
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active {
+    background-color: #666; /* Slightly darker grey on hover */
+    border-color: #666; /* Matching border color */
 }

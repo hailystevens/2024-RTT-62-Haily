@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -25,6 +26,12 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/page-url">2nd Page</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/search">Search</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/employee/create">Create Employee</a>
                 </li>
             </ul>
         </div>

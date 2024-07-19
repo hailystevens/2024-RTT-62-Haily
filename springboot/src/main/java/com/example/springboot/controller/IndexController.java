@@ -1,15 +1,20 @@
+
 package com.example.springboot.controller;
 
 import com.example.springboot.database.dao.ProductDAO;
 import com.example.springboot.database.entity.Product;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.List;
 
+
+@Slf4j
 @Controller
 public class IndexController {
 
@@ -27,6 +32,14 @@ public class IndexController {
         Product product = productDao.findById(id);
         response.addObject("productKey", product);
 
+        // by default the logging level is set to info so the debug message will not be printed in the terminal
+        log.debug("Debug level");
+        log.info("Info level");
+        log.warn("Warn level");
+        log.error("Error level");
+
+        // NEVER EVER use System.out.println in a spring application
+        System.out.println("This is forbidden at all times");
 
         response.addObject("message", "Hello World!");
 
@@ -56,4 +69,23 @@ public class IndexController {
 
         return response;
     }
+
+    @GetMapping("/search")
+    public ModelAndView search(@RequestParam(required = false) String search) {
+        // this page is for another page of the website which is express as "/page-url"
+        ModelAndView response = new ModelAndView("search");
+
+        log.debug("The user searched for the term: " + search);
+
+        // I am going to add the user input back to the model, so that
+        // we can display the search term in the input field
+        response.addObject("search", search);
+
+
+        List<Product> products = productDao.findByNameOrCode(search);
+        response.addObject("products", products);
+
+        return response;
+    }
+
 }
