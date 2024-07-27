@@ -1,26 +1,20 @@
-<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Create Account</title>
+    <title>Create User</title>
 </head>
 <body>
-<h2>Create Account</h2>
-<form:form action="/account/create-account" method="post" modelAttribute="form">
+<h2>Create User</h2>
+<form:form action="/users/create" method="post" modelAttribute="createAccountFormBean">
     <form:label path="username">Username:</form:label>
     <form:input path="username" /><br>
-    <form:errors path="username" cssClass="error" /><br>
-
     <form:label path="email">Email:</form:label>
     <form:input path="email" type="email" /><br>
-    <form:errors path="email" cssClass="error" /><br>
-
     <form:label path="password">Password:</form:label>
     <form:input path="password" type="password" /><br>
-    <form:errors path="password" cssClass="error" /><br>
-
-    <input type="submit" value="Create Account">
+    <input type="submit" value="Create User">
 </form:form>
 <c:if test="${not empty message}">
     <p>${message}</p>
