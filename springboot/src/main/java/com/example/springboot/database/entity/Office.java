@@ -42,4 +42,3 @@ public class Office {
     private String territory;
 
 }
-

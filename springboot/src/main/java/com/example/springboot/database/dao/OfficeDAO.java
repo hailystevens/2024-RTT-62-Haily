@@ -1,3 +1,4 @@
+
 package com.example.springboot.database.dao;
 
 import com.example.springboot.database.entity.*;
@@ -8,4 +9,3 @@ public interface OfficeDAO extends JpaRepository<Office, Long> {
     Office findById(Integer id);
 
 }
-

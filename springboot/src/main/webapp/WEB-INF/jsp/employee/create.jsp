@@ -1,4 +1,3 @@
-
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <jsp:include page="../include/header.jsp"/>
@@ -17,12 +16,23 @@
     </div>
 </section>
 
+<c:if test="${not empty errorMessage}">
+    <section>
+        <div class="row">
+            <div class="col-auto">
+                <div class="alert alert-danger">
+                        ${errorMessage}
+                </div>
+            </div>
+        </div>
+    </section>
+</c:if>
 
 <section>
     <div class="container">
         <div class="row pt-5 ">
             <div class="col-12">
-                <form action="/employee/createSubmit">
+                <form action="/employee/createSubmit" method="post">
                     <input type="hidden" name="employeeId" value="${form.employeeId}">
 
                     <!-- email input -->
@@ -31,7 +41,9 @@
                             <label for="emailId" class="col-form-label">Email</label>
                         </div>
                         <div class="col-4">
-                            <input type="text" id="emailId" name="email" class="form-control <c:if test="${bindingResult.hasFieldErrors('email')}">is-invalid</c:if>" value="${form.email}">
+                            <input type="text" id="emailId" name="email"
+                                   class="form-control <c:if test="${bindingResult.hasFieldErrors('email')}">is-invalid</c:if>"
+                                   value="${form.email}">
                         </div>
                     </div>
                     <c:if test="${bindingResult.hasFieldErrors('email')}">
@@ -53,7 +65,10 @@
                             <label for="firstNameId" class="col-form-label">First Name</label>
                         </div>
                         <div class="col-4">
-                            <input type="text" id="firstNameId" name="firstName" class="form-control <c:if test="${bindingResult.hasFieldErrors('firstName')}">is-invalid</c:if>"
+                            <input type="text"
+                                   id="firstNameId"
+                                   name="firstName"
+                                   class="form-control <c:if test="${bindingResult.hasFieldErrors('firstName')}">is-invalid</c:if>"
                                    value="${form.firstName}">
                         </div>
                     </div>
@@ -75,7 +90,12 @@
                             <label for="lastNameId" class="col-form-label">Last Name</label>
                         </div>
                         <div class="col-4">
-                            <input type="text" id="lastNameId" name="lastName" class="form-control" value="${form.lastName}">
+                            <input
+                                    type="text"
+                                    id="lastNameId"
+                                    name="lastName"
+                                    class="form-control"
+                                    value="${form.lastName}">
                         </div>
                     </div>
                     <c:if test="${bindingResult.hasFieldErrors('lastName')}">
@@ -97,6 +117,7 @@
                         </div>
                         <div class="col-4">
                             <select id="reportsTo" name="reportsTo" class="form-control">
+                                <option></option>
                                 <c:forEach items="${reportsToEmployees}" var="employee">
                                     <option
                                             value="${employee.id}"
