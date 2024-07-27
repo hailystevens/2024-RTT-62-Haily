@@ -21,10 +21,10 @@ public class OrderDetail {
     @Column(name = "id")
     private Integer id;
 
-    @Column(name = "order_id", insertable=false, updatable=false)
+    @Column(name = "order_id", insertable = false, updatable = false)
     private Integer orderID;
 
-    @Column(name = "product_id", insertable=false, updatable=false)
+    @Column(name = "product_id", insertable = false, updatable = false)
     private Integer productID;
 
     @Column(name = "quantity_ordered")
