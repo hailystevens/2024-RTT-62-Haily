@@ -1,47 +1,27 @@
-
 package com.example.springboot.database.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
 
-import java.util.List;
-
-
+@Entity
 @Getter
 @Setter
-@Entity
-@ToString
-@NoArgsConstructor
-@AllArgsConstructor
 @Table(name = "customers")
 public class Customer {
-    @Id // this is telling hibernate this column is the PK
-    @GeneratedValue(strategy = GenerationType.IDENTITY)  // this telling hibernate that the PK is auto increment
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer id;
-
-    @ToString.Exclude
-    @EqualsAndHashCode.Exclude
-    @ManyToOne(fetch = FetchType.LAZY, optional = true)
-    @JoinColumn(name = "sales_rep_employee_id", nullable = true)
-    private Employee employee;
-
-    @ToString.Exclude
-    @EqualsAndHashCode.Exclude
-    @OneToMany(mappedBy = "customer", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<Order> orders;
-
-    @Column(name = "sales_rep_employee_id", insertable = false, updatable = false)
-    private Integer salesRepEmployeeId;
 
     @Column(name = "customer_name")
     private String customerName;
 
-    @Column(name = "contact_lastname")
-    private String contactLastname;
-
     @Column(name = "contact_firstname")
     private String contactFirstname;
+
+    @Column(name = "contact_lastname")
+    private String contactLastname;
 
     @Column(name = "phone")
     private String phone;
@@ -64,6 +44,13 @@ public class Customer {
     @Column(name = "country")
     private String country;
 
-    @Column(name = "credit_limit", columnDefinition = "decimal(10,2)")
+    @Column(name = "credit_limit")
     private Double creditLimit;
+
+    @Column(name = "sales_rep_employee_id")
+    private Integer salesRepEmployeeId;
+
+    @ManyToOne
+    @JoinColumn(name = "sales_rep_employee_id", insertable = false, updatable = false)
+    private Employee employee;
 }

@@ -1,8 +1,6 @@
-
 package com.example.springboot.form;
 
 import com.example.springboot.validation.EmployeeEmailUnique;
-
 import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,20 +14,19 @@ import org.springframework.web.multipart.MultipartFile;
 public class CreateEmployeeFormBean {
     private Integer id;
 
-    //  These annotations are JSR-303 Validation
     @NotEmpty(message = "Email is required")
     @Length(max = 100, message = "Email must not be over 100 characters")
     @Email(message = "This must be a valid email")
-//    @EmployeeEmailUnique(message = "This email is already in use")
+    @EmployeeEmailUnique(message = "This email is already in use")
     private String email;
 
     @NotEmpty(message = "First Name is required")
-    @Pattern(regexp = "[a-zA-Z]+", message = "Firstname must have characters only.")
+    @Pattern(regexp = "[a-zA-Z]+", message = "First Name must have characters only.")
     @Length(max = 50, message = "First Name must not be over 50 characters")
     private String firstname;
 
     @NotEmpty(message = "Last Name is required")
-    @Pattern(regexp = "[a-zA-Z]+", message = "Lastname must have characters only.")
+    @Pattern(regexp = "[a-zA-Z]+", message = "Last Name must have characters only.")
     @Length(max = 50, message = "Last Name must not be over 50 characters")
     private String lastname;
 

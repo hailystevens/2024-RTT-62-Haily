@@ -1,9 +1,8 @@
-
 <jsp:include page="include/header.jsp"/>
 
 <h1 class="page-title text-center pt-5 pb-5">File Upload</h1>
 
-<form method="post" action="/file-upload" enctype="multipart/form-data">
+<form method="post" action="${pageContext.request.contextPath}/file-upload" enctype="multipart/form-data">
     <input type="hidden" value="${employeeId}" name="employeeId">
     <div class="row align-items-center justify-content-center">
         <div class="col-2">

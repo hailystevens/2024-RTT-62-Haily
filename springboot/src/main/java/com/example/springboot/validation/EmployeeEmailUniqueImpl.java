@@ -1,15 +1,16 @@
-
 package com.example.springboot.validation;
 
 import com.example.springboot.database.dao.EmployeeDAO;
 import com.example.springboot.database.entity.Employee;
-import jakarta.validation.*;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.*;
-import org.springframework.util.*;
-
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 @Slf4j
+@Component
 public class EmployeeEmailUniqueImpl implements ConstraintValidator<EmployeeEmailUnique, String> {
 
     @Autowired

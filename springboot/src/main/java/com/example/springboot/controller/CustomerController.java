@@ -1,83 +1,79 @@
-
 package com.example.springboot.controller;
 
 import com.example.springboot.database.dao.CustomerDAO;
 import com.example.springboot.database.dao.EmployeeDAO;
-import com.example.springboot.database.dao.OrderDAO;
 import com.example.springboot.database.entity.Customer;
-
 import com.example.springboot.database.entity.Employee;
-import com.example.springboot.database.entity.Office;
-import com.example.springboot.database.entity.Order;
 import com.example.springboot.form.CreateCustomerFormBean;
-import com.example.springboot.form.CreateEmployeeFormBean;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Controller
 @RequestMapping("/customer")
 public class CustomerController {
+
     @Autowired
     private EmployeeDAO employeeDAO;
 
     @Autowired
     private CustomerDAO customerDAO;
 
-    @Autowired
-    private OrderDAO orderDAO;
-
-    @GetMapping("/detail")
-    public ModelAndView customerDetails(@RequestParam(required = false) String customerId) {
-
-        ModelAndView response = new ModelAndView("customerDetails");
-
-        Customer customer = customerDAO.findById(Integer.valueOf(customerId));
-        response.addObject("customer", customer);
-
-        List<Order> orders = orderDAO.findByCustomerId(Integer.valueOf(customerId));
-        response.addObject("orders", orders);
-
-        log.info("customerId is: " + customerId);
-        log.info("customer is: " + customer);
-
-
-        return response;
-    }
-
     @GetMapping("/create")
-    public ModelAndView customerCreate() {
-
+    public ModelAndView createCustomer(@RequestParam(required = false) Integer customerId) {
         ModelAndView response = new ModelAndView("createCustomer");
+
+        CreateCustomerFormBean form = new CreateCustomerFormBean();
+        if (customerId != null) {
+            Optional<Customer> customerOpt = customerDAO.findById(customerId);
+            if (customerOpt.isPresent()) {
+                Customer customer = customerOpt.get();
+                form.setId(customer.getId());
+                form.setCustomerName(customer.getCustomerName());
+                form.setContactFirstname(customer.getContactFirstname());
+                form.setContactLastname(customer.getContactLastname());
+                form.setPhone(customer.getPhone());
+                form.setAddressLine1(customer.getAddressLine1());
+                form.setAddressLine2(customer.getAddressLine2());
+                form.setCity(customer.getCity());
+                form.setState(customer.getState());
+                form.setPostalCode(customer.getPostalCode());
+                form.setCountry(customer.getCountry());
+                form.setCreditLimit(customer.getCreditLimit());
+                form.setSalesRepEmployeeId(customer.getEmployee().getId());
+            }
+        }
 
         List<Employee> employees = employeeDAO.findAll();
         response.addObject("salesRepEmployees", employees);
+        response.addObject("form", form);
 
         return response;
     }
 
-    @GetMapping("/createSubmit")
-    public ModelAndView createEmployeeSubmit(CreateCustomerFormBean form) {
+    @PostMapping("/createSubmit")
+    public ModelAndView createCustomerSubmit(CreateCustomerFormBean form) {
         log.info("form is: " + form.toString());
 
         Customer customer;
         Integer customerId = form.getId();
         log.info("submit customerId: " + customerId);
 
-        boolean isNewEmployee = customerId == null;
+        boolean isNewCustomer = customerId == null;
 
-        if (isNewEmployee) {
+        if (isNewCustomer) {
             customer = new Customer();
         } else {
-            customer = customerDAO.findById(customerId);
-
+            customer = customerDAO.findById(customerId).orElse(new Customer());
         }
 
         customer.setCustomerName(form.getCustomerName());
@@ -88,11 +84,11 @@ public class CustomerController {
         customer.setAddressLine2(form.getAddressLine2());
         customer.setCity(form.getCity());
         customer.setState(form.getState());
+        customer.setPostalCode(form.getPostalCode());
         customer.setCountry(form.getCountry());
         customer.setCreditLimit(form.getCreditLimit());
-        customer.setPostalCode(form.getPostalCode());
 
-        Employee employee = employeeDAO.findById(form.getSalesRepEmployeeId());
+        Employee employee = employeeDAO.findById(form.getSalesRepEmployeeId()).orElse(null);
         customer.setEmployee(employee);
 
         customer = customerDAO.save(customer);
@@ -103,49 +99,18 @@ public class CustomerController {
         return response;
     }
 
-    @GetMapping("/edit")
-    public ModelAndView editCustomer(@RequestParam(required = false) Integer customerId) {
+    @GetMapping("/detail")
+    public ModelAndView customerDetails(@RequestParam Integer customerId) {
+        ModelAndView response = new ModelAndView("customerDetails");
 
-        ModelAndView response = new ModelAndView("createCustomer");
-
-
-        log.info("edit customerId: " + customerId);
-
-        if (customerId == null) {
-            return response;
+        Optional<Customer> customerOpt = customerDAO.findById(customerId);
+        if (customerOpt.isPresent()) {
+            Customer customer = customerOpt.get();
+            response.addObject("customer", customer);
+        } else {
+            // Handle the case where the customer is not found
+            response.setViewName("error/404");
         }
-
-        Customer customer = customerDAO.findById(customerId);
-
-        if (customer == null) {
-            return response;
-        }
-
-        log.info("edit customer: " + customer);
-
-        CreateCustomerFormBean form = new CreateCustomerFormBean();
-
-        form.setId(customer.getId());
-        form.setCustomerName(customer.getCustomerName());
-        form.setContactFirstname(customer.getContactFirstname());
-        form.setContactLastname(customer.getContactLastname());
-        form.setPhone(customer.getPhone());
-        form.setAddressLine1(customer.getAddressLine1());
-        form.setAddressLine2(customer.getAddressLine2());
-        form.setCity(customer.getCity());
-        form.setState(customer.getState());
-        form.setPostalCode(customer.getPostalCode());
-        form.setCountry(customer.getCountry());
-        form.setCreditLimit(customer.getCreditLimit());
-        form.setSalesRepEmployeeId(customer.getSalesRepEmployeeId());
-
-        log.info("edit form: " + form);
-
-        List<Employee> employees = employeeDAO.findAll();
-        response.addObject("salesRepEmployees", employees);
-
-
-        response.addObject("form", form);
 
         return response;
     }

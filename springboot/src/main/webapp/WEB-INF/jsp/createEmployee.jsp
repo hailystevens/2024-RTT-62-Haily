@@ -1,4 +1,3 @@
-
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:include page="include/header.jsp"/>
 
@@ -21,8 +20,7 @@
     <div class="container">
         <div class="row pt-5 justify-content-center">
             <div class="col-auto justify-content-center">
-                <form class="card" style="width: 500px;" action="/employee/createSubmit" method="post"
-                      enctype="multipart/form-data">
+                <form class="card" style="width: 500px;" action="${pageContext.request.contextPath}/employee/createSubmit" method="post" enctype="multipart/form-data">
                     <div class="card-body p-3">
                         <input type="hidden" name="id" value="${form.id}"/>
                         <div>
@@ -36,7 +34,6 @@
                                 </c:forEach>
                             </c:if>
                         </div>
-
                         <div>
                             <label for="firstNameId" class="col-form-label">First Name</label>
                             <input type="text" id="firstNameId" name="firstname"
@@ -112,10 +109,7 @@
                                     class="form-control <c:if test="${bindingResult.hasFieldErrors('reportsTo')}">is-invalid</c:if>">
                                 <option value="0">- Select Supervisor -</option>
                                 <c:forEach items="${employees}" var="employee">
-                                    <option
-                                            value="${employee.id}"
-                                            <c:if test="${employee.id == form.reportsTo}">selected</c:if>
-                                    >
+                                    <option value="${employee.id}" <c:if test="${employee.id == form.reportsTo}">selected</c:if>>
                                             ${employee.firstname} ${employee.lastname}
                                     </option>
                                 </c:forEach>
@@ -126,19 +120,15 @@
                                 </c:forEach>
                             </c:if>
                         </div>
-
                         <c:if test="${form.id != null}">
                             <p>
                                 <span class="fw-bold">Profile Image</span>
                                 <span><img width="400" src="${form.profileImageUrl}"/></span>
                             </p>
                         </c:if>
-
                         <div>
                             <label for="profileImage" class="col-form-label">Upload New Profile Image</label>
-                            <input type="file" id="profileImage" name="profileImage"
-                                   class="form-control"
-                            >
+                            <input type="file" id="profileImage" name="profileImage" class="form-control">
                         </div>
                         <div class="mt-5">
                             <button type="submit" class="btn btn-success w-100">Submit</button>

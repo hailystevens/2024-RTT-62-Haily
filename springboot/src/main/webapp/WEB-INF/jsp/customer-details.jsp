@@ -1,7 +1,5 @@
-
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:include page="include/header.jsp"/>
-
 
 <section class="title-section">
     <div class="container">
@@ -19,6 +17,7 @@
         <p><span>Contact Last Name: </span>${customer.contactLastname}</p>
     </div>
 
+    <h2 class="text-center">Orders Found (${orders.size()})</h2>
     <table class="table table-hover table-striped table-bordered">
         <tr>
             <th>Order ID</th>
@@ -27,8 +26,6 @@
             <th>Ordered Date</th>
             <th>Comments</th>
         </tr>
-        <h2 class="text-center">Orders Found (${orders.size()})</h2>
-
         <c:forEach items="${orders}" var="order">
             <tr onclick="window.location.href = '/order/detail?orderId=${order.id}'" class="clickable-row">
                 <td>${order.id}</td>
@@ -40,6 +37,5 @@
         </c:forEach>
     </table>
 </div>
-
 
 <jsp:include page="include/footer.jsp"/>

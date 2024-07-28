@@ -1,8 +1,4 @@
-
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-
-
 <jsp:include page="include/header.jsp"/>
 
 <section class="title-section">
@@ -14,32 +10,33 @@
 </section>
 
 <div class="container d-flex flex-column align-items-center">
+    <div class="mt-3 d-inline px-5 p-4 pb-2 border mb-4 border-1 rounded-2">
+        <p class="fs-5"><span class="fw-bold">Order Total: </span>$${orderTotal}</p>
+    </div>
+
     <table class="table table-hover table-striped table-bordered">
+        <thead>
         <tr>
             <th class="text-center">Order ID</th>
-            <th class="text-center">Order Date</th>
             <th class="text-center">Product ID</th>
             <th>Product Name</th>
             <th class="text-end">Quantity</th>
             <th class="text-end">Price Each</th>
-            <%--            <th class="text-end">Price Each</th>--%>
             <th class="text-end">Total</th>
         </tr>
-        <h2 class="text-center mb-3">${orderDetails.size()} Products</h2>
-
-        <c:forEach items="${orderDetails}" var="orderDetail">
+        </thead>
+        <tbody>
+        <c:forEach items="${orderDetailList}" var="orderDetail">
             <tr>
-                <td class="text-center">${orderDetail.order_id}</td>
-                <td class="text-center">${orderDetail.order_date}</td>
-                <td class="text-center">${orderDetail.product_id}</td>
-                <td>${orderDetail.product_name}</td>
-                <td class="text-end">${orderDetail.quantity_ordered}</td>
-                <td class="text-end"><fmt:formatNumber type="currency" value="${orderDetail.price_each}"/></td>
-                <td class="text-end"><fmt:formatNumber
-                        type="currency">${orderDetail.line_item_total}</fmt:formatNumber></td>
-
+                <td class="text-center">${orderDetail.orderId}</td>
+                <td class="text-center">${orderDetail.productId}</td>
+                <td>${orderDetail.productName}</td>
+                <td class="text-end">${orderDetail.quantityOrdered}</td>
+                <td class="text-end">$${orderDetail.priceEach}</td>
+                <td class="text-end">$${orderDetail.total}</td>
             </tr>
         </c:forEach>
+        </tbody>
     </table>
 </div>
 

@@ -1,4 +1,3 @@
-
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:include page="include/header.jsp"/>
 
@@ -15,7 +14,7 @@
     <div class="container">
         <div class="row justify-content-center pt-5 pb-3">
             <div class="col-8 text-center d-flex justify-content-center">
-                <form action="/customer/search">
+                <form action="${pageContext.request.contextPath}/customer/search" method="get">
                     <div class="mb-3">
                         <div class="d-flex gap-1 justify-content-center">
                             <input style="width: 350px" type="text" value="${search}" class="form-control" id="search"
@@ -50,7 +49,7 @@
                         <th>Orders</th>
                     </tr>
                     <c:forEach items="${customers}" var="customer">
-                        <tr onclick="window.location.href = '/customer/detail?customerId=${customer.id}'"
+                        <tr onclick="window.location.href = '${pageContext.request.contextPath}/customer/detail?customerId=${customer.id}'"
                             class="clickable-row">
                             <td>${customer.id}</td>
                             <td>${customer.customerName}</td>
@@ -59,14 +58,13 @@
                             <td>${customer.phone}</td>
                             <td>${customer.city}</td>
                             <td>${customer.country}</td>
-                            <td><a href="/order/list?customerId=${customer.id}">See Orders</a></td>
+                            <td><a href="${pageContext.request.contextPath}/order/list?customerId=${customer.id}">See Orders</a></td>
                         </tr>
                     </c:forEach>
                 </table>
             </div>
         </div>
     </div>
-
 </section>
 
 <jsp:include page="include/footer.jsp"/>

@@ -1,13 +1,9 @@
-
 package com.example.springboot.controller;
 
 import com.example.springboot.database.dao.OrderDAO;
 import com.example.springboot.database.dao.OrderDetailDAO;
-import com.example.springboot.database.dao.ProductDAO;
 import com.example.springboot.database.entity.Order;
-
 import com.example.springboot.database.entity.OrderDetail;
-import com.example.springboot.database.entity.Product;
 import com.example.springboot.form.OrderDetailsBean;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+import java.util.Optional;
 
 @Slf4j
 @Controller
@@ -32,87 +28,47 @@ public class OrderController {
     @Autowired
     private OrderDetailDAO orderDetailDAO;
 
-    @Autowired
-    private ProductDAO productDAO;
-
     @GetMapping("/list")
-    public ModelAndView employeeDeatails(@RequestParam(required = false) String customerId) {
-
+    public ModelAndView orderList(@RequestParam Integer customerId) {
         ModelAndView response = new ModelAndView("orderList");
 
-        List<Order> orders = orderDAO.findByCustomerId(Integer.valueOf(customerId));
+        List<Order> orders = orderDAO.findByCustomerId(customerId);
         response.addObject("orders", orders);
 
         return response;
     }
 
-    @GetMapping("/detail/bay")
-    public ModelAndView orderDetailBay(@RequestParam(required = false) String orderId) {
-
+    @GetMapping("/detail")
+    public ModelAndView orderDetail(@RequestParam Integer orderId) {
         ModelAndView response = new ModelAndView("orderDetails");
 
-        List<OrderDetail> orderDetails = orderDetailDAO.findByOrderId(Integer.valueOf(orderId));
+        Optional<Order> orderOpt = orderDAO.findById(orderId);
+        if (orderOpt.isPresent()) {
+            Order order = orderOpt.get();
+            response.addObject("order", order);
 
-        ArrayList<OrderDetailsBean> orderDetailList = new ArrayList<>();
-        log.info(orderDetailList.toString());
+            List<OrderDetail> orderDetails = orderDetailDAO.findByOrderId(orderId);
+            response.addObject("orderDetails", orderDetails);
 
-        response.addObject("order", orderDetails.get(0).getOrder());
-
-        DecimalFormat df = new DecimalFormat("#,###.00");
-        Double orderTotal = 0.00;
-
-        for (OrderDetail od : orderDetails) {
-            OrderDetailsBean orderDetailsBean = new OrderDetailsBean();
-
-            orderDetailsBean.setOrderId(od.getOrderID());
-            orderDetailsBean.setProductId(od.getProductID());
-            orderDetailsBean.setQuantityOrdered(od.getQuantityOrdered());
-            orderDetailsBean.setPriceEach(od.getPriceEach());
-            orderDetailsBean.setProductName(od.getProduct().getProductName());
-
-            // Calculate product total $
-            Double total = od.getQuantityOrdered() * od.getPriceEach();
-            orderDetailsBean.setTotal(df.format(total));
-
-            // Calculate order total $
-            orderTotal += total;
-
-            orderDetailList.add(orderDetailsBean);
+            double orderTotal = orderDetails.stream()
+                    .mapToDouble(od -> od.getQuantityOrdered() * od.getPriceEach())
+                    .sum();
+            response.addObject("orderTotal", orderTotal);
+        } else {
+            // Handle case where order is not found
+            response.setViewName("error/404");
         }
 
-        log.info(orderDetailList.toString());
-
-        response.addObject("orderDetailList", orderDetailList);
-        response.addObject("orderTotal", df.format(orderTotal));
-
         return response;
     }
 
-    @GetMapping("/details")
-    public ModelAndView orderDetails() {
-
+    @GetMapping("/allOrderDetails")
+    public ModelAndView allOrderDetails() {
         ModelAndView response = new ModelAndView("allOrderDetails");
 
-        List<Map<String, Object>> orderDetails = orderDAO.getOrderDetails();
-
+        List<OrderDetail> orderDetails = orderDetailDAO.findAll();
         response.addObject("orderDetails", orderDetails);
-        return response;
-
-    }
-
-    @GetMapping("/detail")
-    public ModelAndView orderDetail(Integer orderId) {
-        ModelAndView response = new ModelAndView("orderDetails");
-
-        List<Map<String, Object>> orderDetails = orderDAO.getOrderDetailsByOrderId(orderId);
-
-        log.info("orderId", orderId);
-        log.info("orderDetails", orderDetails);
-
-        response.addObject("orderDetailList", orderDetails);
-        response.addObject("orderTotal", 999);
 
         return response;
     }
-
 }
