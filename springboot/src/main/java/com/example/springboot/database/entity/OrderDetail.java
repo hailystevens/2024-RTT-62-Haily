@@ -1,12 +1,9 @@
 
 package com.example.springboot.database.entity;
 
-import com.example.springboot.database.entity.Product;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.awt.print.Book;
-import java.math.BigDecimal;
 
 @Getter
 @Setter
@@ -45,5 +42,4 @@ public class OrderDetail {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "order_id", nullable = false)
     private Order order;
-
 }

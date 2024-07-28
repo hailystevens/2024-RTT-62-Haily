@@ -4,20 +4,20 @@ package com.example.springboot.database.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.*;
+import java.util.List;
+
 
 @Getter
 @Setter
+@Entity
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
-@Entity
 @Table(name = "offices")
 public class Office {
-
-    @Id
+    @Id // this is telling hibernate this column is the PK
+    @GeneratedValue(strategy = GenerationType.IDENTITY)  // this telling hibernate that the PK is auto increment
     @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @OneToMany(mappedBy = "office", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -32,6 +32,12 @@ public class Office {
     @Column(name = "address_line1")
     private String addressLine1;
 
+    @Column(name = "address_line2")
+    private String addressLine2;
+
+    @Column(name = "state")
+    private String state;
+
     @Column(name = "country")
     private String country;
 
@@ -40,5 +46,4 @@ public class Office {
 
     @Column(name = "territory")
     private String territory;
-
 }

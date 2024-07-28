@@ -1,52 +1,69 @@
+
 package com.example.springboot.service;
 
-import com.example.springboot.database.dao.*;
-import com.example.springboot.database.entity.*;
-import com.example.springboot.form.*;
-import lombok.extern.slf4j.*;
-import org.springframework.beans.factory.annotation.*;
-import org.springframework.stereotype.*;
+import com.example.springboot.database.dao.EmployeeDAO;
+import com.example.springboot.database.dao.OfficeDAO;
+import com.example.springboot.database.entity.Employee;
+import com.example.springboot.database.entity.Office;
+import com.example.springboot.form.CreateEmployeeFormBean;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 
 @Slf4j
 @Component
 public class EmployeeService {
 
-    @Autowired
-    private EmployeeDAO employeeDao;
 
     @Autowired
-    private OfficeDAO officeDao;
+    private EmployeeDAO employeeDAO;
+
+    @Autowired
+    private OfficeDAO officeDAO;
 
 
     public Employee createEmployee(CreateEmployeeFormBean form) {
-        // log out the incoming variables that are in the CreateEmployeeFormBean
-        log.debug(form.toString());
+        Employee employee;
+        Integer employeeId = form.getId();
+        log.info("submit employeeId: " + employeeId);
 
-        // first, I am going to take a shot at looking up the record in the database based on the incoming employeeId
-        // this is from the hidden input field and is not something the user actually entered themselves
-        Employee employee = employeeDao.findById(form.getEmployeeId());
-        if (employee == null) {
-            /// this means it was not found in the database so we are going to consider this a create
+        boolean isNewEmployee = employeeId == null;
+
+        if (isNewEmployee) {
             employee = new Employee();
+        } else {
+            employee = employeeDAO.findById(employeeId);
+
         }
 
-        // here we are setting the values from the inoming form data onto the database entity
-        employee.setEmail(form.getEmail());
-        employee.setFirstname(form.getFirstName());
-        employee.setLastname(form.getLastName());
-        employee.setReportsTo(form.getReportsTo());
-        employee.setExtension("x123");
-        employee.setJobTitle("Job Title");
+        String saveProfileImageName = "./src/main/webapp/assets/img/" + form.getProfileImage().getOriginalFilename();
+        try {
+            Files.copy(form.getProfileImage().getInputStream(), Paths.get(saveProfileImageName), StandardCopyOption.REPLACE_EXISTING);
+        } catch (Exception e) {
+            log.error("Unable to finish reading file", e);
+        }
 
-        Office office = officeDao.findById(form.getOfficeId());
-        // this wont work because its set to insertable = false and updateable = false
-        //employee.setOfficeId(1);
+
+        String url = "/assets/img/" + form.getProfileImage().getOriginalFilename();
+
+        employee.setProfileImageUrl(url);
+        employee.setEmail(form.getEmail());
+        employee.setFirstname(form.getFirstname());
+        employee.setLastname(form.getLastname());
+        employee.setReportsTo(form.getReportsTo());
+        employee.setExtension(form.getExtension());
+        employee.setJobTitle(form.getJobTitle());
+        employee.setVacationHours(form.getVacationHours());
+
+
+        Office office = officeDAO.findById(form.getOfficeId());
         employee.setOffice(office);
 
-        // when we save to the data base it will auto increment to give us a new id
-        // the new ID is available in the return from the save method.
-        // basically returns the same object .. after its been inserted into the database
-        employee = employeeDao.save(employee);
+        employee = employeeDAO.save(employee);
 
         return employee;
     }

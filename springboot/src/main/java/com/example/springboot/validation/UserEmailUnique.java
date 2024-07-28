@@ -1,3 +1,4 @@
+
 package com.example.springboot.validation;
 
 import jakarta.validation.Constraint;
@@ -6,11 +7,14 @@ import jakarta.validation.Payload;
 import java.lang.annotation.*;
 
 @Documented
-@Constraint(validatedBy = UniqueEmailValidator.class)
-@Target({ElementType.METHOD, ElementType.FIELD, ElementType.ANNOTATION_TYPE, ElementType.PARAMETER})
+@Constraint(validatedBy = UserEmailUniqueImpl.class)
+@Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface UniqueEmail {
-    String message() default "Email already exists";
+public @interface UserEmailUnique {
+    String message() default "{UserEmailUnique}";
+
     Class<?>[] groups() default {};
+
     Class<? extends Payload>[] payload() default {};
+
 }

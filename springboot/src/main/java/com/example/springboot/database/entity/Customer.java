@@ -4,35 +4,44 @@ package com.example.springboot.database.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.awt.print.Book;
-import java.math.BigDecimal;
 import java.util.List;
-import java.util.Objects;
-import java.util.Set;
 
-@Setter
+
 @Getter
+@Setter
+@Entity
 @ToString
-@EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
 @Table(name = "customers")
 public class Customer {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id // this is telling hibernate this column is the PK
+    @GeneratedValue(strategy = GenerationType.IDENTITY)  // this telling hibernate that the PK is auto increment
     @Column(name = "id")
-    private int id;
+    private Integer id;
+
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @ManyToOne(fetch = FetchType.LAZY, optional = true)
+    @JoinColumn(name = "sales_rep_employee_id", nullable = true)
+    private Employee employee;
+
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @OneToMany(mappedBy = "customer", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Order> orders;
+
+    @Column(name = "sales_rep_employee_id", insertable = false, updatable = false)
+    private Integer salesRepEmployeeId;
 
     @Column(name = "customer_name")
     private String customerName;
 
-    @Column(name = "contact_firstname")
-    private String contactFirstname;
-
     @Column(name = "contact_lastname")
     private String contactLastname;
+
+    @Column(name = "contact_firstname")
+    private String contactFirstname;
 
     @Column(name = "phone")
     private String phone;
@@ -55,45 +64,6 @@ public class Customer {
     @Column(name = "country")
     private String country;
 
-    // this is allowing hibernate to make this query
-    // select e.* from customers c, employee e where c.sales_rep_employee_id = e.id and c.id = (this.id);
-    @ToString.Exclude
-    @EqualsAndHashCode.Exclude
-    @ManyToOne(fetch = FetchType.LAZY, optional = true)
-    @JoinColumn(name = "sales_rep_employee_id", nullable = true)
-    private Employee employee;
-
-    @ToString.Exclude
-    @EqualsAndHashCode.Exclude
-    @OneToMany(mappedBy = "customer", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<Order> orders;
-
-    // you can only use a primitive type if the column is not nullable
-    // if the column is nullable then you have to use the Integer wrapper class because a primitive
-    // can not be set to null
-    // Because we added the @ManyToOne annotation (just above) this column is now considered a duplicate in hibernate
-    // by adding the insertable = false and the updatable = false we are essentially turning this into a read only variable!!!!!
-    // this will happen for any FK that we use with a @ManyToOne annotation
-    @Column(name = "sales_rep_employee_id", insertable = false, updatable = false)
-    private Integer salesRepEmployeeId;
-
-    // when there is a DECIMAL type in the database it should be a Double in java
-    // hibernate or other tools will guide you towards using a BigDecimal, while technically possible you are increasing
-    // your own hardship by using a BigDecimal
-    @Column(name = "credit_limit", columnDefinition = "DECIMAL")
+    @Column(name = "credit_limit", columnDefinition = "decimal(10,2)")
     private Double creditLimit;
-
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Customer customer = (Customer) o;
-        return id == customer.id && Objects.equals(customerName, customer.customerName);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, customerName);
-    }
 }

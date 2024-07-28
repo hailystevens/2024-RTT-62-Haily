@@ -1,105 +1,79 @@
 
 package com.example.springboot.controller;
 
-import com.example.springboot.database.dao.*;
-import com.example.springboot.database.entity.*;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import com.example.springboot.database.dao.EmployeeDAO;
+import com.example.springboot.database.dao.ProductDAO;
+import com.example.springboot.database.entity.Employee;
+import com.example.springboot.database.entity.Product;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.io.*;
-import java.nio.file.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
-
 
 @Slf4j
 @Controller
 public class IndexController {
-
     @Autowired
-    private ProductDAO productDao;
-
+    private ProductDAO productDAO;
     @Autowired
     private EmployeeDAO employeeDAO;
 
-
-    // this function is for the home page of the website which is express as just a plain slash "/"
     @GetMapping("/")
-    public ModelAndView index(@RequestParam(required = false) Integer id) {
-        // by default, the @RequestParam is required, meaning if it is missing in the URL spring will send you to the error page
-        // if the id parameter is not present on the URL then the incoming id will be null
+    public ModelAndView index(@RequestParam(required = false) Integer id) { // http://localhost:8080/?id=2
         ModelAndView response = new ModelAndView("index");
-
-        Product product = productDao.findById(id);
-        response.addObject("productKey", product);
-
-        // by default the logging level is set to info so the debug message will not be printed in the terminal
-        log.debug("Debug level");
-        log.info("Info level");
-        log.warn("Warn level");
-        log.error("Error level");
-
-        // NEVER EVER use System.out.println in a spring application
-        System.out.println("This is forbidden at all times");
-
+        Product product = productDAO.findById(id);
         response.addObject("message", "Hello World!");
+        response.addObject("product", product);
 
         return response;
     }
 
     @GetMapping("/index/{id}")
-    public ModelAndView indexPathVar(@PathVariable(name = "id") Integer productId) {
-        // by default, the @PathVariable is required, meaning if it is missing in the URL spring will send you to the error page
-        // by using the name attribute in the @PathVariable annotation, you can change the name of the variable
-        // so in this case it is mapping the id in the URL to the productId variable
+//    public ModelAndView indexPathVar(@PathVariable Integer id) { // http://localhost:8080/index/1
+    public ModelAndView indexPathVar(@PathVariable(name = "id") Integer productId) { // http://localhost:8080/index/1
         ModelAndView response = new ModelAndView("index");
-
-        Product product = productDao.findById(productId);
-        response.addObject("productKey", product);
-
+        Product product = productDAO.findById(productId);
         response.addObject("message", "Hello World!");
+        response.addObject("product", product);
 
+        log.debug("Debug level");
+        log.info("Info level");
+        log.warn("Warn level");
+        log.error("Error level");
         return response;
     }
 
-
-    @GetMapping("/page-url")
-    public ModelAndView canBeAnyFunctionNameYouWant() {
-        // this page is for another page of the website which is express as "/page-url"
+    @GetMapping("/another-page-url")
+    public ModelAndView anotherPage() {
         ModelAndView response = new ModelAndView("another-page");
-
         return response;
     }
 
     @GetMapping("/search")
     public ModelAndView search(@RequestParam(required = false) String search) {
-        // this page is for another page of the website which is express as "/page-url"
+
+        log.info("Search term is: " + search);
         ModelAndView response = new ModelAndView("search");
-
-        log.debug("The user searched for the term: " + search);
-
-        // I am going to add the user input back to the model, so that
-        // we can display the search term in the input field
+        List<Product> products = productDAO.findByName(search);
         response.addObject("search", search);
-
-
-        List<Product> products = productDao.findByNameOrCode(search);
         response.addObject("products", products);
-
         return response;
     }
 
     @GetMapping("/file-upload")
     public ModelAndView fileUpload(@RequestParam Integer employeeId) {
-        // this page is for another page of the website which is express as "/page-url"
-        ModelAndView response = new ModelAndView("file-upload");
+        ModelAndView response = new ModelAndView("fileUpload");
         response.addObject("employeeId", employeeId);
-
         return response;
     }
 
@@ -117,9 +91,7 @@ public class IndexController {
         // then restrict based on "jpg" or "png"
         // use the model to put an error message on the page
 
-
-        // this is the location on the hard drive
-        String saveFilename = "./src/main/webapp/pub/images/" + file.getOriginalFilename();
+        String saveFilename = "./src/main/webapp/assets/img/" + file.getOriginalFilename();
 
         // this Files.copy is a utility that will read the stream one chunk at a time and write it to a file.
         // first arg is the input stream to read from the uploaded file
@@ -135,12 +107,11 @@ public class IndexController {
         Employee employee = employeeDAO.findById(employeeId);
 
         // this is the URL to get the image
-        String url = "/pub/images/" + file.getOriginalFilename();
+        String url = "/assets/img/" + file.getOriginalFilename();
         employee.setProfileImageUrl(url);
 
         employeeDAO.save(employee);
 
         return modelAndView;
     }
-
 }

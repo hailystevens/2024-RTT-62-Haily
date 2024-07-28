@@ -1,29 +1,33 @@
+
 package com.example.springboot.database.entity;
+
 
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.Date;
 
-@Getter
 @Setter
+@Getter
+@Entity
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
-@Table(name = "users")
+@Table(name = "new_users")
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    @Column(name = "id")
+    private Integer id;
 
-    private String username;
-
+    @Column(name = "email")
     private String email;
 
+    @Column(name = "password")
     private String password;
 
+    @Column(name = "create_date")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createDate;
 }

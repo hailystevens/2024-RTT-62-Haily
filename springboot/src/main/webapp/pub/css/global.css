@@ -1,0 +1,25 @@
+
+.title-section {
+    background-color: #6baf5c;
+    color: #fff;
+}
+
+.bg-classic {
+    background-color: #000;
+    color: #A19474;
+}
+
+.clickable-row:hover {
+    cursor: pointer;
+    background-color: #e7fce3;
+}
+
+.btn-success {
+    background-color: #55a424;
+    border-color: #4b9120;
+}
+
+.btn-success:hover {
+    background-color: #44831d;
+    border-color: #4b9120;
+}

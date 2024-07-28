@@ -1,29 +1,56 @@
-<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Create Account</title>
-</head>
-<body>
-<h2>Create Account</h2>
-<form:form action="/account/create-account" method="post" modelAttribute="form">
-    <form:label path="username">Username:</form:label>
-    <form:input path="username" /><br>
-    <form:errors path="username" cssClass="error" /><br>
 
-    <form:label path="email">Email:</form:label>
-    <form:input path="email" type="email" /><br>
-    <form:errors path="email" cssClass="error" /><br>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<jsp:include page="../include/header.jsp"/>
 
-    <form:label path="password">Password:</form:label>
-    <form:input path="password" type="password" /><br>
-    <form:errors path="password" cssClass="error" /><br>
+<section class="title-section">
+    <div class="container">
+        <div class="row pt-5 pb-5">
+            <h1 class="text-center">
+                Create Account
+            </h1>
+        </div>
+    </div>
+</section>
 
-    <input type="submit" value="Create Account">
-</form:form>
-<c:if test="${not empty message}">
-    <p>${message}</p>
-</c:if>
-</body>
-</html>
+
+<section>
+    <div class="container">
+        <div class="row pt-5 justify-content-center">
+            <div class="col-auto justify-content-center">
+                <form class="card" style="width: 500px;" action="/account/create-account" method="post">
+                    <div class="card-body p-3">
+                        <input type="hidden" name="id" value="${form.id}"/>
+                        <div>
+                            <label for="emailId" class="col-form-label">Email</label>
+                            <input type="text" id="emailId" name="email"
+                                   class="form-control <c:if test="${bindingResult.hasFieldErrors('email')}">is-invalid</c:if>"
+                                   value="${form.email}">
+                            <c:if test="${bindingResult.hasFieldErrors('email')}">
+                                <c:forEach items="${bindingResult.getFieldErrors('email')}" var="error">
+                                    <div class="text-danger">${error.defaultMessage}</div>
+                                </c:forEach>
+                            </c:if>
+                        </div>
+                        <div>
+                            <label for="passwordId" class="col-form-label">Password</label>
+                            <input type="password" id="passwordId" name="password"
+                                   class="form-control <c:if test="${bindingResult.hasFieldErrors('password')}">is-invalid</c:if>"
+                                   value="${form.password}">
+                            <c:if test="${bindingResult.hasFieldErrors('password')}">
+                                <c:forEach items="${bindingResult.getFieldErrors('password')}" var="error">
+                                    <div class="text-danger">${error.defaultMessage}</div>
+                                </c:forEach>
+                            </c:if>
+                        </div>
+                        <div class="mt-5">
+                            <button type="submit" class="btn btn-success w-100">Submit</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<jsp:include page="../include/footer.jsp"/>

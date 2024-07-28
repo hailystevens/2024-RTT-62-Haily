@@ -33,7 +33,7 @@ public class Product {
     @Column(name = "product_vendor")
     private String productVendor;
 
-    @Column(name = "product_description", columnDefinition = "TEXT")
+    @Column(name = "product_description", columnDefinition="TEXT")
     private String productDescription;
 
     @Column(name = "quantity_in_stock", columnDefinition = "SMALLINT")
@@ -44,5 +44,4 @@ public class Product {
 
     @Column(name = "msrp", columnDefinition = "DECIMAL")
     private Double msrp;
-
 }

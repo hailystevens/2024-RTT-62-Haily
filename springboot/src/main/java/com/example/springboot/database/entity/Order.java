@@ -1,23 +1,24 @@
+
 package com.example.springboot.database.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 @Getter
 @Setter
+@Entity
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
 @Table(name = "orders")
 public class Order {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    @Id // this is telling hibernate this column is the PK
+    @GeneratedValue(strategy = GenerationType.IDENTITY)  // this telling hibernate that the PK is auto increment
+    @Column(name = "id")
+    private Integer id;
 
     @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
@@ -31,15 +32,22 @@ public class Order {
     @Column(name = "customer_id", insertable = false, updatable = false)
     private int customerId;
 
-    @Column(name = "order_date")
-    private LocalDateTime orderDate;
+    @Column(name = "order_date", nullable = false)
+    @Temporal(TemporalType.DATE)
+    private Date orderDate;
 
-    @Column(name = "required_date")
-    private LocalDateTime requiredDate;
+    @Column(name = "required_date", nullable = false)
+    @Temporal(TemporalType.DATE)
+    private Date requiredDate;
 
-    @Column(name = "status")
+    @Column(name = "shipped_date")
+    @Temporal(TemporalType.DATE)
+    private Date shippedDate;
+
+    @Column(name = "status", nullable = false)
     private String status;
 
-    @Column(name = "comments", columnDefinition = "Text")
-    private String comment;
+    @Column(name = "comments", length = 65535, columnDefinition = "text")
+    private String comments;
+
 }

@@ -1,20 +1,22 @@
+
 package com.example.springboot.form;
 
-import com.example.springboot.validation.UniqueEmail;
-import jakarta.validation.constraints.*;
+import com.example.springboot.validation.UserEmailUnique;
+
+import jakarta.validation.constraints.NotEmpty;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
+@ToString
 public class CreateAccountFormBean {
 
-    @NotEmpty
-    private String username;
+    private Integer id;
 
     @NotEmpty
-    @Email
-    @UniqueEmail
+    @UserEmailUnique(message = "This email is already in use")
     private String email;
 
     @NotEmpty
