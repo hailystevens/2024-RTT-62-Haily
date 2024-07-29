@@ -1,20 +1,17 @@
 package com.example.springboot.controller;
 
 import com.example.springboot.database.dao.OrderDAO;
-import com.example.springboot.database.dao.OrderDetailDAO;
 import com.example.springboot.database.entity.Order;
-import com.example.springboot.database.entity.OrderDetail;
-import com.example.springboot.form.OrderDetailsBean;
+import com.example.springboot.form.CreateOrderFormBean;
+import com.example.springboot.service.OrderService;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,53 +19,89 @@ import java.util.Optional;
 @Controller
 @RequestMapping("/order")
 public class OrderController {
+
     @Autowired
     private OrderDAO orderDAO;
 
     @Autowired
-    private OrderDetailDAO orderDetailDAO;
+    private OrderService orderService;
 
+    // List all orders
     @GetMapping("/list")
-    public ModelAndView orderList(@RequestParam Integer customerId) {
-        ModelAndView response = new ModelAndView("orderList");
-
-        List<Order> orders = orderDAO.findByCustomerId(customerId);
-        response.addObject("orders", orders);
-
+    public ModelAndView list() {
+        ModelAndView response = new ModelAndView("order/list");
+        List<Order> orders = orderDAO.findAll();
+        response.addObject("ordersKey", orders);
         return response;
     }
 
-    @GetMapping("/detail")
-    public ModelAndView orderDetail(@RequestParam Integer orderId) {
-        ModelAndView response = new ModelAndView("orderDetails");
-
-        Optional<Order> orderOpt = orderDAO.findById(orderId);
+    // View order details
+    @GetMapping("/{id}")
+    public ModelAndView detail(@PathVariable Integer id) {
+        ModelAndView response = new ModelAndView("order/detail");
+        Optional<Order> orderOpt = orderDAO.findById(id);
         if (orderOpt.isPresent()) {
             Order order = orderOpt.get();
-            response.addObject("order", order);
-
-            List<OrderDetail> orderDetails = orderDetailDAO.findByOrderId(orderId);
-            response.addObject("orderDetails", orderDetails);
-
-            double orderTotal = orderDetails.stream()
-                    .mapToDouble(od -> od.getQuantityOrdered() * od.getPriceEach())
-                    .sum();
-            response.addObject("orderTotal", orderTotal);
+            response.addObject("orderKey", order);
         } else {
-            // Handle case where order is not found
-            response.setViewName("error/404");
+            response.addObject("messageKey", "Order not found");
         }
-
         return response;
     }
 
-    @GetMapping("/allOrderDetails")
-    public ModelAndView allOrderDetails() {
-        ModelAndView response = new ModelAndView("allOrderDetails");
+    // Search for orders by customer ID
+    @GetMapping("/search")
+    public ModelAndView search(@RequestParam(required = false) Integer customerId) {
+        ModelAndView response = new ModelAndView("order/search");
+        response.addObject("searchKey", customerId);
+        List<Order> orders = orderDAO.findByCustomerId(customerId);
+        response.addObject("ordersKey", orders);
+        return response;
+    }
 
-        List<OrderDetail> orderDetails = orderDetailDAO.findAll();
-        response.addObject("orderDetails", orderDetails);
+    // Show create order form
+    @GetMapping("/create")
+    public ModelAndView create() {
+        return new ModelAndView("order/create");
+    }
 
+    // Handle order creation
+    @PostMapping("/createSubmit")
+    public ModelAndView createSubmit(@Valid CreateOrderFormBean form, BindingResult bindingResult) {
+        ModelAndView response = new ModelAndView();
+        if (bindingResult.hasErrors()) {
+            response.addObject("bindingResult", bindingResult);
+            response.setViewName("order/create");
+            response.addObject("form", form);
+            return response;
+        } else {
+            Order order = orderService.createOrder(form);
+            response.setViewName("redirect:/order/" + order.getId());
+            return response;
+        }
+    }
+
+    // Show edit order form
+    @GetMapping("/edit")
+    public ModelAndView edit(@RequestParam(required = false) Integer id) {
+        ModelAndView response = new ModelAndView("order/create");
+        if (id != null) {
+            Optional<Order> orderOpt = orderDAO.findById(id);
+            if (orderOpt.isPresent()) {
+                Order order = orderOpt.get();
+                CreateOrderFormBean form = new CreateOrderFormBean();
+                form.setId(order.getId());
+                form.setCustomerId(order.getCustomer().getId());
+                form.setOrderDate(order.getOrderDate());
+                form.setRequiredDate(order.getRequiredDate());
+                form.setShippedDate(order.getShippedDate());
+                form.setStatus(order.getStatus());
+                form.setComments(order.getComments());
+                response.addObject("form", form);
+            } else {
+                response.addObject("messageKey", "The order was not found in the database.");
+            }
+        }
         return response;
     }
 }

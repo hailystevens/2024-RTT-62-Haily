@@ -8,8 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-
 @Slf4j
 @Service
 public class UserService {
@@ -24,9 +22,7 @@ public class UserService {
         User user = new User();
         user.setEmail(form.getEmail());
         user.setPassword(passwordEncoder.encode(form.getPassword()));
-        user.setCreateDate(new Date());
-        userDAO.save(user);
-
-        return user;
+        user.setFullName(form.getFullName());
+        return userDAO.save(user);
     }
 }

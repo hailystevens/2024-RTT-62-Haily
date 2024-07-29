@@ -1,25 +1,109 @@
-
-.title-section {
-    background-color: #6baf5c;
-    color: #fff;
+body {
+    font-family: Arial, sans-serif;
+    background-color: #121212;
+    color: #e0e0e0;
+    margin: 0;
+    padding: 0;
 }
 
-.bg-classic {
-    background-color: #000;
-    color: #A19474;
+header, footer {
+    background-color: #1f1f1f;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
 }
 
-.clickable-row:hover {
+nav {
+    background-color: #212529;
+    padding: 10px 0;
+}
+
+nav ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+}
+
+nav li {
+    margin: 0 15px;
+}
+
+nav a {
+    margin: 0 15px;
+    text-decoration: none;
+    color: white;
+}
+
+.container {
+    margin: 20px;
+    padding: 20px;
+    background-color: #1f1f1f;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #6200ea;
+    color: white;
+    border: none;
+    border-radius: 5px;
     cursor: pointer;
-    background-color: #e7fce3;
 }
 
-.btn-success {
-    background-color: #55a424;
-    border-color: #4b9120;
+button:hover {
+    background-color: #3700b3;
 }
 
-.btn-success:hover {
-    background-color: #44831d;
-    border-color: #4b9120;
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+}
+
+.table th, .table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+.table th {
+    background-color: #1f1f1f;
+    color: white;
+    text-align: center;
+}
+
+.table tr:nth-child(even) {
+    background-color: #333;
+}
+
+.table tr:hover {
+    background-color: #444;
+}
+
+.form-group {
+    margin: 15px 0;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.form-group input, .form-group select, .form-group textarea {
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+    background-color: #2e2e2e;
+    color: #e0e0e0;
+    border: 1px solid #444;
+}
+
+.alert {
+    padding: 10px;
+    background-color: #f44336;
+    color: white;
+    margin-bottom: 15px;
+    border-radius: 5px;
 }

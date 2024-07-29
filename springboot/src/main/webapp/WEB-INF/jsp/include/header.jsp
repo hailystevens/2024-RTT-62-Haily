@@ -1,51 +1,29 @@
-<!doctype html>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>${title}</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-            crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/global.css">
+    <title><c:out value="${title}"/></title>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/pub/css/global.css">
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="${pageContext.request.contextPath}/">
-            <img src="${pageContext.request.contextPath}/assets/img/classic.png" style="width: 100px; padding-left: 10px;"/>
-        </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse flex-grow-0" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link text-center" aria-current="page" href="${pageContext.request.contextPath}/">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-center" href="${pageContext.request.contextPath}/search">Find Products</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-center" href="${pageContext.request.contextPath}/employee/search">Find Employees</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-center" href="${pageContext.request.contextPath}/employee/create">Create Employee</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-center" href="${pageContext.request.contextPath}/customer/create">Create Customer</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-center" href="${pageContext.request.contextPath}/account/create-account">Create Account</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-center" href="${pageContext.request.contextPath}/account/login">Log In</a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
+<header>
+    <nav>
+        <ul>
+            <li><a href="${pageContext.request.contextPath}/">Home</a></li>
+            <li><a href="${pageContext.request.contextPath}/product/search">Search Products</a></li>
+            <li><a href="${pageContext.request.contextPath}/product/list">View Products</a></li>
+            <li><a href="${pageContext.request.contextPath}/product/create">Create Product</a></li>
+            <li><a href="${pageContext.request.contextPath}/employee/search">Search Employees</a></li>
+            <li><a href="${pageContext.request.contextPath}/employee/list">View Employees</a></li>
+            <li><a href="${pageContext.request.contextPath}/employee/create">Create Employee</a></li>
+            <li><a href="${pageContext.request.contextPath}/customer/list">View Customers</a></li>
+            <li><a href="${pageContext.request.contextPath}/customer/create">Create Customer</a></li>
+            <li><a href="${pageContext.request.contextPath}/customer/search">Search Customers</a></li>
+            <li><a href="${pageContext.request.contextPath}/order/search">Search Orders</a></li>
+            <li><a href="${pageContext.request.contextPath}/order/list">View Orders</a></li>
+            <li><a href="${pageContext.request.contextPath}/order/create">Create Order</a></li>
+            <li><a href="${pageContext.request.contextPath}/auth/login">Login</a></li>
+        </ul>
+    </nav>
+</header>

@@ -2,55 +2,54 @@ package com.example.springboot.controller;
 
 import com.example.springboot.database.dao.OrderDetailDAO;
 import com.example.springboot.database.entity.OrderDetail;
-import com.example.springboot.form.OrderDetailsBean;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
 @Controller
-@RequestMapping("/order")
+@RequestMapping("/order-detail")
 public class OrderDetailController {
 
     @Autowired
     private OrderDetailDAO orderDetailDAO;
 
-    @GetMapping("/details")
-    public ModelAndView orderDetails(@RequestParam Integer orderId) {
-        ModelAndView response = new ModelAndView("allOrderDetails");
+    // List all order details
+    @GetMapping("/list")
+    public ModelAndView list() {
+        ModelAndView response = new ModelAndView("order-detail/list");
+        List<OrderDetail> orderDetails = orderDetailDAO.findAll();
+        response.addObject("orderDetailsKey", orderDetails);
+        return response;
+    }
 
-        List<OrderDetail> orderDetails = orderDetailDAO.findByOrderId(orderId);
+    // View order detail by ID
+    @GetMapping("/{id}")
+    public ModelAndView detail(@PathVariable Integer id) {
+        ModelAndView response = new ModelAndView("order-detail/detail");
+        log.debug("The user wants the orderDetail with order detail id: " + id);
 
-        List<OrderDetailsBean> orderDetailList = new ArrayList<>();
-        DecimalFormat df = new DecimalFormat("#,###.00");
-        Double orderTotal = 0.00;
+        OrderDetail orderDetail = orderDetailDAO.findById(id).orElse(null);
+        response.addObject("orderDetailKey", orderDetail);
+        return response;
+    }
 
-        for (OrderDetail od : orderDetails) {
-            OrderDetailsBean orderDetailsBean = new OrderDetailsBean();
-            orderDetailsBean.setOrderId(od.getOrderId());
-            orderDetailsBean.setProductId(od.getProductId());
-            orderDetailsBean.setQuantityOrdered(od.getQuantityOrdered());
-            orderDetailsBean.setProductName(od.getProduct().getProductName());
-            orderDetailsBean.setPriceEach(od.getPriceEach());
+    // List order details by order ID
+    @GetMapping("/list-by-order")
+    public ModelAndView listByOrderId(@RequestParam Integer id) {
+        ModelAndView response = new ModelAndView("order-detail/list-by-order");
+        log.debug("The user wants the order detail row(s) for order id: " + id);
+        response.addObject("orderIdKey", id);
 
-            Double total = od.getQuantityOrdered() * od.getPriceEach();
-            orderDetailsBean.setTotal(df.format(total));
-            orderTotal += total;
-
-            orderDetailList.add(orderDetailsBean);
-        }
-
-        response.addObject("orderDetailList", orderDetailList);
-        response.addObject("orderTotal", df.format(orderTotal));
-
+        List<OrderDetail> orderDetails = orderDetailDAO.findByOrderId(id);
+        response.addObject("orderDetailsKey", orderDetails);
         return response;
     }
 }

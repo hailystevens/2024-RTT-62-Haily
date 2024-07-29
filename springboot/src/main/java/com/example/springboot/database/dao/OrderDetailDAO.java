@@ -2,13 +2,13 @@ package com.example.springboot.database.dao;
 
 import com.example.springboot.database.entity.OrderDetail;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-public interface OrderDetailDAO extends JpaRepository<OrderDetail, Long> {
-    OrderDetail findById(Integer id);
+@Repository
+public interface OrderDetailDAO extends JpaRepository<OrderDetail, Integer> {
 
-    @Query("select od from OrderDetail od where od.order.id = :orderId")
+    // Method to find order details by order id
     List<OrderDetail> findByOrderId(Integer orderId);
 }

@@ -7,16 +7,15 @@ import com.example.springboot.database.entity.Office;
 import com.example.springboot.form.CreateEmployeeFormBean;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.util.Optional;
 
 @Slf4j
-@Component
+@Service
 public class EmployeeService {
 
     @Autowired
@@ -26,53 +25,39 @@ public class EmployeeService {
     private OfficeDAO officeDAO;
 
     public Employee createEmployee(CreateEmployeeFormBean form) {
-        Employee employee;
-        Integer employeeId = form.getId();
-        log.info("submit employeeId: {}", employeeId);
+        log.debug(form.toString());
 
-        boolean isNewEmployee = employeeId == null;
-
-        if (isNewEmployee) {
-            employee = new Employee();
-        } else {
-            Optional<Employee> employeeOpt = employeeDAO.findById(employeeId);
-            if (employeeOpt.isPresent()) {
-                employee = employeeOpt.get();
-            } else {
-                log.error("Employee with id {} not found", employeeId);
-                return null;
-            }
-        }
-
-        if (form.getProfileImage() != null && !form.getProfileImage().isEmpty()) {
-            String saveProfileImageName = "./src/main/webapp/assets/img/" + form.getProfileImage().getOriginalFilename();
-            try {
-                Path savePath = Paths.get(saveProfileImageName);
-                Files.copy(form.getProfileImage().getInputStream(), savePath, StandardCopyOption.REPLACE_EXISTING);
-                String url = "/assets/img/" + form.getProfileImage().getOriginalFilename();
-                employee.setProfileImageUrl(url);
-            } catch (Exception e) {
-                log.error("Unable to finish reading file", e);
-            }
-        }
+        Employee employee = employeeDAO.findById(form.getId()).orElse(new Employee());
 
         employee.setEmail(form.getEmail());
-        employee.setFirstname(form.getFirstname());
-        employee.setLastname(form.getLastname());
+        employee.setFirstName(form.getFirstName());
+        employee.setLastName(form.getLastName());
         employee.setReportsTo(form.getReportsTo());
         employee.setExtension(form.getExtension());
         employee.setJobTitle(form.getJobTitle());
         employee.setVacationHours(form.getVacationHours());
+        employee.setProfileImageUrl("/public/images/" + form.getFile().getOriginalFilename());
 
-        Optional<Office> officeOpt = officeDAO.findById(form.getOfficeId());
-        if (officeOpt.isPresent()) {
-            employee.setOffice(officeOpt.get());
+        Office office = officeDAO.findById(form.getOfficeId()).orElse(null);
+        if (office != null) {
+            employee.setOffice(office);
         } else {
-            log.error("Office with id {} not found", form.getOfficeId());
-            return null;
+            log.error("Office ID " + form.getOfficeId() + " not found");
+        }
+
+        // Handle file upload
+        MultipartFile file = form.getFile();
+        if (!file.isEmpty()) {
+            String filename = file.getOriginalFilename();
+            try {
+                Files.copy(file.getInputStream(), Paths.get("src/main/webapp/public/images/" + filename), StandardCopyOption.REPLACE_EXISTING);
+            } catch (Exception e) {
+                log.error("Error saving file: " + filename, e);
+            }
         }
 
         employee = employeeDAO.save(employee);
+
         return employee;
     }
 }

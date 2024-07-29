@@ -7,32 +7,30 @@ import lombok.*;
 @Setter
 @Entity
 @ToString
-@NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "order_details")
+@NoArgsConstructor
+@Table(name = "orderdetails")
 public class OrderDetail {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "order_id", nullable = false)
+    @JoinColumn(name = "order_id")
     private Order order;
 
-    @Column(name = "order_id", insertable = false, updatable = false)
-    private Integer orderId;
-
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "product_id", nullable = false)
+    @JoinColumn(name = "product_id")
     private Product product;
 
-    @Column(name = "product_id", insertable = false, updatable = false)
-    private Integer productId;
-
-    @Column(name = "quantity_ordered", nullable = false)
+    @Column(name = "quantity_ordered")
     private Integer quantityOrdered;
 
-    @Column(name = "price_each", nullable = false)
+    @Column(name = "price_each")
     private Double priceEach;
+
+    @Column(name = "order_line_number")
+    private Integer orderLineNumber;
 }

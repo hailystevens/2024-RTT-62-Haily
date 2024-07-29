@@ -3,49 +3,56 @@ package com.example.springboot.database.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 
 @Getter
 @Setter
 @Entity
 @ToString
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "orders")
 public class Order {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer id;
 
-    @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_id", nullable = false)
     private Customer customer;
 
-    @ToString.Exclude
+    @Column(name = "order_date")
+    private LocalDateTime orderDate;
+
+    @Column(name = "required_date")
+    private LocalDateTime requiredDate;
+
+    @Column(name = "shipped_date")
+    private LocalDateTime shippedDate;
+
+    @Column(name = "status")
+    private String status;
+
+    @Column(name = "comments")
+    private String comments;
+
     @OneToMany(mappedBy = "order", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<OrderDetail> orderDetails;
 
-    @Column(name = "customer_id", insertable = false, updatable = false)
-    private Integer customerId;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Order order = (Order) o;
+        return Objects.equals(id, order.id);
+    }
 
-    @Column(name = "order_date", nullable = false)
-    @Temporal(TemporalType.DATE)
-    private Date orderDate;
-
-    @Column(name = "required_date", nullable = false)
-    @Temporal(TemporalType.DATE)
-    private Date requiredDate;
-
-    @Column(name = "shipped_date")
-    @Temporal(TemporalType.DATE)
-    private Date shippedDate;
-
-    @Column(name = "status", nullable = false)
-    private String status;
-
-    @Column(name = "comments", length = 65535, columnDefinition = "text")
-    private String comments;
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 }

@@ -1,14 +1,17 @@
 package com.example.springboot.database.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
-@Entity
 @Getter
 @Setter
+@Entity
+@ToString
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "customers")
 public class Customer {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -17,11 +20,11 @@ public class Customer {
     @Column(name = "customer_name")
     private String customerName;
 
-    @Column(name = "contact_firstname")
-    private String contactFirstname;
-
     @Column(name = "contact_lastname")
-    private String contactLastname;
+    private String contactLastName;
+
+    @Column(name = "contact_firstname")
+    private String contactFirstName;
 
     @Column(name = "phone")
     private String phone;
@@ -44,13 +47,10 @@ public class Customer {
     @Column(name = "country")
     private String country;
 
+    @ManyToOne
+    @JoinColumn(name = "sales_rep_employee_id", referencedColumnName = "id")
+    private Employee salesRepEmployee;
+
     @Column(name = "credit_limit")
     private Double creditLimit;
-
-    @Column(name = "sales_rep_employee_id")
-    private Integer salesRepEmployeeId;
-
-    @ManyToOne
-    @JoinColumn(name = "sales_rep_employee_id", insertable = false, updatable = false)
-    private Employee employee;
 }

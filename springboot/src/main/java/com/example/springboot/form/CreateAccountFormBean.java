@@ -11,19 +11,17 @@ import lombok.ToString;
 @Setter
 @ToString
 public class CreateAccountFormBean {
+
     private Integer id;
 
-    @NotEmpty(message = "Email is required")
-    @Email(message = "Email should be valid")
+    @NotEmpty(message = "Email is required.")
+    @Email(message = "Email should be valid.")
     private String email;
 
-    @NotEmpty(message = "Password is required")
-    @Size(min = 6, message = "Password should be at least 6 characters")
+    @NotEmpty(message = "Password is required.")
+    @Size(min = 6, message = "Password must be at least 6 characters long.")
     private String password;
 
-    @NotEmpty(message = "First name is required")
-    private String firstname;
-
-    @NotEmpty(message = "Last name is required")
-    private String lastname;
+    @NotEmpty(message = "Full name is required.")
+    private String fullName;
 }

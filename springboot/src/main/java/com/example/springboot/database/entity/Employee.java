@@ -1,51 +1,69 @@
 package com.example.springboot.database.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
-@Entity
+import java.util.List;
+import java.util.Objects;
+
 @Getter
 @Setter
+@Entity
+@ToString
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "employees")
 public class Employee {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer id;
 
-    @Column(name = "email")
-    private String email;
+    @OneToMany(mappedBy = "salesRepEmployee", cascade = CascadeType.ALL)
+    private List<Customer> customers;
 
-    @Column(name = "firstname")
-    private String firstname;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "office_id", nullable = true)
+    private Office office;
+
+    @Column(name = "office_id", insertable = false, updatable = false)
+    private Integer officeId;
 
     @Column(name = "lastname")
-    private String lastname;
+    private String lastName;
 
-    @Column(name = "job_title")
-    private String jobTitle;
-
-    @Column(name = "office_id")
-    private Integer officeId;
+    @Column(name = "firstname")
+    private String firstName;
 
     @Column(name = "extension")
     private String extension;
 
-    @Column(name = "vacation_hours")
-    private Integer vacationHours;
+    @Column(name = "email")
+    private String email;
 
     @Column(name = "reports_to")
     private Integer reportsTo;
 
+    @Column(name = "job_title")
+    private String jobTitle;
+
+    @Column(name = "vacation_hours")
+    private Integer vacationHours;
+
     @Column(name = "profile_image_url")
     private String profileImageUrl;
 
-    @ManyToOne
-    @JoinColumn(name = "office_id", insertable = false, updatable = false)
-    private Office office;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Employee employee = (Employee) o;
+        return Objects.equals(id, employee.id);
+    }
 
-    @ManyToOne
-    @JoinColumn(name = "reports_to", insertable = false, updatable = false)
-    private Employee supervisor;
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 }
