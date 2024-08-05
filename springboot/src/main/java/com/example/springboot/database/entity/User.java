@@ -1,13 +1,14 @@
+
 package com.example.springboot.database.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.apache.naming.factory.SendMailFactory;
 
 import java.util.Date;
-import java.util.List;
 
-@Getter
 @Setter
+@Getter
 @Entity
 @ToString
 @AllArgsConstructor
@@ -26,21 +27,8 @@ public class User {
     @Column(name = "password")
     private String password;
 
-    @Column(name = "full_name")
-    private String fullName;
-
     @Column(name = "create_date")
+    @Temporal(TemporalType.TIMESTAMP)
     private Date createDate;
 
-    @Column(name = "username")
-    private String username;
-
-    @Column(name = "first_name")
-    private String firstName;
-
-    @Column(name = "last_name")
-    private String lastName;
-
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<UserRole> roles;
 }

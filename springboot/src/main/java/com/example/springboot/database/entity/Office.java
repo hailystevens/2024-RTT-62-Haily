@@ -4,20 +4,26 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.List;
+import java.util.Objects;
 
 @Getter
 @Setter
-@Entity
 @ToString
+@Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "offices")
+
 public class Office {
 
-    @Id
+    @Id //PK
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    // this is indicating to Hibernate that it's doing an auto-increment
     @Column(name = "id")
     private Integer id;
+
+    @OneToMany(mappedBy = "office", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Employee> employees;
 
     @Column(name = "city")
     private String city;
@@ -37,12 +43,23 @@ public class Office {
     @Column(name = "country")
     private String country;
 
-    @Column(name = "postal_code")
+    @Column(name = "postalCode")
     private String postalCode;
 
     @Column(name = "territory")
     private String territory;
 
-    @OneToMany(mappedBy = "office", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<Employee> employees;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Office office = (Office) o;
+        return id == office.id && Objects.equals(city, office.city);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, city);
+    }
+
 }

@@ -1,41 +1,50 @@
+
 package com.example.springboot.form;
 
-import com.example.springboot.database.entity.ProductLine;
 import lombok.*;
 import jakarta.validation.constraints.*;
+import org.hibernate.validator.constraints.Length;
 
 @Getter
 @Setter
 @ToString
+
 public class CreateProductFormBean {
 
+    //this field is for when *edit*
     private Integer id;
 
-    @NotEmpty(message = "Product code is required")
-    private String productCode;
-
-    @NotEmpty(message = "Product name is required")
+    @Length(max = 70, message = "Product Name must be less than 50 characters")
+    @NotEmpty(message = "Product Name is required.")
     private String productName;
 
-    private Integer productlineId;
+    @Length(max = 15, message = "Product Code must be less than 20 characters")
+    @NotEmpty(message = "Product Code is required.")
+    private String productCode;
 
-    @NotEmpty(message = "Product scale is required")
-    private String productScale;
-
-    @NotEmpty(message = "Product vendor is required")
-    private String productVendor;
-
+    @Length(max = 2550, message = "Product Description must be less than 2550 characters")
+    @NotEmpty(message = "Product Description is required.")
     private String productDescription;
 
-    @NotNull(message = "Quantity in stock is required")
-    private Integer quantityInStock;
+    @NotNull(message = "Product Line Id is required.")     // TODO: limit to ms int
+    private Integer productLineId;
 
-    @NotNull(message = "Buy price is required")
-    private Double buyPrice;
+    @Length(max = 10, message = "Product Scale must be less than 50 characters")
+    @NotEmpty(message = "Product Scale is required.")
+    private String productScale;
 
-    @NotNull(message = "MSRP is required")
-    private Double msrp;
+    @Length(max = 50, message = "Product Vendor must be less than 50 characters")
+    @NotEmpty(message = "Product Vendor")
+    private String productVendor;
 
-    public void setProductLineId(ProductLine productLine) {
-    }
+    @NotNull(message = "Quantity-in-Stock is required.")
+    private Integer quantityInStock;    // TODO must be 65535 or less
+
+    @NotNull(message = "Buy Price is required.")
+    private Double buyPrice;            // TODO limit to ms decimal(10,2)
+
+    //allows nulls
+    private Double msrp;                // TODO limit to ms decimal(10,2)
+
+
 }

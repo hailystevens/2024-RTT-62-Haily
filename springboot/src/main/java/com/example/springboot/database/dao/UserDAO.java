@@ -1,13 +1,12 @@
 package com.example.springboot.database.dao;
 
-import com.example.springboot.database.entity.User;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import com.example.springboot.database.entity.*;
+import org.springframework.data.jpa.repository.*;
 
-import java.util.Optional;
+public interface UserDAO extends JpaRepository<User, Long> {
 
-@Repository
-public interface UserDAO extends JpaRepository<User, Integer> {
+    // select * from employee where lower(email) = lower(:email)
+    User findByEmailIgnoreCase(String email);
 
-    Optional<User> findByEmail(String email);
+
 }

@@ -1,36 +1,74 @@
+
 package com.example.springboot.database.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import com.example.springboot.database.entity.Order;
+import com.example.springboot.database.entity.Product;
 
-@Getter
+import java.util.Objects;
+
+//lombok does the getters and setters
 @Setter
-@Entity
+@Getter
 @ToString
-@AllArgsConstructor
+@Entity // indicates a db
 @NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "orderdetails")
+
 public class OrderDetail {
 
-    @Id
+    @Id // PK
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    // this is indicating to Hibernate that it's doing an auto-increment
     @Column(name = "id")
     private Integer id;
 
+    @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "order_id")
+    // @JoinColumn(name = "order_id", nullable = false)
     private Order order;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @Column(name = "order_id", insertable = false, updatable = false)
+    private int orderId;
+
+    @ToString.Exclude
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "product_id")
     private Product product;
 
-    @Column(name = "quantity_ordered")
-    private Integer quantityOrdered;
+    @Column(name = "product_id", insertable = false, updatable = false)
+    private Integer productId;
 
-    @Column(name = "price_each")
+    @Column(name = "quantity_ordered") //could put default to 0
+    private Integer quantityOrdered = 0;
+
+    @Column(name = "price_each", columnDefinition = "DECIMAL(10,2)")
     private Double priceEach;
 
     @Column(name = "order_line_number")
-    private Integer orderLineNumber;
+    private Short orderLineNumber;
+
+    @Transient
+    private String productName;
+
+    @Transient
+    public String productName() {
+        return productName;
+    }
+
+
+//    @Override
+//    public boolean equals(Object o) {
+//        if(this == o) return true;
+//        if(o == null || getClass() != o.getClass()) return false;
+//        OrderDetail orderDetail = (OrderDetail) o;
+//        return id == orderDetail.id && Objects.equals(productId, orderDetail.productId);
+//    }
+//    @Override
+//    public int hashCode(){
+//        return Objects.hash(id, productId);
+//    }
+
 }

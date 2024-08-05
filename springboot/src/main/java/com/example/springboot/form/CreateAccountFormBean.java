@@ -1,27 +1,22 @@
+
 package com.example.springboot.form;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Size;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import jakarta.validation.constraints.*;
+import lombok.*;
+import org.hibernate.validator.constraints.Length;
 
 @Getter
 @Setter
-@ToString
 public class CreateAccountFormBean {
 
     private Integer id;
 
-    @NotEmpty(message = "Email is required.")
-    @Email(message = "Email should be valid.")
+    @Length(max = 150, message = "Email must be less than 150 characters")
+    @NotEmpty
     private String email;
 
-    @NotEmpty(message = "Password is required.")
-    @Size(min = 6, message = "Password must be at least 6 characters long.")
+    @Length(max = 100, message = "Email must be less than 150 characters")
+    @NotEmpty
     private String password;
 
-    @NotEmpty(message = "Full name is required.")
-    private String fullName;
 }

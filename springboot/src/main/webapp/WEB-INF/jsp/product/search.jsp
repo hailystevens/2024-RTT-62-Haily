@@ -1,61 +1,68 @@
-<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
+<!-- goes at TOP -->
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <jsp:include page="../include/header.jsp" />
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Search Products</title>
-</head>
-<body>
-<h2>Search Products</h2>
-
-<form:form action="/product/search" method="get">
-    <div>
-        <label for="search">Product Name or Code:</label>
-        <form:input path="search" id="search"/>
-        <button type="submit">Search</button>
+<!-- page header -->
+<section style="background-color:orange">
+    <div class="container">
+        <div class="row pt-5 pb-5">
+            <h1 class="text-center">Product Search</h1>
+        </div>
     </div>
-</form:form>
+</section>
 
-<c:if test="${not empty productsKey}">
-    <h3>Search Results</h3>
-    <table border="1">
-        <thead>
-        <tr>
-            <th>Product Code</th>
-            <th>Product Name</th>
-            <th>Product Line</th>
-            <th>Product Scale</th>
-            <th>Product Vendor</th>
-            <th>Quantity In Stock</th>
-            <th>Buy Price</th>
-            <th>MSRP</th>
-        </tr>
-        </thead>
-        <tbody>
-        <c:forEach var="product" items="${productsKey}">
-            <tr>
-                <td><c:out value="${product.productCode}"/></td>
-                <td><c:out value="${product.productName}"/></td>
-                <td><c:out value="${product.productLine}"/></td>
-                <td><c:out value="${product.productScale}"/></td>
-                <td><c:out value="${product.productVendor}"/></td>
-                <td><c:out value="${product.quantityInStock}"/></td>
-                <td><c:out value="${product.buyPrice}"/></td>
-                <td><c:out value="${product.msrp}"/></td>
-            </tr>
-        </c:forEach>
-        </tbody>
-    </table>
-</c:if>
+<!-- search form -->
+<section>
+    <div class="container">
+        <div class="row justify-content-center pt-5 pb-3">
+            <div class="col-8 text-center">
+                <form action="../product/search">
+                    <div class="mb-3">
+                        <label for="search" class="form-label"><h4>Product Search</h4></label>
+                        <input type="text" value="${searchKey}" class="form-control" id="search" name="search" placeholder="Enter search term"/>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Search</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
 
-<c:if test="${empty productsKey}">
-    <p>No products found.</p>
-</c:if>
+<!-- show product count in the list -->
+<section>
+    <div class="container">
+        <div class="row pt-5 pb-5">
+            <div class="col-12">
+                <h4 class="text-center"> ${productsKey.size()} result(s)</h4>
+            </div>
+        </div>
 
-</body>
-</html>
+        <!-- show the rows of products -->
+        <div class="row">
+            <div class ="col-12">
+                <table class="table">
+                    <tr>
+                        <th><b>Product Id</b></th>
+                        <th><b>Product Code</b></th>
+                        <th><b>Product Name</b></th>
+                        <th><b>Description</b></th>
+                    </tr>
 
-<jsp:include page="../include/footer.jsp"/>
+                    <c:forEach items="${productsKey}" var="product">
+                        <tr>
+                            <td>${product.id}</td>
+                            <td>${product.productCode}</td>
+                            <td>  <a href="../product/${product.id}">   ${product.productName}   </a>  </td>
+                            <td>${product.productDescription}</td>
+                        </tr>
+                    </c:forEach>
+
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+
+<jsp:include page="../include/footer.jsp" />

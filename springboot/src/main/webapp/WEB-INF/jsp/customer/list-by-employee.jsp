@@ -8,7 +8,7 @@
 <section style="background-color:orange">
     <div class="container">
         <div class="row pt-5 pb-5">
-            <h1 class="text-center">Customers</h1>
+            <h1 class="text-center">Customers for Employee Id: ${employeeId}</h1>
         </div>
     </div>
 </section>
@@ -30,9 +30,7 @@
                         <th><b>Contact First Name</b></th>
                         <th><b>Contact Last Name</b></th>
                         <th><b>Phone</b></th>
-                        <th><b>Sales Rep Employee Id</b></th>
                         <th><b>Orders</b></th>
-                        <th><b>Action</b></th>
                     </tr>
 
                     <c:forEach items="${customersKey}" var="customer">
@@ -42,9 +40,7 @@
                             <td>${customer.contactFirstName}</td>
                             <td>${customer.contactLastName}</td>
                             <td>${customer.phone}</td>
-                            <td><a href="../employee/${customer.salesRepEmployeeId}">${customer.salesRepEmployeeId}</a></td>
                             <td><a href="../order/list-by-customer?id=${customer.id}&name=${customer.customerName}">orders</a></td>
-                            <td><a href="../customer/edit?id=${customer.id}">edit</a></td>
                         </tr>
                     </c:forEach>
 

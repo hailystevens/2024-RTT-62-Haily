@@ -1,3 +1,4 @@
+
 package com.example.springboot.database.entity;
 
 import jakarta.persistence.*;
@@ -5,12 +6,12 @@ import lombok.*;
 
 import java.util.Date;
 
-@Getter
 @Setter
+@Getter
 @Entity
 @ToString
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "user_roles")
 public class UserRole {
 
@@ -19,13 +20,14 @@ public class UserRole {
     @Column(name = "id")
     private Integer id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private User user;
+    @Column(name = "user_id")
+    private Integer userId;
 
     @Column(name = "role_name")
     private String roleName;
 
     @Column(name = "create_date")
+    @Temporal(TemporalType.TIMESTAMP)
     private Date createDate;
+
 }

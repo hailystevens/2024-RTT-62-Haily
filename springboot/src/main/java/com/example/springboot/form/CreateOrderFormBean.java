@@ -1,25 +1,26 @@
+
 package com.example.springboot.form;
 
-import jakarta.validation.constraints.NotNull;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import com.example.springboot.database.entity.Customer;
+import com.example.springboot.database.entity.OrderDetail;
+import lombok.*;
 
-import java.time.LocalDateTime;
+import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
 @ToString
+
 public class CreateOrderFormBean {
 
-    private Integer id; // This field is used to determine if it's a create or edit operation
-
-    @NotNull(message = "Customer ID is required.")
-    private Integer customerId;
-
-    private LocalDateTime orderDate;
-    private LocalDateTime requiredDate;
-    private LocalDateTime shippedDate;
+    private Integer id;
+    private Customer customer;
+    private List<OrderDetail> orderDetails;
+    private Date orderDate;
+    private Date requiredDate;
+    private Date shippedDate;
     private String status;
     private String comments;
+
 }

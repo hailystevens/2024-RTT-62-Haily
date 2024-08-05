@@ -1,31 +1,36 @@
+
 package com.example.springboot.form;
 
-import com.example.springboot.validation.EmployeeEmailUnique;
-import jakarta.validation.constraints.NotEmpty;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
+import jakarta.validation.constraints.*;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.web.multipart.MultipartFile;
 
 @Getter
 @Setter
 @ToString
+
 public class CreateEmployeeFormBean {
 
-    private Integer id; // This field is used to determine if it's a create.jsp or edit operation
+    // JSR-303 specification (what these annotations are called...for validation process..created by Hibernate people orignally to be done on entity, but entity was too late of a check, better before controller!
 
-    @NotEmpty(message = "Email is required.")
+    // this field is ONLY set when user calls the /employee/edit URL and gives a valid employee id
+    // it's our flag: if null, then *create*, if not null, then *edit*
+    // fyi, for troubleshooting, Eric called this employeeId
+    private Integer id;      // the employee's id will auto-increment, can't get it from the web page yet
+
     @Length(max = 100, message = "Email must be less than 100 characters")
-    @EmployeeEmailUnique // Custom annotation for unique email validation
+    @NotEmpty(message = "Email is required.")
+    // @Email(message="This must be a valid email")
     private String email;
 
-    @NotEmpty(message = "Last Name is required.")
     @Length(max = 50, message = "Last Name must be less than 50 characters")
+    @NotEmpty(message = "Last Name is required.")
     private String lastName;
 
-    @NotEmpty(message = "First Name is required.")
+    //@Pattern(regexp="[a-zA-Z]+", message = "First Name must have characters only.")
     @Length(max = 50, message = "First Name must be less than 50 characters")
+    @NotEmpty(message = "First Name is required.")
     private String firstName;
 
     private String extension;
@@ -34,5 +39,8 @@ public class CreateEmployeeFormBean {
     private String profileImageUrl;
     private Integer officeId;
     private Integer reportsTo;
+
     private MultipartFile file;
+
+    // public boolean getEmployeeId() {}
 }
