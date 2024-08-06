@@ -4,7 +4,7 @@
 <section>
     <div class="container">
         <div class="row pt-5 pb-5">
-            <h1 class="text-center">Order Details</h1>
+            <h1 class="text-center">Order Details for Order: <a href="../order/${orderIdKey}">${orderIdKey}</a></h1>
         </div>
     </div>
 </section>
@@ -21,22 +21,22 @@
             <div class="col-12">
                 <table class="table">
                     <tr>
-                        <th><b>Order Detail Id</b></th>
-                        <th><b>Order Id</b></th>
+                        <th><b>Order Line Number</b></th>
                         <th><b>Product Id</b></th>
+                        <th><b>Product Name</b></th>
                         <th><b>Quantity Ordered</b></th>
                         <th><b>Price Each</b></th>
-                        <th><b>Order Line Number</b></th>
+                        <th><b>Order Detail Id</b></th>
                     </tr>
 
                     <c:forEach items="${orderDetailsKey}" var="orderDetail">
                         <tr>
-                            <td><a href="../order-detail/${orderDetail.id}">${orderDetail.id}</a></td>
-                            <td><a href="../order/${orderDetail.orderId}">${orderDetail.orderId}</a></td>
+                            <td>${orderDetail.orderLineNumber}</td>
                             <td><a href="../product/${orderDetail.productId}">${orderDetail.productId}</a></td>
+                            <td><a href="../product/${orderDetail.productId}">${orderDetail.productName}</a></td>
                             <td>${orderDetail.quantityOrdered}</td>
                             <td>${orderDetail.priceEach}</td>
-                            <td>${orderDetail.orderLineNumber}</td>
+                            <td>${orderDetail.id}</td>
                         </tr>
                     </c:forEach>
 

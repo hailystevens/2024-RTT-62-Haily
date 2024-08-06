@@ -1,4 +1,3 @@
-
 package com.example.springboot.database.entity;
 
 import jakarta.persistence.*;
@@ -13,11 +12,9 @@ import java.util.Objects;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "products")
-
 public class Product {
-
-    @Id // PK
-    @GeneratedValue(strategy = GenerationType.IDENTITY)     // auto-increment
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer id;
 
@@ -60,5 +57,4 @@ public class Product {
     public int hashCode() {
         return Objects.hash(id, productName);
     }
-
 }

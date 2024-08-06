@@ -1,4 +1,3 @@
-
 package com.example.springboot.form;
 
 import lombok.*;
@@ -8,10 +7,7 @@ import org.hibernate.validator.constraints.Length;
 @Getter
 @Setter
 @ToString
-
 public class CreateProductFormBean {
-
-    //this field is for when *edit*
     private Integer id;
 
     @Length(max = 70, message = "Product Name must be less than 50 characters")
@@ -26,7 +22,7 @@ public class CreateProductFormBean {
     @NotEmpty(message = "Product Description is required.")
     private String productDescription;
 
-    @NotNull(message = "Product Line Id is required.")     // TODO: limit to ms int
+    @NotNull(message = "Product Line Id is required.")
     private Integer productLineId;
 
     @Length(max = 10, message = "Product Scale must be less than 50 characters")
@@ -34,17 +30,14 @@ public class CreateProductFormBean {
     private String productScale;
 
     @Length(max = 50, message = "Product Vendor must be less than 50 characters")
-    @NotEmpty(message = "Product Vendor")
+    @NotEmpty(message = "Product Vendor is required.")
     private String productVendor;
 
     @NotNull(message = "Quantity-in-Stock is required.")
-    private Integer quantityInStock;    // TODO must be 65535 or less
+    private Integer quantityInStock;
 
     @NotNull(message = "Buy Price is required.")
-    private Double buyPrice;            // TODO limit to ms decimal(10,2)
+    private Double buyPrice;
 
-    //allows nulls
-    private Double msrp;                // TODO limit to ms decimal(10,2)
-
-
+    private Double msrp;
 }

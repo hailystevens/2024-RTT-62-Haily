@@ -1,17 +1,18 @@
-
 package com.example.springboot.security;
 
-import com.example.springboot.database.dao.*;
-import com.example.springboot.database.entity.*;
+import com.example.springboot.database.dao.UserDAO;
+import com.example.springboot.database.dao.UserRoleDAO;
 import com.example.springboot.database.entity.User;
+import com.example.springboot.database.entity.UserRole;
 import com.example.springboot.service.UserService;
-import lombok.*;
-import lombok.extern.slf4j.*;
-import org.springframework.beans.factory.annotation.*;
-import org.springframework.security.core.*;
-import org.springframework.security.core.authority.*;
-import org.springframework.security.core.userdetails.*;
-import org.springframework.stereotype.*;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -32,46 +33,44 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        // this user object is in the imports section
-        // fetch the user from the database - username is what the person entered into the username field on the login form
-
+        // Fetch the user from the database
         User user = userDAO.findByEmailIgnoreCase(username);
 
-        // if the user is null then whatever the person entered on the login form does not exist in the dn
-        // automatically throw and exception
+        // Throw an exception if the user is not found in the database
         if (user == null) {
-            throw new UsernameNotFoundException("Username ' " + username + " ' not found in the database.");
+            throw new UsernameNotFoundException("Username '" + username + "' not found in the database.");
         }
 
-        // check the account status (only used during login, set with my own flag from db)
+        // Define the account status
         boolean accountIsEnabled = true;
         boolean accountNonExpired = true;
         boolean credentialsNonExpired = true;
         boolean accountNonLocked = true;
 
-        // Use the user object from the database to get the user roles
+        // Retrieve user roles from the database
         List<UserRole> userRoles = userRoleDAO.findByUserId(user.getId());
 
-        // passing the user roles to create the granted authorities
+        // Create the authorities (roles) for the user
         Collection<? extends GrantedAuthority> authorities = buildGrantAuthorities(userRoles);
 
-        // this User object is part of Spring Security
-        // because both objects are named User, we have to use the full path to the object
+        // Create the UserDetails object
         UserDetails userDetails = new org.springframework.security.core.userdetails.User(
-                user.getEmail(),  // this parameter is the username, in our case the user from the database
-                user.getPassword(), // this is the users encrypted password from the database
-                accountIsEnabled, // is this account enabled, if false, then spring security will deny access
-                accountNonExpired,
-                credentialsNonExpired,
-                accountNonLocked,
-                authorities); // this is the list of security roles that the user is *Authorized* to have
+                user.getEmail(),          // Username
+                user.getPassword(),       // Password
+                accountIsEnabled,         // Account is enabled
+                accountNonExpired,        // Account is non-expired
+                credentialsNonExpired,    // Credentials are non-expired
+                accountNonLocked,         // Account is non-locked
+                authorities               // Authorities (roles)
+        );
 
         return userDetails;
     }
 
     private Collection<? extends GrantedAuthority> buildGrantAuthorities(List<UserRole> userRoles) {
-        List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+        List<GrantedAuthority> authorities = new ArrayList<>();
 
+        // Convert user roles to GrantedAuthority objects
         for (UserRole role : userRoles) {
             authorities.add(new SimpleGrantedAuthority(role.getRoleName()));
         }

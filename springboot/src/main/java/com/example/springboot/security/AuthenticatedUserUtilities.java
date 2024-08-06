@@ -1,4 +1,3 @@
-
 package com.example.springboot.security;
 
 import com.example.springboot.database.dao.UserDAO;
@@ -29,15 +28,12 @@ public class AuthenticatedUserUtilities {
     private AuthenticationManager authenticationManager;
 
     public String getCurrentUsername() {
-        // the goal of this method is to either return the logged in username or null if the user is not logged in
+        // Return the logged-in username or null if not logged in
         SecurityContext context = SecurityContextHolder.getContext();
         if (context != null && context.getAuthentication() != null) {
-            // this is if the user has a security context
             if (context.getAuthentication() instanceof AnonymousAuthenticationToken) {
-                // not logged in so return null
                 return null;
             }
-            // fully qualified name so compliler can distinguish between two differet User.
             final org.springframework.security.core.userdetails.User principal = (org.springframework.security.core.userdetails.User) context.getAuthentication().getPrincipal();
             return principal.getUsername();
         } else {
@@ -46,7 +42,7 @@ public class AuthenticatedUserUtilities {
     }
 
     public User getCurrentUser() {
-        // the goal of this method is to either return the logged-in user object or null if the user is not logged in
+        // Return the logged-in user object or null if not logged in
         String username = getCurrentUsername();
         if (username == null) {
             return null;
@@ -55,7 +51,7 @@ public class AuthenticatedUserUtilities {
     }
 
     public void manualAuthentication(HttpSession session, String username, String unencryptedPassword) {
-        // reset security principal to be the new user information
+        // Authenticate the user manually and set the security context
         Authentication request = new UsernamePasswordAuthenticationToken(username, unencryptedPassword);
         Authentication result = authenticationManager.authenticate(request);
         SecurityContext sc = SecurityContextHolder.getContext();
@@ -64,6 +60,7 @@ public class AuthenticatedUserUtilities {
     }
 
     public boolean isUserInRole(String role) {
+        // Check if the current user has the specified role
         SecurityContext context = SecurityContextHolder.getContext();
         if (context != null && context.getAuthentication() != null) {
             Collection<? extends GrantedAuthority> authorities = context.getAuthentication().getAuthorities();
@@ -77,12 +74,11 @@ public class AuthenticatedUserUtilities {
     }
 
     public boolean isAuthenticated() {
+        // Check if there is an authenticated user
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication instanceof AnonymousAuthenticationToken) {
             return false;
         }
         return (authentication != null && authentication.isAuthenticated());
     }
-
-    //return false;
 }

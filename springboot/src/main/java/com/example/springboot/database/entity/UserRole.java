@@ -1,4 +1,3 @@
-
 package com.example.springboot.database.entity;
 
 import jakarta.persistence.*;
@@ -29,5 +28,4 @@ public class UserRole {
     @Column(name = "create_date")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createDate;
-
 }

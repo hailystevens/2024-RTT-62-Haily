@@ -2,7 +2,7 @@ package com.example.springboot.controller;
 
 import com.example.springboot.database.entity.User;
 import com.example.springboot.security.AuthenticatedUserUtilities;
-import lombok.extern.slf4j.*;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -20,11 +20,18 @@ public class AdminController {
     private AuthenticatedUserUtilities authenticatedUserUtilities;
 
     @GetMapping("/dashboard")
-    public ModelAndView dashboard() throws Exception {
+    public ModelAndView dashboard() {
         ModelAndView response = new ModelAndView("admin/dashboard");
 
-        User user = authenticatedUserUtilities.getCurrentUser();
-        log.debug(user.toString());
+        try {
+            User user = authenticatedUserUtilities.getCurrentUser();
+            log.debug("Current admin user: {}", user);
+            response.addObject("user", user);
+        } catch (Exception e) {
+            log.error("Error retrieving the current user", e);
+            response.setViewName("error");
+            response.addObject("errorMessage", "Unable to retrieve the current user information.");
+        }
 
         return response;
     }

@@ -202,3 +202,117 @@ form input[type="submit"]:hover, form button:hover {
 .footer .socialmediaicons img:hover {
     transform: scale(1.2);
 }
+
+/* Global Styles */
+body {
+    background-color: #121212; /* Dark background */
+    color: #E0E0E0; /* Light text for contrast */
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    padding: 20px;
+}
+
+.page-title {
+    font-size: 2.5em;
+    color: #0d6efd; /* High contrast blue */
+    text-shadow: 2px 2px #ff0000; /* Red 3D effect */
+    margin-top: 50px;
+}
+
+/* Navbar Styles */
+.navbar {
+    background-color: #1f1f1f; /* Darker navbar */
+    border-bottom: 3px solid #0d6efd; /* Blue border */
+}
+
+.navbar-brand img {
+    width: 100px;
+}
+
+.navbar-nav .nav-item .nav-link {
+    color: #E0E0E0; /* Light text */
+}
+
+.navbar-nav .nav-item .nav-link:hover {
+    color: #0d6efd; /* Hover color */
+}
+
+.navbar-nav .dropdown-menu {
+    background-color: #1f1f1f; /* Dark dropdown */
+}
+
+.navbar-nav .dropdown-menu .dropdown-item {
+    color: #E0E0E0; /* Light text */
+}
+
+.navbar-nav .dropdown-menu .dropdown-item:hover {
+    background-color: #0d6efd; /* Hover background */
+    color: #fff; /* Hover text */
+}
+
+/* Footer Styles */
+.footer {
+    background-color: #1f1f1f; /* Darker footer */
+    color: #E0E0E0; /* Light text */
+    padding: 20px;
+    text-align: center;
+}
+
+.footer .socialmediaicons a {
+    color: #E0E0E0; /* Light text */
+    margin: 0 10px;
+}
+
+.footer .socialmediaicons a:hover {
+    color: #0d6efd; /* Hover color */
+}
+
+/* Form Styles */
+.form-control {
+    background-color: #333;
+    color: #E0E0E0;
+    border: 1px solid #0d6efd;
+}
+
+.form-control:focus {
+    border-color: #ff0000;
+    box-shadow: 0 0 5px #ff0000;
+}
+
+.btn-primary {
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #004085;
+}
+
+.text-center {
+    text-align: center;
+}
+
+/* Table Styles */
+.table {
+    color: #E0E0E0;
+}
+
+.table thead {
+    background-color: #0d6efd;
+}
+
+.table tbody tr:hover {
+    background-color: #333;
+}
+
+/* Additional Classes */
+.bg-dark {
+    background-color: #121212;
+}
+
+.text-light {
+    color: #E0E0E0;
+}

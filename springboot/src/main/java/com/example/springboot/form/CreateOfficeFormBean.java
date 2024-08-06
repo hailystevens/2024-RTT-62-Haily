@@ -1,12 +1,12 @@
-
 package com.example.springboot.form;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
 @ToString
-
 public class CreateOfficeFormBean {
 
     private Integer id;
@@ -18,5 +18,4 @@ public class CreateOfficeFormBean {
     private String territory;
     private String addressLine1;
     private String addressLine2;
-
 }

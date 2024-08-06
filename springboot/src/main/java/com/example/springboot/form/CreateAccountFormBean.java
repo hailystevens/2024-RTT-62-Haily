@@ -1,4 +1,3 @@
-
 package com.example.springboot.form;
 
 import jakarta.validation.constraints.*;
@@ -12,11 +11,10 @@ public class CreateAccountFormBean {
     private Integer id;
 
     @Length(max = 150, message = "Email must be less than 150 characters")
-    @NotEmpty
+    @NotEmpty(message = "Email is required.")
     private String email;
 
-    @Length(max = 100, message = "Email must be less than 150 characters")
-    @NotEmpty
+    @Length(max = 100, message = "Password must be less than 100 characters")
+    @NotEmpty(message = "Password is required.")
     private String password;
-
 }

@@ -5,7 +5,7 @@
 <jsp:include page="../include/header.jsp" />
 
 <!-- page header -->
-<section style="background-color:orange">
+<section>
     <div class="container">
         <div class="row pt-5 pb-5">
             <h1 class="text-center">Customer Search</h1>
