@@ -1,3 +1,4 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <jsp:include page="../include/header.jsp" />
@@ -16,14 +17,13 @@
         <div class="row pt-5">
             <div class="col-12">
                 <form action="/account/create-account" method="post">
-
                     <!-- Email Input -->
                     <div class="row align-items-center justify-content-center">
                         <div class="col-2">
                             <label for="emailId" class="col-form-label">Email</label>
                         </div>
                         <div class="col-4">
-                            <input type="text" id="emailId" name="email" class="form-control <c:if test="${bindingResult.hasFieldErrors('email')}">is-invalid</c:if>" value="${form.email}">
+                            <input type="email" id="emailId" name="email" class="form-control <c:if test="${bindingResult.hasFieldErrors('email')}">is-invalid</c:if>" value="${form.email}" required>
                         </div>
                     </div>
                     <c:if test="${bindingResult.hasFieldErrors('email')}">
@@ -44,7 +44,7 @@
                             <label for="passwordId" class="col-form-label">Password</label>
                         </div>
                         <div class="col-4">
-                            <input type="password" id="passwordId" name="password" class="form-control <c:if test="${bindingResult.hasFieldErrors('password')}">is-invalid</c:if>" value="${form.password}">
+                            <input type="password" id="passwordId" name="password" class="form-control <c:if test="${bindingResult.hasFieldErrors('password')}">is-invalid</c:if>" required>
                         </div>
                     </div>
                     <c:if test="${bindingResult.hasFieldErrors('password')}">
@@ -59,6 +59,7 @@
                         </div>
                     </c:if>
 
+                    <!-- Submit Button -->
                     <div class="row justify-content-center pt-3">
                         <div class="col-auto text-center">
                             <button type="submit" class="btn btn-primary">Create Account</button>
