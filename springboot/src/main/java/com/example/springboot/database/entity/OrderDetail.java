@@ -7,33 +7,27 @@ import java.util.Objects;
 
 @Setter
 @Getter
-@ToString
 @Entity
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "orderdetails")
 public class OrderDetail {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "order_id", nullable = false)
     private Order order;
 
-    @Column(name = "order_id", insertable = false, updatable = false)
-    private int orderId;
-
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "product_id")
+    @JoinColumn(name = "product_id", nullable = false)
     private Product product;
 
-    @Column(name = "product_id", insertable = false, updatable = false)
-    private Integer productId;
-
     @Column(name = "quantity_ordered")
-    private Integer quantityOrdered = 0;
+    private Integer quantityOrdered;
 
     @Column(name = "price_each", columnDefinition = "DECIMAL(10,2)")
     private Double priceEach;
@@ -41,10 +35,16 @@ public class OrderDetail {
     @Column(name = "order_line_number")
     private Short orderLineNumber;
 
-    @Transient
-    private String productName;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        OrderDetail that = (OrderDetail) o;
+        return id.equals(that.id);
+    }
 
-    public String getProductName() {
-        return productName;
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

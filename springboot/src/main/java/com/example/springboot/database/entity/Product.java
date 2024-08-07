@@ -5,6 +5,7 @@ import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 @Setter
@@ -44,6 +45,9 @@ public class Product {
 
     @Transient
     private MultipartFile imageFile; // Assuming you handle image upload
+
+    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
+    private List<OrderDetail> orderDetails;
 
     @Override
     public boolean equals(Object o) {

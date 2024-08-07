@@ -21,5 +21,4 @@ public class CreateOrderFormBean {
     private Date shippedDate;
     private String status;
     private String comments;
-
 }

@@ -5,7 +5,6 @@ import com.example.springboot.database.dao.ProductDAO;
 import com.example.springboot.database.entity.Order;
 import com.example.springboot.database.dao.OrderDAO;
 import com.example.springboot.database.entity.OrderDetail;
-import com.example.springboot.database.entity.Product;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -13,11 +12,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.data.domain.Page;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Slf4j
 @Controller
@@ -46,11 +45,16 @@ public class OrderController {
         ModelAndView response = new ModelAndView("order/detail");
         log.debug("The user wants the order with id: " + id);
 
-        Order order = orderDAO.findById(id);
-        response.addObject("orderKey", order);
+        Optional<Order> orderOptional = orderDAO.findById(id);
+        if (orderOptional.isPresent()) {
+            Order order = orderOptional.get();
+            response.addObject("orderKey", order);
 
-        List<OrderDetail> orderDetails = orderDetailDAO.findByOrderId(id);
-        response.addObject("orderDetailsKey", orderDetails);
+            List<OrderDetail> orderDetails = orderDetailDAO.findByOrderId(id);
+            response.addObject("orderDetailsKey", orderDetails);
+        } else {
+            response.addObject("errorMessage", "Order not found");
+        }
 
         return response;
     }

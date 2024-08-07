@@ -2,8 +2,6 @@ package com.example.springboot.controller;
 
 import com.example.springboot.database.dao.OrderDetailDAO;
 import com.example.springboot.database.entity.OrderDetail;
-import com.example.springboot.database.entity.Product;
-import com.example.springboot.database.dao.ProductDAO;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
