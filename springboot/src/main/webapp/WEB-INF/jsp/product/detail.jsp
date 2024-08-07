@@ -1,4 +1,5 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <jsp:include page="../include/header.jsp"/>
 
 <section>
@@ -33,7 +34,7 @@
                     </tr>
                     <tr>
                         <th>Price</th>
-                        <td>${product.price} $</td>
+                        <td><fmt:formatNumber value="${product.price}" type="currency" currencySymbol="$" /></td>
                     </tr>
                     <tr>
                         <th>Description</th>
@@ -43,12 +44,12 @@
                         <th>Image</th>
                         <td>
                             <img src="${pageContext.request.contextPath}/pub/imgs/${product.imageFileName}"
-                                 alt="Product Image" width="100">
+                                 alt="${product.name}" width="100">
                         </td>
                     </tr>
                     <tr>
                         <th>Created At</th>
-                        <td>${product.createdAt}</td>
+                        <td><fmt:formatDate value="${product.createdAt}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
                     </tr>
                     <tr>
                         <td style="white-space:nowrap">

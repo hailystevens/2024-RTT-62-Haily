@@ -3,6 +3,7 @@ package com.example.springboot.controller;
 import com.example.springboot.database.dao.ProductDAO;
 import com.example.springboot.database.entity.Product;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,6 +11,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -20,6 +22,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @Controller
 @RequestMapping("/product")
 public class ProductController {
@@ -139,4 +142,13 @@ public class ProductController {
         }
     }
 
+    @GetMapping("/search")
+    public ModelAndView search(@RequestParam("query") String query) {
+        log.debug("Search query: " + query);
+        ModelAndView response = new ModelAndView("product/search-results");
+        List<Product> products = productDAO.findByNameOrCategory(query);
+        log.debug("Products found: " + products.size());
+        response.addObject("products", products);
+        return response;
+    }
 }
