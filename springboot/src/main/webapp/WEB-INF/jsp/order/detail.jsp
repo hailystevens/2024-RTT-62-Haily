@@ -1,86 +1,42 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <jsp:include page="../include/header.jsp" />
 
-<!-- a page header -->
-<section>
-    <div class="container">
-        <div class="row pt-5 pb-5">
-            <h1 class="text-center">Order: ${orderKey.id}</h1>
-        </div>
-    </div>
-</section>
+<div class="container">
+    <h1>Order Details</h1>
 
-<!-- order summary for one order -->
-<section>
-    <div class="container">
-        <div class="table">
-            <div class="row">
-                <div class="col-8">
-                    <table class="table">
-                        <tr><td><b>Order Id</b></td><td>${orderKey.id}</td></tr>
-                        <tr><td><b>Customer Id</b></td><td><a href="../customer/${orderKey.customerId}">${orderKey.customerId}</a></td></tr>
-                        <tr><td><b>Order Date</b></td><td>${orderKey.orderDate}</td></tr>
-                        <tr><td><b>Shipped Date</b></td><td>${orderKey.shippedDate}</td></tr>
-                        <tr><td><b>Required Date</b></td><td>${orderKey.requiredDate}</td></tr>
-                        <tr><td><b>Status</b></td><td>${orderKey.status}</td></tr>
-                        <tr><td><b>Comments</b></td><td>${orderKey.comments}</td></tr>
-                        <tr><td><b>Order Details</b></td><td>${orderDetailsKey.size()} result(s)</td></tr>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
+    <c:if test="${not empty orderKey}">
+        <h3>Order ID: ${orderKey.id}</h3>
+        <p><strong>Customer:</strong> ${orderKey.customer.name}</p>
+        <p><strong>Order Date:</strong> <fmt:formatDate value="${orderKey.orderDate}" pattern="yyyy-MM-dd" /></p>
+        <p><strong>Status:</strong> ${orderKey.status}</p>
 
-<section>
-    <div class="container">
-        <div class="row">
-            <div class="col-6">
-                <table class="table">
-                    <tr>
-                        <th><b>Order Line Number</b></th>
-                        <th><b>Product Id</b></th>
-                        <th><b>Product Name</b></th>
-                        <th><b>Quantity Ordered</b></th>
-                        <th><b>Price Each</b></th>
-                        <th><b>Order Detail Id</b></th>
-                    </tr>
+        <h4>Order Items</h4>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Product Name</th>
+                <th>Quantity</th>
+                <th>Price Each</th>
+                <th>Total</th>
+            </tr>
+            </thead>
+            <tbody>
+            <c:forEach var="detail" items="${orderDetailsKey}">
+                <tr>
+                    <td>${detail.product.name}</td>
+                    <td>${detail.quantityOrdered}</td>
+                    <td>${detail.priceEach}</td>
+                    <td>${detail.quantityOrdered * detail.priceEach}</td>
+                </tr>
+            </c:forEach>
+            </tbody>
+        </table>
+    </c:if>
 
-                    <c:forEach items="${orderDetailsKey}" var="orderDetail">
-                        <tr>
-                            <td>${orderDetail.orderLineNumber}</td>
-                            <td><a href="../product/${orderDetail.productId}">${orderDetail.productId}</a></td>
-                            <td><a href="../product/${orderDetail.productId}">${orderDetail.productName}</a></td>
-                            <td>${orderDetail.quantityOrdered}</td>
-                            <td>${orderDetail.priceEach}</td>
-                            <td>${orderDetail.id}</td>
-                        </tr>
-                    </c:forEach>
-                </table>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- links at bottom of page -->
-<section>
-    <div class="container">
-        <div class="table">
-            <div class="row">
-                <div class="col-12">
-                    <table class="table">
-                        <tr>
-                            <td>
-                                <a href="../order/list">View all orders</a><br>
-                                <a href="../order/search">Search for orders</a>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
+    <c:if test="${empty orderKey}">
+        <p>Order not found.</p>
+    </c:if>
+</div>
 <jsp:include page="../include/footer.jsp" />
