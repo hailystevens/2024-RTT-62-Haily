@@ -22,6 +22,18 @@ public class Customer {
     @Column(name = "name")
     private String name;
 
+    @Column(name = "email")
+    private String email;
+
+    @Column(name = "phone")
+    private String phone;
+
+    @Column(name = "billing_address")
+    private String billingAddress;
+
+    @Column(name = "shipping_address")
+    private String shippingAddress;
+
     @OneToMany(mappedBy = "customer", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Order> orders;
 

@@ -6,12 +6,8 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
-public interface CustomerDAO extends JpaRepository<Customer, Long> {
+public interface CustomerDAO extends JpaRepository<Customer, Integer> {
 
-    // Get ONE customer by id
-    Customer findById(Integer id);
-
-    // Get LIST of customers by name
-    @Query("select c from Customer c where c.name like concat('%', :search, '%')")
-    List<Customer> findByCustomerName(String search);
+    @Query("SELECT c FROM Customer c WHERE LOWER(c.name) LIKE LOWER(CONCAT('%', :name, '%'))")
+    List<Customer> findByNameContainingIgnoreCase(String name);
 }
