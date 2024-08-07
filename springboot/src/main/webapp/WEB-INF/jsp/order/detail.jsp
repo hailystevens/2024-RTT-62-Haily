@@ -11,6 +11,11 @@
         <p><strong>Customer:</strong> ${orderKey.customer.name}</p>
         <p><strong>Order Date:</strong> <fmt:formatDate value="${orderKey.orderDate}" pattern="yyyy-MM-dd" /></p>
         <p><strong>Status:</strong> ${orderKey.status}</p>
+        <p><strong>Payment Method:</strong> ${paymentMethod}</p>
+        <p><strong>Shipping Method:</strong> ${shippingMethod}</p>
+        <p><strong>Special Instructions:</strong> ${specialInstructions}</p>
+        <p><strong>Total Amount:</strong> <fmt:formatNumber value="${totalAmount}" type="currency" /></p>
+        <p><strong>Tracking Number:</strong> ${trackingNumber}</p>
 
         <h4>Order Items</h4>
         <table class="table">
