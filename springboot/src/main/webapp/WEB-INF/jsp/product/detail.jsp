@@ -41,8 +41,10 @@
                     </tr>
                     <tr>
                         <th>Image</th>
-                        <td><img src="${pageContext.request.contextPath}/pub/imgs/products/${product.imageFileName}"
-                                 alt="Product Image" width="200"></td>
+                        <td>
+                            <img src="${pageContext.request.contextPath}/pub/imgs/${product.imageFileName}"
+                                 alt="Product Image" width="100">
+                        </td>
                     </tr>
                     <tr>
                         <th>Created At</th>

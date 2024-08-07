@@ -13,33 +13,39 @@
     <div class="container">
         <div class="row pt-5 pb-5">
             <div class="col-12">
-                <h4 class="text-center">${productsKey.size()} product(s) found</h4>
+                <h4 class="text-center">${products.size()} product(s) found</h4>
                 <table class="table">
                     <tr>
-                        <th>Product Code</th>
-                        <th>Product Name</th>
-                        <th>Product Line Id</th>
-                        <th>Product Scale</th>
-                        <th>Product Vendor</th>
-                        <th>Quantity in Stock</th>
-                        <th>Buy Price</th>
-                        <th>MSRP</th>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Brand</th>
+                        <th>Category</th>
+                        <th>Price</th>
+                        <th>Image</th>
+                        <th>Created At</th>
+                        <th>Action</th>
                     </tr>
-                    <c:forEach items="${productsKey}" var="product">
+                    <c:forEach items="${products}" var="product">
                         <tr>
-                            <td>${product.productCode}</td>
-                            <td><a href="../product/${product.id}">${product.productName}</a></td>
-                            <td>${product.productLineId}</td>
-                            <td>${product.productScale}</td>
-                            <td>${product.productVendor}</td>
-                            <td>${product.quantityInStock}</td>
-                            <td>${product.buyPrice}</td>
-                            <td>${product.msrp}</td>
+                            <td>${product.id}</td>
+                            <td><a href="${pageContext.request.contextPath}/product/detail?id=${product.id}">${product.name}</a></td>
+                            <td>${product.brand}</td>
+                            <td>${product.category}</td>
+                            <td>${product.price} $</td>
+                            <td>
+                                <img src="${pageContext.request.contextPath}/pub/imgs/${product.imageFileName}" alt="Product Image" width="100">
+                            </td>
+                            <td>${product.createdAt}</td>
+                            <td style="white-space:nowrap">
+                                <a class="btn btn-primary btn-sm" href="${pageContext.request.contextPath}/product/edit?id=${product.id}">Edit</a>
+                                <a class="btn btn-danger btn-sm" href="${pageContext.request.contextPath}/product/delete?id=${product.id}" onclick="return confirm('Are you sure?')">Delete</a>
+                            </td>
                         </tr>
                     </c:forEach>
                 </table>
             </div>
         </div>
+        <a class="btn btn-primary" href="${pageContext.request.contextPath}/product/create">Create Product</a>
     </div>
 </section>
 
