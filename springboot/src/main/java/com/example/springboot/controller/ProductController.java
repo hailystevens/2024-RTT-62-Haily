@@ -41,9 +41,9 @@ public class ProductController {
     }
 
     @PostMapping("/create")
-    public String createProduct(@Valid @ModelAttribute("product") Product product, BindingResult result) {
+    public String createProduct(@Valid @ModelAttribute("product") Product product, BindingResult result, @RequestParam("imageFile") MultipartFile imageFile) {
 
-        if (product.getImageFileName() == null || product.getImageFileName().isEmpty()) {
+        if (imageFile.isEmpty()) {
             result.addError(new FieldError("product", "imageFileName", "The image file is required"));
         }
 
@@ -52,12 +52,11 @@ public class ProductController {
         }
 
         // save image file
-        MultipartFile imageFile = product.getImageFile(); // Adjust based on how you handle image
         Date createdAt = new Date();
         String storageFileName = createdAt.getTime() + "_" + imageFile.getOriginalFilename();
 
         try {
-            String uploadDir = "src/main/webapp/images/";
+            String uploadDir = "src/main/webapp/pub/imgs/";
             Path uploadPath = Paths.get(uploadDir);
 
             if (!Files.exists(uploadPath)) {
@@ -91,9 +90,9 @@ public class ProductController {
     }
 
     @PostMapping("/edit")
-    public String editProduct(@Valid @ModelAttribute("product") Product product, BindingResult result) {
+    public String editProduct(@Valid @ModelAttribute("product") Product product, BindingResult result, @RequestParam("imageFile") MultipartFile imageFile) {
 
-        if (product.getImageFileName() == null || product.getImageFileName().isEmpty()) {
+        if (imageFile.isEmpty() && (product.getImageFileName() == null || product.getImageFileName().isEmpty())) {
             result.addError(new FieldError("product", "imageFileName", "The image file is required"));
         }
 
@@ -102,30 +101,42 @@ public class ProductController {
         }
 
         // save image file
-        MultipartFile imageFile = product.getImageFile(); // Adjust based on how you handle image
-        Date createdAt = new Date();
-        String storageFileName = createdAt.getTime() + "_" + imageFile.getOriginalFilename();
+        if (!imageFile.isEmpty()) {
+            Date createdAt = new Date();
+            String storageFileName = createdAt.getTime() + "_" + imageFile.getOriginalFilename();
 
-        try {
-            String uploadDir = "src/main/webapp/images/";
-            Path uploadPath = Paths.get(uploadDir);
+            try {
+                String uploadDir = "src/main/webapp/pub/imgs/";
+                Path uploadPath = Paths.get(uploadDir);
 
-            if (!Files.exists(uploadPath)) {
-                Files.createDirectories(uploadPath);
+                if (!Files.exists(uploadPath)) {
+                    Files.createDirectories(uploadPath);
+                }
+
+                try (InputStream inputStream = imageFile.getInputStream()) {
+                    Files.copy(inputStream, uploadPath.resolve(storageFileName), StandardCopyOption.REPLACE_EXISTING);
+                }
+            } catch (Exception ex) {
+                System.out.println("Exception: " + ex.getMessage());
             }
 
-            try (InputStream inputStream = imageFile.getInputStream()) {
-                Files.copy(inputStream, uploadPath.resolve(storageFileName), StandardCopyOption.REPLACE_EXISTING);
-            }
-        } catch (Exception ex) {
-            System.out.println("Exception: " + ex.getMessage());
+            product.setImageFileName(storageFileName);
         }
-
-        product.setCreatedAt(createdAt);
-        product.setImageFileName(storageFileName);
 
         productDAO.save(product);
 
         return "redirect:/product/list";
     }
+
+    @GetMapping("/detail")
+    public String showDetailPage(@RequestParam("id") Integer id, Model model) {
+        Optional<Product> productOpt = productDAO.findById(id);
+        if (productOpt.isPresent()) {
+            model.addAttribute("product", productOpt.get());
+            return "product/detail";
+        } else {
+            return "redirect:/product/list";
+        }
+    }
+
 }
