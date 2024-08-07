@@ -53,7 +53,7 @@ public class LoginController {
             log.debug("User found by email: " + u);
 
             if (u != null) {
-                bindingResult.rejectValue("email", "email", "This email is already in use. Manual check.");
+                bindingResult.rejectValue("email", "email", "This email is already in use.");
             }
         }
 
@@ -68,7 +68,7 @@ public class LoginController {
             try {
                 userService.createUser(form);
                 authenticatedUserUtilities.manualAuthentication(session, form.getEmail(), form.getPassword());
-                response.setViewName("redirect:/some-success-page");
+                response.setViewName("redirect:/index");
             } catch (Exception e) {
                 log.error("Error creating account", e);
                 response.setViewName("error/500");
