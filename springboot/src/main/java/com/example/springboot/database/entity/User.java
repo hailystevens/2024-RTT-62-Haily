@@ -1,9 +1,7 @@
-
 package com.example.springboot.database.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.apache.naming.factory.SendMailFactory;
 
 import java.util.Date;
 
@@ -30,5 +28,4 @@ public class User {
     @Column(name = "create_date")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createDate;
-
 }
