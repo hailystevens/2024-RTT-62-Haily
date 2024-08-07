@@ -1,21 +1,25 @@
 package com.example.springboot.controller;
 
-import com.example.springboot.database.entity.Product;
 import com.example.springboot.database.dao.ProductDAO;
-import com.example.springboot.form.CreateProductFormBean;
+import com.example.springboot.database.entity.Product;
 import jakarta.validation.Valid;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.validation.ObjectError;
-import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
-@Slf4j
 @Controller
 @RequestMapping("/product")
 public class ProductController {
@@ -24,94 +28,104 @@ public class ProductController {
     private ProductDAO productDAO;
 
     @GetMapping("/list")
-    public ModelAndView listAll() {
-        ModelAndView response = new ModelAndView("product/list");
+    public String showProductList(Model model) {
         List<Product> products = productDAO.findAll();
-        response.addObject("productsKey", products);
-        return response;
-    }
-
-    @GetMapping("/{id}")
-    public ModelAndView showDetail(@PathVariable Integer id) {
-        ModelAndView response = new ModelAndView("product/detail");
-        Product product = productDAO.findById(id);
-        response.addObject("productKey", product);
-        return response;
-    }
-
-    @GetMapping("/search")
-    public ModelAndView searchByNameOrCode(@RequestParam(required = false) String search) {
-        ModelAndView response = new ModelAndView("product/search");
-        log.debug("The user searched for the term: " + search);
-        response.addObject("search", search);
-        List<Product> products = productDAO.findByNameOrCode(search);
-        response.addObject("productsKey", products);
-        return response;
+        model.addAttribute("products", products);
+        return "product/list";
     }
 
     @GetMapping("/create")
-    public ModelAndView create() {
-        ModelAndView response = new ModelAndView("product/create");
-        return response;
+    public String showCreatePage(Model model) {
+        model.addAttribute("product", new Product());
+        return "product/create";
     }
 
-    @PostMapping("/createSubmit")
-    public ModelAndView createSubmit(@Valid CreateProductFormBean form, BindingResult bindingResult) {
-        ModelAndView response = new ModelAndView();
-        log.debug(form.toString());
+    @PostMapping("/create")
+    public String createProduct(@Valid @ModelAttribute("product") Product product, BindingResult result) {
 
-        if (bindingResult.hasErrors()) {
-            for (ObjectError error : bindingResult.getAllErrors()) {
-                log.debug("Validation error: " + ((FieldError) error).getField() + " = " + error.getDefaultMessage());
-            }
-            response.addObject("bindingResult", bindingResult);
-            response.addObject("form", form);
-            response.setViewName("product/create");
-            return response;
-        } else {
-            Product product = productDAO.findById(form.getId());
-            if (product == null) {
-                product = new Product();
-            }
-
-            product.setProductName(form.getProductName());
-            product.setProductCode(form.getProductCode());
-            product.setProductDescription(form.getProductDescription());
-            product.setBuyPrice(form.getBuyPrice());
-            product.setMsrp(form.getMsrp());
-            product.setProductLineId(form.getProductLineId());
-            product.setProductScale(form.getProductScale());
-            product.setProductVendor(form.getProductVendor());
-            product.setQuantityInStock(form.getQuantityInStock());
-
-            product = productDAO.save(product);
-            response.setViewName("redirect:/product/" + product.getId());
-            return response;
+        if (product.getImageFileName() == null || product.getImageFileName().isEmpty()) {
+            result.addError(new FieldError("product", "imageFileName", "The image file is required"));
         }
+
+        if (result.hasErrors()) {
+            return "product/create";
+        }
+
+        // save image file
+        MultipartFile imageFile = product.getImageFile(); // Adjust based on how you handle image
+        Date createdAt = new Date();
+        String storageFileName = createdAt.getTime() + "_" + imageFile.getOriginalFilename();
+
+        try {
+            String uploadDir = "src/main/webapp/images/";
+            Path uploadPath = Paths.get(uploadDir);
+
+            if (!Files.exists(uploadPath)) {
+                Files.createDirectories(uploadPath);
+            }
+
+            try (InputStream inputStream = imageFile.getInputStream()) {
+                Files.copy(inputStream, uploadPath.resolve(storageFileName), StandardCopyOption.REPLACE_EXISTING);
+            }
+        } catch (Exception ex) {
+            System.out.println("Exception: " + ex.getMessage());
+        }
+
+        product.setCreatedAt(createdAt);
+        product.setImageFileName(storageFileName);
+
+        productDAO.save(product);
+
+        return "redirect:/product/list";
     }
 
     @GetMapping("/edit")
-    public ModelAndView edit(@RequestParam(required = false) Integer id) {
-        ModelAndView response = new ModelAndView("product/create");
-        if (id != null) {
-            Product product = productDAO.findById(id);
-            if (product != null) {
-                CreateProductFormBean form = new CreateProductFormBean();
-                form.setId(product.getId());
-                form.setProductCode(product.getProductCode());
-                form.setProductDescription(product.getProductDescription());
-                form.setProductName(product.getProductName());
-                form.setBuyPrice(product.getBuyPrice());
-                form.setMsrp(product.getMsrp());
-                form.setProductLineId(product.getProductLineId());
-                form.setProductVendor(product.getProductVendor());
-                form.setProductScale(product.getProductScale());
-                form.setQuantityInStock(product.getQuantityInStock());
-                response.addObject("form", form);
-            }
+    public String showEditPage(@RequestParam("id") Integer id, Model model) {
+        Optional<Product> productOpt = productDAO.findById(id);
+        if (productOpt.isPresent()) {
+            model.addAttribute("product", productOpt.get());
+            return "product/edit";
         } else {
-            response.addObject("messageKey", "The product was not found in the database.");
+            return "redirect:/product/list";
         }
-        return response;
+    }
+
+    @PostMapping("/edit")
+    public String editProduct(@Valid @ModelAttribute("product") Product product, BindingResult result) {
+
+        if (product.getImageFileName() == null || product.getImageFileName().isEmpty()) {
+            result.addError(new FieldError("product", "imageFileName", "The image file is required"));
+        }
+
+        if (result.hasErrors()) {
+            return "product/edit";
+        }
+
+        // save image file
+        MultipartFile imageFile = product.getImageFile(); // Adjust based on how you handle image
+        Date createdAt = new Date();
+        String storageFileName = createdAt.getTime() + "_" + imageFile.getOriginalFilename();
+
+        try {
+            String uploadDir = "src/main/webapp/images/";
+            Path uploadPath = Paths.get(uploadDir);
+
+            if (!Files.exists(uploadPath)) {
+                Files.createDirectories(uploadPath);
+            }
+
+            try (InputStream inputStream = imageFile.getInputStream()) {
+                Files.copy(inputStream, uploadPath.resolve(storageFileName), StandardCopyOption.REPLACE_EXISTING);
+            }
+        } catch (Exception ex) {
+            System.out.println("Exception: " + ex.getMessage());
+        }
+
+        product.setCreatedAt(createdAt);
+        product.setImageFileName(storageFileName);
+
+        productDAO.save(product);
+
+        return "redirect:/product/list";
     }
 }

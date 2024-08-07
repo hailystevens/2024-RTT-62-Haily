@@ -2,7 +2,9 @@ package com.example.springboot.database.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Date;
 import java.util.Objects;
 
 @Setter
@@ -18,43 +20,41 @@ public class Product {
     @Column(name = "id")
     private Integer id;
 
-    @Column(name = "product_code")
-    private String productCode;
+    @Column(name = "name")
+    private String name;
 
-    @Column(name = "product_name")
-    private String productName;
+    @Column(name = "brand")
+    private String brand;
 
-    @Column(name = "productline_id")
-    private Integer productLineId;
+    @Column(name = "category")
+    private String category;
 
-    @Column(name = "product_scale")
-    private String productScale;
+    @Column(name = "price", columnDefinition = "DECIMAL")
+    private Double price;
 
-    @Column(name = "product_vendor")
-    private String productVendor;
+    @Column(name = "description", columnDefinition = "TEXT")
+    private String description;
 
-    @Column(name = "product_description", columnDefinition = "TEXT")
-    private String productDescription;
+    @Column(name = "image_file_name")
+    private String imageFileName;
 
-    @Column(name = "quantity_in_stock", columnDefinition = "SMALLINT")
-    private Integer quantityInStock;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "created_at")
+    private Date createdAt;
 
-    @Column(name = "buy_price", columnDefinition = "DECIMAL")
-    private Double buyPrice;
-
-    @Column(name = "msrp", columnDefinition = "DECIMAL")
-    private Double msrp;
+    @Transient
+    private MultipartFile imageFile; // Assuming you handle image upload
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Product product = (Product) o;
-        return id == product.id && Objects.equals(productName, product.productName);
+        return id.equals(product.id) && name.equals(product.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, productName);
+        return Objects.hash(id, name);
     }
 }
