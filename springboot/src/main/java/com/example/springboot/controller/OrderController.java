@@ -52,6 +52,13 @@ public class OrderController {
 
             List<OrderDetail> orderDetails = orderDetailDAO.findByOrderId(id);
             response.addObject("orderDetailsKey", orderDetails);
+
+            // Add new fields
+            response.addObject("paymentMethod", order.getPaymentMethod());
+            response.addObject("shippingMethod", order.getShippingMethod());
+            response.addObject("specialInstructions", order.getSpecialInstructions());
+            response.addObject("totalAmount", order.getTotalAmount());
+            response.addObject("trackingNumber", order.getTrackingNumber());
         } else {
             response.addObject("errorMessage", "Order not found");
         }

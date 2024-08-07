@@ -31,6 +31,21 @@ public class Order {
     @Column(name = "status")
     private String status;
 
+    @Column(name = "total_amount")
+    private Double totalAmount;
+
+    @Column(name = "payment_method")
+    private String paymentMethod;
+
+    @Column(name = "shipping_method")
+    private String shippingMethod;
+
+    @Column(name = "tracking_number")
+    private String trackingNumber;
+
+    @Column(name = "special_instructions", columnDefinition = "TEXT")
+    private String specialInstructions;
+
     @OneToMany(mappedBy = "order", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<OrderDetail> orderDetails;
 
