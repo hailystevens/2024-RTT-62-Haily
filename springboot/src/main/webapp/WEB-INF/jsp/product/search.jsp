@@ -1,5 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<jsp:include page="../include/header.jsp" />
+<jsp:include page="../include/header.jsp"/>
 
 <section>
     <div class="container">
@@ -16,7 +16,8 @@
                 <form action="/product/search">
                     <div class="mb-3">
                         <label for="search" class="form-label"><h4>Search for a product:</h4></label>
-                        <input type="text" value="${search}" class="form-control" id="search" name="search" placeholder="Enter search term"/>
+                        <input type="text" value="${search}" class="form-control" id="search" name="search"
+                               placeholder="Enter search term"/>
                     </div>
                     <button type="submit" class="btn btn-primary">Search</button>
                 </form>
@@ -59,4 +60,4 @@
     </div>
 </section>
 
-<jsp:include page="../include/footer.jsp" />
+<jsp:include page="../include/footer.jsp"/>

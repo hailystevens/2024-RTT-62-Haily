@@ -1,5 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<jsp:include page="../include/header.jsp" />
+<jsp:include page="../include/header.jsp"/>
 
 <section>
     <div class="container">
@@ -28,17 +28,23 @@
                     <c:forEach items="${products}" var="product">
                         <tr>
                             <td>${product.id}</td>
-                            <td><a href="${pageContext.request.contextPath}/product/detail?id=${product.id}">${product.name}</a></td>
+                            <td>
+                                <a href="${pageContext.request.contextPath}/product/detail?id=${product.id}">${product.name}</a>
+                            </td>
                             <td>${product.brand}</td>
                             <td>${product.category}</td>
                             <td>${product.price} $</td>
                             <td>
-                                <img src="${pageContext.request.contextPath}/pub/imgs/${product.imageFileName}" alt="Product Image" width="100">
+                                <img src="${pageContext.request.contextPath}/pub/imgs/${product.imageFileName}"
+                                     alt="Product Image" width="100">
                             </td>
                             <td>${product.createdAt}</td>
                             <td style="white-space:nowrap">
-                                <a class="btn btn-primary btn-sm" href="${pageContext.request.contextPath}/product/edit?id=${product.id}">Edit</a>
-                                <a class="btn btn-danger btn-sm" href="${pageContext.request.contextPath}/product/delete?id=${product.id}" onclick="return confirm('Are you sure?')">Delete</a>
+                                <a class="btn btn-primary btn-sm"
+                                   href="${pageContext.request.contextPath}/product/edit?id=${product.id}">Edit</a>
+                                <a class="btn btn-danger btn-sm"
+                                   href="${pageContext.request.contextPath}/product/delete?id=${product.id}"
+                                   onclick="return confirm('Are you sure?')">Delete</a>
                             </td>
                         </tr>
                     </c:forEach>
@@ -49,4 +55,4 @@
     </div>
 </section>
 
-<jsp:include page="../include/footer.jsp" />
+<jsp:include page="../include/footer.jsp"/>

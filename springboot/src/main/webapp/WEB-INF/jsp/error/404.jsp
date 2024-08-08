@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -25,6 +25,7 @@
             height: 100%;
             border: none;
         }
+
         .text-overlay {
             position: sticky;
             top: 50%;
@@ -35,20 +36,24 @@
             padding: 20px;
             border-radius: 10px;
         }
+
         .text-overlay h1 {
             font-size: 6rem;
             margin: 0;
             padding: 0;
         }
+
         .text-overlay p {
             font-size: 1.5rem;
             margin: 10px 0;
         }
+
         .text-overlay a {
             color: #000;
             text-decoration: none;
             font-weight: bold;
         }
+
         .text-overlay a:hover {
             color: #555;
         }

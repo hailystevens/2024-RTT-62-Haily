@@ -1,6 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<jsp:include page="../include/header.jsp" />
+<jsp:include page="../include/header.jsp"/>
 
 <!-- Page Header -->
 <section>
@@ -31,7 +31,9 @@
                             <label for="usernameId" class="col-form-label">Email</label>
                         </div>
                         <div class="col-4">
-                            <input type="text" id="usernameId" name="username" class="form-control <c:if test="${bindingResult.hasFieldErrors('username')}">is-invalid</c:if>" value="${form.email}">
+                            <input type="text" id="usernameId" name="username"
+                                   class="form-control <c:if test="${bindingResult.hasFieldErrors('username')}">is-invalid</c:if>"
+                                   value="${form.email}">
                         </div>
                     </div>
                     <c:if test="${bindingResult.hasFieldErrors('email')}">
@@ -52,7 +54,9 @@
                             <label for="passwordId" class="col-form-label">Password</label>
                         </div>
                         <div class="col-4">
-                            <input type="password" id="passwordId" name="password" class="form-control <c:if test="${bindingResult.hasFieldErrors('password')}">is-invalid</c:if>" value="${form.password}">
+                            <input type="password" id="passwordId" name="password"
+                                   class="form-control <c:if test="${bindingResult.hasFieldErrors('password')}">is-invalid</c:if>"
+                                   value="${form.password}">
                         </div>
                     </div>
                     <c:if test="${bindingResult.hasFieldErrors('password')}">
@@ -78,4 +82,4 @@
     </div>
 </section>
 
-<jsp:include page="../include/footer.jsp" />
+<jsp:include page="../include/footer.jsp"/>

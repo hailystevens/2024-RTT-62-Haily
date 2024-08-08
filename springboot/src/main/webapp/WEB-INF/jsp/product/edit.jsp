@@ -1,5 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<jsp:include page="../include/header.jsp" />
+<jsp:include page="../include/header.jsp"/>
 
 <section>
     <div class="container">
@@ -22,7 +22,9 @@
                             <label for="name" class="col-form-label">Product Name</label>
                         </div>
                         <div class="col-4">
-                            <input type="text" id="name" name="name" class="form-control <c:if test="${bindingResult.hasFieldErrors('name')}">is-invalid</c:if>" value="${form.name}">
+                            <input type="text" id="name" name="name"
+                                   class="form-control <c:if test="${bindingResult.hasFieldErrors('name')}">is-invalid</c:if>"
+                                   value="${form.name}">
                         </div>
                     </div>
                     <c:if test="${bindingResult.hasFieldErrors('name')}">
@@ -43,7 +45,9 @@
                             <label for="description" class="col-form-label">Product Description</label>
                         </div>
                         <div class="col-4">
-                            <textarea id="description" name="description" class="form-control <c:if test="${bindingResult.hasFieldErrors('description')}">is-invalid</c:if>" rows="5">${form.description}</textarea>
+                            <textarea id="description" name="description"
+                                      class="form-control <c:if test="${bindingResult.hasFieldErrors('description')}">is-invalid</c:if>"
+                                      rows="5">${form.description}</textarea>
                         </div>
                     </div>
                     <c:if test="${bindingResult.hasFieldErrors('description')}">
@@ -64,7 +68,9 @@
                             <label for="brand" class="col-form-label">Brand</label>
                         </div>
                         <div class="col-4">
-                            <input type="text" id="brand" name="brand" class="form-control <c:if test="${bindingResult.hasFieldErrors('brand')}">is-invalid</c:if>" value="${form.brand}">
+                            <input type="text" id="brand" name="brand"
+                                   class="form-control <c:if test="${bindingResult.hasFieldErrors('brand')}">is-invalid</c:if>"
+                                   value="${form.brand}">
                         </div>
                     </div>
                     <c:if test="${bindingResult.hasFieldErrors('brand')}">
@@ -85,7 +91,9 @@
                             <label for="category" class="col-form-label">Category</label>
                         </div>
                         <div class="col-4">
-                            <input type="text" id="category" name="category" class="form-control <c:if test="${bindingResult.hasFieldErrors('category')}">is-invalid</c:if>" value="${form.category}">
+                            <input type="text" id="category" name="category"
+                                   class="form-control <c:if test="${bindingResult.hasFieldErrors('category')}">is-invalid</c:if>"
+                                   value="${form.category}">
                         </div>
                     </div>
                     <c:if test="${bindingResult.hasFieldErrors('category')}">
@@ -106,7 +114,9 @@
                             <label for="price" class="col-form-label">Price</label>
                         </div>
                         <div class="col-4">
-                            <input type="text" id="price" name="price" class="form-control <c:if test="${bindingResult.hasFieldErrors('price')}">is-invalid</c:if>" value="${form.price}">
+                            <input type="text" id="price" name="price"
+                                   class="form-control <c:if test="${bindingResult.hasFieldErrors('price')}">is-invalid</c:if>"
+                                   value="${form.price}">
                         </div>
                     </div>
                     <c:if test="${bindingResult.hasFieldErrors('price')}">
@@ -127,7 +137,8 @@
                             <label for="imageFile" class="col-form-label">Product Image</label>
                         </div>
                         <div class="col-4">
-                            <input type="file" id="imageFile" name="imageFile" class="form-control <c:if test="${bindingResult.hasFieldErrors('imageFile')}">is-invalid</c:if>">
+                            <input type="file" id="imageFile" name="imageFile"
+                                   class="form-control <c:if test="${bindingResult.hasFieldErrors('imageFile')}">is-invalid</c:if>">
                         </div>
                     </div>
                     <c:if test="${bindingResult.hasFieldErrors('imageFile')}">
@@ -153,4 +164,4 @@
     </div>
 </section>
 
-<jsp:include page="../include/footer.jsp" />
+<jsp:include page="../include/footer.jsp"/>

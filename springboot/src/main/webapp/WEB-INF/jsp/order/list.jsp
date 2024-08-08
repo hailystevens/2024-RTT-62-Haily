@@ -1,7 +1,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
-<jsp:include page="../include/header.jsp" />
+<jsp:include page="../include/header.jsp"/>
 
 <div class="container">
     <h1>Order List</h1>
@@ -20,7 +20,7 @@
             <tr>
                 <td>${order.id}</td>
                 <td>${order.customer.name}</td>
-                <td><fmt:formatDate value="${order.orderDate}" pattern="yyyy-MM-dd" /></td>
+                <td><fmt:formatDate value="${order.orderDate}" pattern="yyyy-MM-dd"/></td>
                 <td>${order.status}</td>
                 <td><a href="${pageContext.request.contextPath}/order/${order.id}">View Details</a></td>
             </tr>
@@ -28,4 +28,4 @@
         </tbody>
     </table>
 </div>
-<jsp:include page="../include/footer.jsp" />
+<jsp:include page="../include/footer.jsp"/>

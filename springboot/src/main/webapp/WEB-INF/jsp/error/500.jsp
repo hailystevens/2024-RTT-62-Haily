@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -23,9 +23,11 @@
         h1 {
             font-size: 4rem;
         }
+
         p {
             font-size: 1.5rem;
         }
+
         a {
             color: #fff;
             text-decoration: none;
@@ -34,6 +36,7 @@
             border-radius: 5px;
             transition: background 0.3s ease;
         }
+
         a:hover {
             color: rgba(255, 0, 0, 0.42);
         }

@@ -74,6 +74,7 @@ public class LoginController {
 
         return response;
     }
+
     @GetMapping("/create-account-success")
     public ModelAndView createAccountSuccess() {
         return new ModelAndView("auth/create-account-success");

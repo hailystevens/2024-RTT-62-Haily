@@ -34,7 +34,7 @@
                     </tr>
                     <tr>
                         <th>Price</th>
-                        <td><fmt:formatNumber value="${product.price}" type="currency" currencySymbol="$" /></td>
+                        <td><fmt:formatNumber value="${product.price}" type="currency" currencySymbol="$"/></td>
                     </tr>
                     <tr>
                         <th>Description</th>
@@ -49,7 +49,7 @@
                     </tr>
                     <tr>
                         <th>Created At</th>
-                        <td><fmt:formatDate value="${product.createdAt}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
+                        <td><fmt:formatDate value="${product.createdAt}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
                     </tr>
                     <tr>
                         <td style="white-space:nowrap">

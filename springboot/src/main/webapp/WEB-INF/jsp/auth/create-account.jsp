@@ -1,7 +1,7 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<jsp:include page="../include/header.jsp" />
+<jsp:include page="../include/header.jsp"/>
 
 <!-- Page Header -->
 <section>
@@ -24,7 +24,9 @@
                             <label for="emailId" class="col-form-label">Email</label>
                         </div>
                         <div class="col-4">
-                            <input type="email" id="emailId" name="email" class="form-control <c:if test="${bindingResult.hasFieldErrors('email')}">is-invalid</c:if>" value="${form.email}" required>
+                            <input type="email" id="emailId" name="email"
+                                   class="form-control <c:if test="${bindingResult.hasFieldErrors('email')}">is-invalid</c:if>"
+                                   value="${form.email}" required>
                         </div>
                     </div>
                     <c:if test="${bindingResult.hasFieldErrors('email')}">
@@ -45,7 +47,9 @@
                             <label for="passwordId" class="col-form-label">Password</label>
                         </div>
                         <div class="col-4">
-                            <input type="password" id="passwordId" name="password" class="form-control <c:if test="${bindingResult.hasFieldErrors('password')}">is-invalid</c:if>" required>
+                            <input type="password" id="passwordId" name="password"
+                                   class="form-control <c:if test="${bindingResult.hasFieldErrors('password')}">is-invalid</c:if>"
+                                   required>
                         </div>
                     </div>
                     <c:if test="${bindingResult.hasFieldErrors('password')}">
@@ -67,15 +71,18 @@
                         </div>
                         <div class="col-4">
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" id="genderMale" name="gender" value="male" required>
+                                <input class="form-check-input" type="radio" id="genderMale" name="gender" value="male"
+                                       required>
                                 <label class="form-check-label" for="genderMale">Male</label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" id="genderFemale" name="gender" value="female" required>
+                                <input class="form-check-input" type="radio" id="genderFemale" name="gender"
+                                       value="female" required>
                                 <label class="form-check-label" for="genderFemale">Female</label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" id="genderOther" name="gender" value="other" required>
+                                <input class="form-check-input" type="radio" id="genderOther" name="gender"
+                                       value="other" required>
                                 <label class="form-check-label" for="genderOther">Other</label>
                             </div>
                         </div>
@@ -106,4 +113,4 @@
     </div>
 </section>
 
-<jsp:include page="../include/footer.jsp" />
+<jsp:include page="../include/footer.jsp"/>
