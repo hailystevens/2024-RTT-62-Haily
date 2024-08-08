@@ -7,45 +7,60 @@
     <title>404 - Page Not Found</title>
     <style>
         body {
-            background-color: #000;
-            color: #fff;
-            font-family: 'Courier New', Courier, monospace;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            height: 100vh;
+            background: #f8f8f8;
+        }
+
+        .container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        .text-overlay {
+            position: sticky;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #000;
             text-align: center;
-            padding: 50px;
-        }
-        .container {
-            border: 3px solid red;
             padding: 20px;
-            box-shadow: 0 0 15px red;
-            display: inline-block;
-            margin: 20px;
-            background: linear-gradient(145deg, #1e1e1e, #272727);
+            border-radius: 10px;
         }
-        h1 {
-            font-size: 4rem;
-            color: red;
-            text-shadow: 0 0 10px red;
+        .text-overlay h1 {
+            font-size: 6rem;
+            margin: 0;
+            padding: 0;
         }
-        p {
+        .text-overlay p {
             font-size: 1.5rem;
+            margin: 10px 0;
         }
-        a {
-            color: #0ff;
+        .text-overlay a {
+            color: #000;
             text-decoration: none;
             font-weight: bold;
         }
-        a:hover {
-            color: red;
-            text-shadow: 0 0 5px red;
+        .text-overlay a:hover {
+            color: #555;
         }
     </style>
 </head>
 <body>
 <div class="container">
-    <h1>404</h1>
-    <p>Page Not Found</p>
-    <p>Something went wrong in the matrix...</p>
-    <p><a href="/">Return Home</a></p>
+    <iframe src="http://slither.com/io" class="giphy-embed" allowfullscreen></iframe>
+    <div class="text-overlay">
+        <h2>The page you are looking for does not exist</h2>
+        <p><a href="/">Return Home</a></p>
+    </div>
 </div>
 </body>
 </html>
