@@ -92,19 +92,29 @@ public class ProductController {
     }
 
     @GetMapping("/edit")
-    public String showEditPage(@RequestParam("id") Integer id, Model model) {
+    public ModelAndView showEditPage(@RequestParam("id") Integer id) {
+        ModelAndView response = new ModelAndView("product/edit");
         Optional<Product> productOpt = productDAO.findById(id);
         if (productOpt.isPresent()) {
-            model.addAttribute("form", productOpt.get());
-            return "product/edit";
+            CreateProductFormBean form = new CreateProductFormBean();
+            Product product = productOpt.get();
+            form.setId(product.getId());
+            form.setName(product.getName());
+            form.setBrand(product.getBrand());
+            form.setCategory(product.getCategory());
+            form.setDescription(product.getDescription());
+            form.setPrice(product.getPrice());
+            form.setImageFile(product.getImageFile());
+            response.addObject("form", form);
         } else {
-            return "redirect:/product/list";
+            return new ModelAndView("redirect:/product/list");
         }
+        return response;
     }
 
     @PostMapping("/edit")
-    public String editProduct(@Valid @ModelAttribute("form") CreateProductFormBean form,
-                              BindingResult result, @RequestParam("imageFile") MultipartFile imageFile) {
+    public String editProductSubmit(@Valid @ModelAttribute("form") CreateProductFormBean form,
+                                    BindingResult result, @RequestParam("imageFile") MultipartFile imageFile) {
 
         if (imageFile.isEmpty() && (form.getImageFile() == null || form.getImageFile().isEmpty())) {
             result.addError(new FieldError("form", "imageFile", "The image file is required"));

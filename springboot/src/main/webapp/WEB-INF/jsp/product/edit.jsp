@@ -1,89 +1,156 @@
-
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:include page="../include/header.jsp" />
 
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Edit Product</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-</head>
-<body>
-<div class="container">
-    <div class="row">
-        <div class="col-md-8 mx-auto rounded border p-4 m-4">
-            <h2 class="text-center mb-5">Edit Product</h2>
-
-            <form:form action="${pageContext.request.contextPath}/product/edit" modelAttribute="product" method="post" enctype="multipart/form-data">
-                <form:hidden path="id" />
-
-                <div class="row mb-3">
-                    <label class="col-sm-4 col-form-label">Product Name</label>
-                    <div class="col-sm-8">
-                        <form:input path="name" class="form-control" />
-                        <form:errors path="name" cssClass="text-danger" />
-                    </div>
-                </div>
-
-                <div class="row mb-3">
-                    <label class="col-sm-4 col-form-label">Product Vendor</label>
-                    <div class="col-sm-8">
-                        <form:input path="brand" class="form-control" />
-                        <form:errors path="brand" cssClass="text-danger" />
-                    </div>
-                </div>
-
-                <div class="row mb-3">
-                    <label class="col-sm-4 col-form-label">Product Line ID</label>
-                    <div class="col-sm-8">
-                        <form:input path="category" class="form-control" />
-                        <form:errors path="category" cssClass="text-danger" />
-                    </div>
-                </div>
-
-                <div class="row mb-3">
-                    <label class="col-sm-4 col-form-label">Price</label>
-                    <div class="col-sm-8">
-                        <form:input path="price" type="number" step="0.01" min="0" class="form-control" />
-                        <form:errors path="price" cssClass="text-danger" />
-                    </div>
-                </div>
-
-                <div class="row mb-3">
-                    <label class="col-sm-4 col-form-label">Description</label>
-                    <div class="col-sm-8">
-                        <form:textarea path="description" class="form-control" />
-                        <form:errors path="description" cssClass="text-danger" />
-                    </div>
-                </div>
-
-                <div class="row mb-3">
-                    <label class="col-sm-4 col-form-label">Image</label>
-                    <div class="col-sm-8">
-                        <form:input path="imageFileName" type="file" class="form-control" />
-                        <form:errors path="imageFileName" cssClass="text-danger" />
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="offset-sm-4 col-sm-4 d-grid">
-                        <button type="submit" class="btn btn-primary">Update</button>
-                    </div>
-                    <div class="col-sm-4 d-grid">
-                        <a class="btn btn-outline-primary" href="${pageContext.request.contextPath}/product/list" role="button">Cancel</a>
-                    </div>
-                </div>
-
-            </form:form>
+<section>
+    <div class="container">
+        <div class="row pt-5 pb-5">
+            <h1 class="text-center">Edit Product</h1>
         </div>
     </div>
-</div>
+</section>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-</body>
-</html>
+<section>
+    <div class="container">
+        <div class="row pt-5">
+            <div class="col-12">
+                <form action="/product/edit" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="id" value="${form.id}">
+
+                    <!-- Product Name Input -->
+                    <div class="row align-items-center justify-content-center pt-3">
+                        <div class="col-2">
+                            <label for="name" class="col-form-label">Product Name</label>
+                        </div>
+                        <div class="col-4">
+                            <input type="text" id="name" name="name" class="form-control <c:if test="${bindingResult.hasFieldErrors('name')}">is-invalid</c:if>" value="${form.name}">
+                        </div>
+                    </div>
+                    <c:if test="${bindingResult.hasFieldErrors('name')}">
+                        <div class="row align-items-center justify-content-center">
+                            <div class="offset-2 col-4">
+                                <div style="color:red">
+                                    <c:forEach items="${bindingResult.getFieldErrors('name')}" var="error">
+                                        ${error.defaultMessage}<br>
+                                    </c:forEach>
+                                </div>
+                            </div>
+                        </div>
+                    </c:if>
+
+                    <!-- Product Description Input -->
+                    <div class="row align-items-center justify-content-center pt-3">
+                        <div class="col-2">
+                            <label for="description" class="col-form-label">Product Description</label>
+                        </div>
+                        <div class="col-4">
+                            <textarea id="description" name="description" class="form-control <c:if test="${bindingResult.hasFieldErrors('description')}">is-invalid</c:if>" rows="5">${form.description}</textarea>
+                        </div>
+                    </div>
+                    <c:if test="${bindingResult.hasFieldErrors('description')}">
+                        <div class="row align-items-center justify-content-center">
+                            <div class="offset-2 col-4">
+                                <div style="color:red">
+                                    <c:forEach items="${bindingResult.getFieldErrors('description')}" var="error">
+                                        ${error.defaultMessage}<br>
+                                    </c:forEach>
+                                </div>
+                            </div>
+                        </div>
+                    </c:if>
+
+                    <!-- Brand Input -->
+                    <div class="row align-items-center justify-content-center pt-3">
+                        <div class="col-2">
+                            <label for="brand" class="col-form-label">Brand</label>
+                        </div>
+                        <div class="col-4">
+                            <input type="text" id="brand" name="brand" class="form-control <c:if test="${bindingResult.hasFieldErrors('brand')}">is-invalid</c:if>" value="${form.brand}">
+                        </div>
+                    </div>
+                    <c:if test="${bindingResult.hasFieldErrors('brand')}">
+                        <div class="row align-items-center justify-content-center">
+                            <div class="offset-2 col-4">
+                                <div style="color:red">
+                                    <c:forEach items="${bindingResult.getFieldErrors('brand')}" var="error">
+                                        ${error.defaultMessage}<br>
+                                    </c:forEach>
+                                </div>
+                            </div>
+                        </div>
+                    </c:if>
+
+                    <!-- Category Input -->
+                    <div class="row align-items-center justify-content-center pt-3">
+                        <div class="col-2">
+                            <label for="category" class="col-form-label">Category</label>
+                        </div>
+                        <div class="col-4">
+                            <input type="text" id="category" name="category" class="form-control <c:if test="${bindingResult.hasFieldErrors('category')}">is-invalid</c:if>" value="${form.category}">
+                        </div>
+                    </div>
+                    <c:if test="${bindingResult.hasFieldErrors('category')}">
+                        <div class="row align-items-center justify-content-center">
+                            <div class="offset-2 col-4">
+                                <div style="color:red">
+                                    <c:forEach items="${bindingResult.getFieldErrors('category')}" var="error">
+                                        ${error.defaultMessage}<br>
+                                    </c:forEach>
+                                </div>
+                            </div>
+                        </div>
+                    </c:if>
+
+                    <!-- Price Input -->
+                    <div class="row align-items-center justify-content-center pt-3">
+                        <div class="col-2">
+                            <label for="price" class="col-form-label">Price</label>
+                        </div>
+                        <div class="col-4">
+                            <input type="text" id="price" name="price" class="form-control <c:if test="${bindingResult.hasFieldErrors('price')}">is-invalid</c:if>" value="${form.price}">
+                        </div>
+                    </div>
+                    <c:if test="${bindingResult.hasFieldErrors('price')}">
+                        <div class="row align-items-center justify-content-center">
+                            <div class="offset-2 col-4">
+                                <div style="color:red">
+                                    <c:forEach items="${bindingResult.getFieldErrors('price')}" var="error">
+                                        ${error.defaultMessage}<br>
+                                    </c:forEach>
+                                </div>
+                            </div>
+                        </div>
+                    </c:if>
+
+                    <!-- Image File Input -->
+                    <div class="row align-items-center justify-content-center pt-3">
+                        <div class="col-2">
+                            <label for="imageFile" class="col-form-label">Product Image</label>
+                        </div>
+                        <div class="col-4">
+                            <input type="file" id="imageFile" name="imageFile" class="form-control <c:if test="${bindingResult.hasFieldErrors('imageFile')}">is-invalid</c:if>">
+                        </div>
+                    </div>
+                    <c:if test="${bindingResult.hasFieldErrors('imageFile')}">
+                        <div class="row align-items-center justify-content-center">
+                            <div class="offset-2 col-4">
+                                <div style="color:red">
+                                    <c:forEach items="${bindingResult.getFieldErrors('imageFile')}" var="error">
+                                        ${error.defaultMessage}<br>
+                                    </c:forEach>
+                                </div>
+                            </div>
+                        </div>
+                    </c:if>
+
+                    <div class="row pt-5">
+                        <div class="col-4 offset-2">
+                            <button type="submit" class="btn btn-primary">Save</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
 
 <jsp:include page="../include/footer.jsp" />
