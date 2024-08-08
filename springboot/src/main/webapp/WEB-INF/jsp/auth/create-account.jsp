@@ -16,7 +16,8 @@
     <div class="container">
         <div class="row pt-5">
             <div class="col-12">
-                <form action="/account/create-account" method="post">
+                <form action="${pageContext.request.contextPath}/account/create-account" method="post">
+
                     <!-- Email Input -->
                     <div class="row align-items-center justify-content-center">
                         <div class="col-2">
