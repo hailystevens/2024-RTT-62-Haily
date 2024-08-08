@@ -142,13 +142,14 @@ public class ProductController {
         }
     }
 
-    @GetMapping("/search")
-    public ModelAndView search(@RequestParam("query") String query) {
-        log.debug("Search query: " + query);
-        ModelAndView response = new ModelAndView("product/search-results");
-        List<Product> products = productDAO.findByNameOrCategory(query);
-        log.debug("Products found: " + products.size());
-        response.addObject("products", products);
-        return response;
+    @GetMapping("/delete")
+    public String deleteProduct(@RequestParam("id") Integer id) {
+        Optional<Product> productOpt = productDAO.findById(id);
+        if (productOpt.isPresent()) {
+            productDAO.delete(productOpt.get());
+            return "redirect:/product/list";
+        } else {
+            return "redirect:/product/list";
+        }
     }
 }
