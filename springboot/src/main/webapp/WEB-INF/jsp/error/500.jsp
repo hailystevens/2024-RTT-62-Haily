@@ -7,67 +7,44 @@
     <title>500 - Internal Server Error</title>
     <style>
         body {
-            background-color: #000;
-            color: #fff;
-            font-family: 'Courier New', Courier, monospace;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: url('https://upload.wikimedia.org/wikipedia/commons/2/21/Spinning_Dancer.gif') no-repeat center center fixed;
+            background-size: cover;
+            color: white;
             text-align: center;
-            padding: 50px;
+            font-family: Arial, sans-serif;
         }
-        .container {
-            border: 3px solid red;
-            padding: 20px;
-            box-shadow: 0 0 15px red;
-            display: inline-block;
-            margin: 20px;
-            background: linear-gradient(145deg, #1e1e1e, #272727);
-        }
+
         h1 {
             font-size: 4rem;
-            color: red;
-            text-shadow: 0 0 10px red;
         }
         p {
             font-size: 1.5rem;
         }
-        .stack-trace {
-            text-align: left;
-            display: inline-block;
-            margin: 0 auto;
-            background: #333;
-            padding: 20px;
-            border: 1px solid red;
-            box-shadow: 0 0 10px red;
-        }
         a {
-            color: #0ff;
+            color: #fff;
             text-decoration: none;
             font-weight: bold;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: background 0.3s ease;
         }
         a:hover {
-            color: red;
-            text-shadow: 0 0 5px red;
+            color: rgba(255, 0, 0, 0.42);
         }
     </style>
 </head>
 <body>
-<div class="container">
+<div class="content">
     <h1>500</h1>
     <p>Internal Server Error</p>
-    <p>The system has encountered an error...</p>
+    <p>Oops! Something went wrong...</p>
     <p><a href="/">Return Home</a></p>
-    <c:if test="${not empty message}">
-        <div class="stack-trace">
-            <h3>Error Message:</h3>
-            <p>${message}</p>
-            <h3>Stack Trace:</h3>
-            <pre>${stackTrace}</pre>
-            <c:if test="${not empty rootCause}">
-                <h3>Root Cause:</h3>
-                <p>${rootCause}</p>
-                <pre>${rootTrace}</pre>
-            </c:if>
-        </div>
-    </c:if>
 </div>
 </body>
 </html>
