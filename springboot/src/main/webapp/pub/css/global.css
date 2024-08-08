@@ -40,6 +40,7 @@ body {
     padding: 20px;
     border-radius: 5px;
     border: 1px solid #dee2e6; /* Border for separation */
+    max-width: 100%; /* Allow container to take full width */
 }
 
 .form-control {
@@ -188,4 +189,3 @@ input[type="text"]:focus, input[type="password"]:focus, textarea:focus {
     background-color: #e9ecef;
     color: #000000;
 }
-
