@@ -30,28 +30,28 @@
     <div class="container">
         <div class="row pt-5 pb-5">
             <div class="col-12">
-                <h4 class="text-center">${productsKey.size()} product(s) found</h4>
+                <h4 class="text-center">${products.size()} product(s) found</h4>
                 <table class="table">
                     <tr>
-                        <th>Product Code</th>
+                        <th>ID</th>
                         <th>Product Name</th>
-                        <th>Product Line Id</th>
-                        <th>Product Scale</th>
-                        <th>Product Vendor</th>
-                        <th>Quantity in Stock</th>
-                        <th>Buy Price</th>
-                        <th>MSRP</th>
+                        <th>Brand</th>
+                        <th>Category</th>
+                        <th>Price</th>
+                        <th>Description</th>
+                        <th>Image</th>
+                        <th>Created At</th>
                     </tr>
-                    <c:forEach items="${productsKey}" var="product">
+                    <c:forEach items="${products}" var="product">
                         <tr>
-                            <td>${product.productCode}</td>
-                            <td><a href="../product/${product.id}">${product.productName}</a></td>
-                            <td>${product.productLineId}</td>
-                            <td>${product.productScale}</td>
-                            <td>${product.productVendor}</td>
-                            <td>${product.quantityInStock}</td>
-                            <td>${product.buyPrice}</td>
-                            <td>${product.msrp}</td>
+                            <td>${product.id}</td>
+                            <td><a href="/product/${product.id}">${product.name}</a></td>
+                            <td>${product.brand}</td>
+                            <td>${product.category}</td>
+                            <td>${product.price}</td>
+                            <td>${product.description}</td>
+                            <td><img src="/pub/imgs/${product.imageFile}" alt="Product Image" style="max-width:100px;"></td>
+                            <td>${product.createdAt}</td>
                         </tr>
                     </c:forEach>
                 </table>

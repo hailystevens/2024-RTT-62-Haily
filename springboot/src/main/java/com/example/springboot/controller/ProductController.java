@@ -180,4 +180,12 @@ public class ProductController {
             return "redirect:/product/list";
         }
     }
+
+    @GetMapping("/search")
+    public ModelAndView search(@RequestParam("query") String query) {
+        List<Product> products = productDAO.findByNameOrCategory(query);
+        ModelAndView response = new ModelAndView("product/search-results");
+        response.addObject("products", products);
+        return response;
+    }
 }
