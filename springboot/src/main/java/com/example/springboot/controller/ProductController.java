@@ -2,6 +2,7 @@ package com.example.springboot.controller;
 
 import com.example.springboot.database.dao.ProductDAO;
 import com.example.springboot.database.entity.Product;
+import com.example.springboot.form.CreateProductFormBean;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,21 +39,31 @@ public class ProductController {
     }
 
     @GetMapping("/create")
-    public String showCreatePage(Model model) {
-        model.addAttribute("product", new Product());
-        return "product/create";
+    public ModelAndView showCreatePage() {
+        ModelAndView response = new ModelAndView("product/create");
+        response.addObject("form", new CreateProductFormBean());
+        return response;
     }
 
     @PostMapping("/create")
-    public String createProduct(@Valid @ModelAttribute("product") Product product, BindingResult result, @RequestParam("imageFile") MultipartFile imageFile) {
+    public String createProductSubmit(@Valid @ModelAttribute("form") CreateProductFormBean form,
+                                      BindingResult bindingResult, @RequestParam("imageFile") MultipartFile imageFile) {
 
         if (imageFile.isEmpty()) {
-            result.addError(new FieldError("product", "imageFileName", "The image file is required"));
+            bindingResult.addError(new FieldError("form", "imageFile", "The image file is required"));
         }
 
-        if (result.hasErrors()) {
+        if (bindingResult.hasErrors()) {
             return "product/create";
         }
+
+        Product product = new Product();
+        product.setName(form.getName());
+        product.setBrand(form.getBrand());
+        product.setCategory(form.getCategory());
+        product.setDescription(form.getDescription());
+        product.setPrice(form.getPrice());
+        product.setCreatedAt(new Date());
 
         // save image file
         Date createdAt = new Date();
@@ -73,7 +84,6 @@ public class ProductController {
             System.out.println("Exception: " + ex.getMessage());
         }
 
-        product.setCreatedAt(createdAt);
         product.setImageFileName(storageFileName);
 
         productDAO.save(product);
@@ -85,7 +95,7 @@ public class ProductController {
     public String showEditPage(@RequestParam("id") Integer id, Model model) {
         Optional<Product> productOpt = productDAO.findById(id);
         if (productOpt.isPresent()) {
-            model.addAttribute("product", productOpt.get());
+            model.addAttribute("form", productOpt.get());
             return "product/edit";
         } else {
             return "redirect:/product/list";
@@ -93,15 +103,23 @@ public class ProductController {
     }
 
     @PostMapping("/edit")
-    public String editProduct(@Valid @ModelAttribute("product") Product product, BindingResult result, @RequestParam("imageFile") MultipartFile imageFile) {
+    public String editProduct(@Valid @ModelAttribute("form") CreateProductFormBean form,
+                              BindingResult result, @RequestParam("imageFile") MultipartFile imageFile) {
 
-        if (imageFile.isEmpty() && (product.getImageFileName() == null || product.getImageFileName().isEmpty())) {
-            result.addError(new FieldError("product", "imageFileName", "The image file is required"));
+        if (imageFile.isEmpty() && (form.getImageFile() == null || form.getImageFile().isEmpty())) {
+            result.addError(new FieldError("form", "imageFile", "The image file is required"));
         }
 
         if (result.hasErrors()) {
             return "product/edit";
         }
+
+        Product product = productDAO.findById(form.getId()).orElse(new Product());
+        product.setName(form.getName());
+        product.setBrand(form.getBrand());
+        product.setCategory(form.getCategory());
+        product.setDescription(form.getDescription());
+        product.setPrice(form.getPrice());
 
         // save image file
         if (!imageFile.isEmpty()) {

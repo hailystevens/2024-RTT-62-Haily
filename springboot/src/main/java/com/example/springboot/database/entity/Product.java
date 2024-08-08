@@ -1,4 +1,3 @@
-
 package com.example.springboot.database.entity;
 
 import jakarta.persistence.*;
@@ -45,21 +44,5 @@ public class Product {
     private Date createdAt;
 
     @Transient
-    private MultipartFile imageFile; // Assuming you handle image upload
-
-    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
-    private List<OrderDetail> orderDetails;
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Product product = (Product) o;
-        return id.equals(product.id) && name.equals(product.name);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name);
-    }
+    private MultipartFile imageFile;
 }

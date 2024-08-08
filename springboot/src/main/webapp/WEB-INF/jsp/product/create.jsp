@@ -1,4 +1,3 @@
-
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:include page="../include/header.jsp" />
 
@@ -14,29 +13,8 @@
     <div class="container">
         <div class="row pt-5">
             <div class="col-12">
-                <form action="/product/createSubmit" method="post">
+                <form action="/product/create" method="post" enctype="multipart/form-data">
                     <input type="hidden" name="id" value="${form.id}">
-
-                    <!-- Product Code Input -->
-                    <div class="row align-items-center justify-content-center">
-                        <div class="col-2">
-                            <label for="productCodeId" class="col-form-label">Product Code</label>
-                        </div>
-                        <div class="col-4">
-                            <input type="text" id="productCodeId" name="productCode" class="form-control <c:if test="${bindingResult.hasFieldErrors('productCode')}">is-invalid</c:if>" value="${form.productCode}">
-                        </div>
-                    </div>
-                    <c:if test="${bindingResult.hasFieldErrors('productCode')}">
-                        <div class="row align-items-center justify-content-center">
-                            <div class="offset-2 col-4">
-                                <div class="text-danger">
-                                    <c:forEach items="${bindingResult.getFieldErrors('productCode')}" var="error">
-                                        ${error.defaultMessage}<br>
-                                    </c:forEach>
-                                </div>
-                            </div>
-                        </div>
-                    </c:if>
 
                     <!-- Product Name Input -->
                     <div class="row align-items-center justify-content-center pt-3">
@@ -44,14 +22,56 @@
                             <label for="productNameId" class="col-form-label">Product Name</label>
                         </div>
                         <div class="col-4">
-                            <input type="text" id="productNameId" name="productName" class="form-control <c:if test="${bindingResult.hasFieldErrors('productName')}">is-invalid</c:if>" value="${form.productName}">
+                            <input type="text" id="productNameId" name="name" class="form-control <c:if test="${bindingResult.hasFieldErrors('name')}">is-invalid</c:if>" value="${form.name}">
                         </div>
                     </div>
-                    <c:if test="${bindingResult.hasFieldErrors('productName')}">
+                    <c:if test="${bindingResult.hasFieldErrors('name')}">
                         <div class="row align-items-center justify-content-center">
                             <div class="offset-2 col-4">
                                 <div style="color:red">
-                                    <c:forEach items="${bindingResult.getFieldErrors('productName')}" var="error">
+                                    <c:forEach items="${bindingResult.getFieldErrors('name')}" var="error">
+                                        ${error.defaultMessage}<br>
+                                    </c:forEach>
+                                </div>
+                            </div>
+                        </div>
+                    </c:if>
+
+                    <!-- Brand Input -->
+                    <div class="row align-items-center justify-content-center pt-3">
+                        <div class="col-2">
+                            <label for="brandId" class="col-form-label">Brand</label>
+                        </div>
+                        <div class="col-4">
+                            <input type="text" id="brandId" name="brand" class="form-control <c:if test="${bindingResult.hasFieldErrors('brand')}">is-invalid</c:if>" value="${form.brand}">
+                        </div>
+                    </div>
+                    <c:if test="${bindingResult.hasFieldErrors('brand')}">
+                        <div class="row align-items-center justify-content-center">
+                            <div class="offset-2 col-4">
+                                <div style="color:red">
+                                    <c:forEach items="${bindingResult.getFieldErrors('brand')}" var="error">
+                                        ${error.defaultMessage}<br>
+                                    </c:forEach>
+                                </div>
+                            </div>
+                        </div>
+                    </c:if>
+
+                    <!-- Category Input -->
+                    <div class="row align-items-center justify-content-center pt-3">
+                        <div class="col-2">
+                            <label for="categoryId" class="col-form-label">Category</label>
+                        </div>
+                        <div class="col-4">
+                            <input type="text" id="categoryId" name="category" class="form-control <c:if test="${bindingResult.hasFieldErrors('category')}">is-invalid</c:if>" value="${form.category}">
+                        </div>
+                    </div>
+                    <c:if test="${bindingResult.hasFieldErrors('category')}">
+                        <div class="row align-items-center justify-content-center">
+                            <div class="offset-2 col-4">
+                                <div style="color:red">
+                                    <c:forEach items="${bindingResult.getFieldErrors('category')}" var="error">
                                         ${error.defaultMessage}<br>
                                     </c:forEach>
                                 </div>
@@ -65,98 +85,14 @@
                             <label for="productDescriptionId" class="col-form-label">Product Description</label>
                         </div>
                         <div class="col-4">
-                            <textarea id="productDescriptionId" name="productDescription" class="form-control <c:if test="${bindingResult.hasFieldErrors('productDescription')}">is-invalid</c:if>" rows="5">${form.productDescription}</textarea>
+                            <textarea id="productDescriptionId" name="description" class="form-control <c:if test="${bindingResult.hasFieldErrors('description')}">is-invalid</c:if>" rows="5">${form.description}</textarea>
                         </div>
                     </div>
-                    <c:if test="${bindingResult.hasFieldErrors('productDescription')}">
+                    <c:if test="${bindingResult.hasFieldErrors('description')}">
                         <div class="row align-items-center justify-content-center">
                             <div class="offset-2 col-4">
                                 <div style="color:red">
-                                    <c:forEach items="${bindingResult.getFieldErrors('productDescription')}" var="error">
-                                        ${error.defaultMessage}<br>
-                                    </c:forEach>
-                                </div>
-                            </div>
-                        </div>
-                    </c:if>
-
-                    <!-- Product Line Id Input -->
-                    <div class="row align-items-center justify-content-center pt-3">
-                        <div class="col-2">
-                            <label for="productLineIdId" class="col-form-label">Product Line Id</label>
-                        </div>
-                        <div class="col-4">
-                            <input type="text" id="productLineIdId" name="productLineId" class="form-control <c:if test="${bindingResult.hasFieldErrors('productLineId')}">is-invalid</c:if>" value="${form.productLineId}">
-                        </div>
-                    </div>
-                    <c:if test="${bindingResult.hasFieldErrors('productLineId')}">
-                        <div class="row align-items-center justify-content-center">
-                            <div class="offset-2 col-4">
-                                <div style="color:red">
-                                    <c:forEach items="${bindingResult.getFieldErrors('productLineId')}" var="error">
-                                        ${error.defaultMessage}<br>
-                                    </c:forEach>
-                                </div>
-                            </div>
-                        </div>
-                    </c:if>
-
-                    <!-- Product Scale Input -->
-                    <div class="row align-items-center justify-content-center pt-3">
-                        <div class="col-2">
-                            <label for="productScaleId" class="col-form-label">Product Scale</label>
-                        </div>
-                        <div class="col-4">
-                            <input type="text" id="productScaleId" name="productScale" class="form-control <c:if test="${bindingResult.hasFieldErrors('productScale')}">is-invalid</c:if>" value="${form.productScale}">
-                        </div>
-                    </div>
-                    <c:if test="${bindingResult.hasFieldErrors('productScale')}">
-                        <div class="row align-items-center justify-content-center">
-                            <div class="offset-2 col-4">
-                                <div style="color:red">
-                                    <c:forEach items="${bindingResult.getFieldErrors('productScale')}" var="error">
-                                        ${error.defaultMessage}<br>
-                                    </c:forEach>
-                                </div>
-                            </div>
-                        </div>
-                    </c:if>
-
-                    <!-- Product Vendor Input -->
-                    <div class="row align-items-center justify-content-center pt-3">
-                        <div class="col-2">
-                            <label for="productVendorId" class="col-form-label">Product Vendor</label>
-                        </div>
-                        <div class="col-4">
-                            <input type="text" id="productVendorId" name="productVendor" class="form-control <c:if test="${bindingResult.hasFieldErrors('productVendor')}">is-invalid</c:if>" value="${form.productVendor}">
-                        </div>
-                    </div>
-                    <c:if test="${bindingResult.hasFieldErrors('productVendor')}">
-                        <div class="row align-items-center justify-content-center">
-                            <div class="offset-2 col-4">
-                                <div style="color:red">
-                                    <c:forEach items="${bindingResult.getFieldErrors('productVendor')}" var="error">
-                                        ${error.defaultMessage}<br>
-                                    </c:forEach>
-                                </div>
-                            </div>
-                        </div>
-                    </c:if>
-
-                    <!-- Quantity In Stock Input -->
-                    <div class="row align-items-center justify-content-center pt-3">
-                        <div class="col-2">
-                            <label for="quantityInStockId" class="col-form-label">Quantity In Stock</label>
-                        </div>
-                        <div class="col-4">
-                            <input type="text" id="quantityInStockId" name="quantityInStock" class="form-control <c:if test="${bindingResult.hasFieldErrors('quantityInStock')}">is-invalid</c:if>" value="${form.quantityInStock}">
-                        </div>
-                    </div>
-                    <c:if test="${bindingResult.hasFieldErrors('quantityInStock')}">
-                        <div class="row align-items-center justify-content-center">
-                            <div class="offset-2 col-4">
-                                <div style="color:red">
-                                    <c:forEach items="${bindingResult.getFieldErrors('quantityInStock')}" var="error">
+                                    <c:forEach items="${bindingResult.getFieldErrors('description')}" var="error">
                                         ${error.defaultMessage}<br>
                                     </c:forEach>
                                 </div>
@@ -170,14 +106,14 @@
                             <label for="buyPriceId" class="col-form-label">Buy Price</label>
                         </div>
                         <div class="col-4">
-                            <input type="text" id="buyPriceId" name="buyPrice" class="form-control <c:if test="${bindingResult.hasFieldErrors('buyPrice')}">is-invalid</c:if>" value="${form.buyPrice}">
+                            <input type="text" id="buyPriceId" name="price" class="form-control <c:if test="${bindingResult.hasFieldErrors('price')}">is-invalid</c:if>" value="${form.price}">
                         </div>
                     </div>
-                    <c:if test="${bindingResult.hasFieldErrors('buyPrice')}">
+                    <c:if test="${bindingResult.hasFieldErrors('price')}">
                         <div class="row align-items-center justify-content-center">
                             <div class="offset-2 col-4">
                                 <div style="color:red">
-                                    <c:forEach items="${bindingResult.getFieldErrors('buyPrice')}" var="error">
+                                    <c:forEach items="${bindingResult.getFieldErrors('price')}" var="error">
                                         ${error.defaultMessage}<br>
                                     </c:forEach>
                                 </div>
@@ -185,20 +121,20 @@
                         </div>
                     </c:if>
 
-                    <!-- MSRP Input -->
+                    <!-- Image File Input -->
                     <div class="row align-items-center justify-content-center pt-3">
                         <div class="col-2">
-                            <label for="msrpId" class="col-form-label">MSRP</label>
+                            <label for="imageFile" class="col-form-label">Product Image</label>
                         </div>
                         <div class="col-4">
-                            <input type="text" id="msrpId" name="msrp" class="form-control <c:if test="${bindingResult.hasFieldErrors('msrp')}">is-invalid</c:if>" value="${form.msrp}">
+                            <input type="file" id="imageFile" name="imageFile" class="form-control <c:if test="${bindingResult.hasFieldErrors('imageFile')}">is-invalid</c:if>">
                         </div>
                     </div>
-                    <c:if test="${bindingResult.hasFieldErrors('msrp')}">
+                    <c:if test="${bindingResult.hasFieldErrors('imageFile')}">
                         <div class="row align-items-center justify-content-center">
                             <div class="offset-2 col-4">
-                                <div style="color:red">
-                                    <c:forEach items="${bindingResult.getFieldErrors('msrp')}" var="error">
+                                <div class="text-danger">
+                                    <c:forEach items="${bindingResult.getFieldErrors('imageFile')}" var="error">
                                         ${error.defaultMessage}<br>
                                     </c:forEach>
                                 </div>
