@@ -31,6 +31,18 @@
                 <li class="nav-item">
                     <a class="nav-link" href="${pageContext.request.contextPath}/product/list">Products</a>
                 </li>
+                <sec:authorize access="hasAuthority('ROLE_ADMIN')">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="adminDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Admin
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="adminDropdown">
+                            <li><a class="dropdown-item" href="${pageContext.request.contextPath}/admin/dashboard">Dashboard</a></li>
+                            <li><a class="dropdown-item" href="${pageContext.request.contextPath}/admin/users">Manage Users</a></li>
+                            <li><a class="dropdown-item" href="${pageContext.request.contextPath}/admin/products">Manage Products</a></li>
+                        </ul>
+                    </li>
+                </sec:authorize>
             </ul>
             <form class="d-flex" action="${pageContext.request.contextPath}/product/search" method="get">
                 <input class="form-control me-2" type="search" placeholder="Search for products" aria-label="Search" name="query">
