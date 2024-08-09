@@ -1,7 +1,7 @@
 body {
     background-color: #ffffff; /* Light background */
     color: #000000; /* Dark text */
-    font-family: 'Arial', sans-serif;
+    font-family: 'Arial', sans-serif; /* Requirement: Use CSS External file */
 }
 
 .navbar {

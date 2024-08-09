@@ -35,7 +35,7 @@ public class AuthenticatedUserUtilities {
                 return null;
             }
             final org.springframework.security.core.userdetails.User principal = (org.springframework.security.core.userdetails.User) context.getAuthentication().getPrincipal();
-            return principal.getUsername();
+            return principal.getUsername(); // Fetches the username of the currently authenticated user
         } else {
             return null;
         }
@@ -47,16 +47,16 @@ public class AuthenticatedUserUtilities {
         if (username == null) {
             return null;
         }
-        return userDAO.findByEmailIgnoreCase(username);
+        return userDAO.findByEmailIgnoreCase(username); // Fetches the User entity based on the current username
     }
 
     public void manualAuthentication(HttpSession session, String username, String unencryptedPassword) {
         // Authenticate the user manually and set the security context
         Authentication request = new UsernamePasswordAuthenticationToken(username, unencryptedPassword);
-        Authentication result = authenticationManager.authenticate(request);
+        Authentication result = authenticationManager.authenticate(request); // Authenticates the user with provided credentials
         SecurityContext sc = SecurityContextHolder.getContext();
-        sc.setAuthentication(result);
-        session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, sc);
+        sc.setAuthentication(result); // Sets the authenticated user in the security context
+        session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, sc); // Stores the security context in the session
     }
 
     public boolean isUserInRole(String role) {
@@ -66,7 +66,7 @@ public class AuthenticatedUserUtilities {
             Collection<? extends GrantedAuthority> authorities = context.getAuthentication().getAuthorities();
             for (GrantedAuthority authority : authorities) {
                 if (authority.getAuthority().equals(role)) {
-                    return true;
+                    return true; // Returns true if the current user has the specified role
                 }
             }
         }
@@ -77,8 +77,8 @@ public class AuthenticatedUserUtilities {
         // Check if there is an authenticated user
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication instanceof AnonymousAuthenticationToken) {
-            return false;
+            return false; // Returns false if the user is not authenticated (anonymous)
         }
-        return (authentication != null && authentication.isAuthenticated());
+        return (authentication != null && authentication.isAuthenticated()); // Returns true if the user is authenticated
     }
 }

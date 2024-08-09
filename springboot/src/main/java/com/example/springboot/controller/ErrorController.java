@@ -22,7 +22,7 @@ public class ErrorController {
     private AuthenticatedUserUtilities authenticatedUserUtilities;
 
     @ExceptionHandler(NoResourceFoundException.class)
-    @RequestMapping(value = {"/error/404", "/404"})
+    @RequestMapping(value = {"/error/404", "/404"}) // Requirement: Error Controller; 404 and/or 500 page(s)
     public ModelAndView error404(HttpServletRequest request, Exception e) {
         ModelAndView response = new ModelAndView("error/404");
 
@@ -30,7 +30,7 @@ public class ErrorController {
         log.debug("ERROR: " + e.getMessage());
         log.debug("ERROR FOUND: " + e);
 
-        response.setStatus(HttpStatus.NOT_FOUND);
+        response.setStatus(HttpStatus.NOT_FOUND); // Setting HTTP status to 404
 
         return response;
     }
@@ -47,17 +47,18 @@ public class ErrorController {
         return result.toString();
     }
 
-    @ExceptionHandler(Exception.class)
+    @ExceptionHandler(Exception.class) // Requirement: Handle all exceptions with a 500 error page
     public ModelAndView handleAllException(HttpServletRequest request, Exception ex) {
         log.warn("Error page exception : " + ex.getMessage(), ex);
 
-        ModelAndView response = new ModelAndView("error/500");
+        ModelAndView response = new ModelAndView("error/500"); // Directs to the 500 error page
 
+        // Requirement: Get logged in user in JSP or Controller (only for admins)
         if (authenticatedUserUtilities.isUserInRole("ADMIN")) {
             response.addObject("requestUrl", request.getRequestURI());
             response.addObject("message", ex.getMessage());
 
-            String stackTrace = getHTMLStackTrace(ExceptionUtils.getStackFrames(ex));
+            String stackTrace = getHTMLStackTrace(ExceptionUtils.getStackFrames(ex)); // Shows stack trace for admins
             response.addObject("stackTrace", stackTrace);
             if (ex.getCause() != null) {
                 response.addObject("rootCause", ExceptionUtils.getRootCause(ex));

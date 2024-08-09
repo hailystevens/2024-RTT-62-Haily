@@ -163,5 +163,20 @@
         </div>
     </div>
 </section>
+<!-- JavaScript for image preview -->
+<script>
+    function previewImage(event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const preview = document.getElementById('imagePreview');
+                preview.src = e.target.result;
+                preview.style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+        }
+    }
+</script>
 
 <jsp:include page="../include/footer.jsp"/>

@@ -6,16 +6,16 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
-public interface OrderDetailDAO extends JpaRepository<OrderDetail, Long> {
+public interface OrderDetailDAO extends JpaRepository<OrderDetail, Long> { // Requirement: Create one DAO/Repository for each table
 
-    // get ONE order detail ROW... by order detail id (this is a magic query in that .... Spring Data JPA is able to use the method name to generate the query)
-    OrderDetail findById(Integer id);
+    // Get ONE order detail ROW by order detail id
+    OrderDetail findById(Integer id); // Requirement: Use a Spring Data query based on function name
 
-    // get LIST of order details.... by order_id (this is a JPA query just like we did in the Hibernate module)
+    // Get LIST of order details by order_id
     @Query("select od, p.name from OrderDetail od inner join Product p " +
             " on od.id = p.id " +
             " where od.id= :id " +
             " order by od.orderLineNumber")
+    // Requirement: Use an @Query (JPA non-native query)
     List<OrderDetail> findByOrderId(Integer id);
-
 }

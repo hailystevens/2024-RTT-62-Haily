@@ -72,7 +72,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
         // Convert user roles to GrantedAuthority objects
         for (UserRole role : userRoles) {
-            authorities.add(new SimpleGrantedAuthority(role.getRoleName()));
+            authorities.add(new SimpleGrantedAuthority(role.getRoleName())); // Assigning roles to user
         }
         return authorities;
     }

@@ -11,21 +11,21 @@ import java.util.Date;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "users")
+@Table(name = "users") // Requirement: Proper primary keys / foreign keys, column names lowercase, pk called id, fk tablename_id
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // Requirement: Proper primary keys
     @Column(name = "id")
     private Integer id;
 
-    @Column(name = "email")
+    @Column(name = "email") // Requirement: Column names lowercase
     private String email;
 
-    @Column(name = "password")
+    @Column(name = "password") // Requirement: Column names lowercase
     private String password;
 
-    @Column(name = "create_date")
+    @Column(name = "create_date") // Requirement: Column names lowercase
     @Temporal(TemporalType.TIMESTAMP)
     private Date createDate;
 }

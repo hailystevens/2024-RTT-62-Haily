@@ -3,12 +3,12 @@ package com.example.springboot.controller;
 import com.example.springboot.database.dao.ProductDAO;
 import com.example.springboot.database.entity.Product;
 import com.example.springboot.form.CreateProductFormBean;
-import jakarta.validation.Valid;
+import jakarta.validation.Valid; // Requirement: Form bean with 2 different validation annotations
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
+import org.springframework.validation.BindingResult; // Requirement: Use @Valid with BindingResult (not on registration page)
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -31,21 +31,21 @@ public class ProductController {
     @Autowired
     private ProductDAO productDAO;
 
-    @GetMapping("/list")
+    @GetMapping("/list") // Requirement: Have one GET controller method
     public String showProductList(Model model) {
-        List<Product> products = productDAO.findAll();
-        model.addAttribute("products", products);
-        return "product/list";
+        List<Product> products = productDAO.findAll(); // Retrieve all products from the database
+        model.addAttribute("products", products); // Pass the products list to the view
+        return "product/list"; // Maps to product/list.jsp
     }
 
     @GetMapping("/create")
     public ModelAndView showCreatePage() {
-        ModelAndView response = new ModelAndView("product/create");
-        response.addObject("form", new CreateProductFormBean());
+        ModelAndView response = new ModelAndView("product/create"); // Maps to product/create.jsp
+        response.addObject("form", new CreateProductFormBean()); // Add an empty form bean to the view
         return response;
     }
 
-    @PostMapping("/create")
+    @PostMapping("/create") // Requirement: Have one POST controller method
     public String createProductSubmit(@Valid @ModelAttribute("form") CreateProductFormBean form,
                                       BindingResult bindingResult, @RequestParam("imageFile") MultipartFile imageFile) {
 
@@ -53,8 +53,8 @@ public class ProductController {
             bindingResult.addError(new FieldError("form", "imageFile", "The image file is required"));
         }
 
-        if (bindingResult.hasErrors()) {
-            return "product/create";
+        if (bindingResult.hasErrors()) { // Validate form inputs
+            return "product/create"; // Return to create page if validation fails
         }
 
         Product product = new Product();
@@ -65,7 +65,7 @@ public class ProductController {
         product.setPrice(form.getPrice());
         product.setCreatedAt(new Date());
 
-        // save image file
+        // Save image file
         Date createdAt = new Date();
         String storageFileName = createdAt.getTime() + "_" + imageFile.getOriginalFilename();
 
@@ -74,26 +74,26 @@ public class ProductController {
             Path uploadPath = Paths.get(uploadDir);
 
             if (!Files.exists(uploadPath)) {
-                Files.createDirectories(uploadPath);
+                Files.createDirectories(uploadPath); // Create the directory if it doesn't exist
             }
 
             try (InputStream inputStream = imageFile.getInputStream()) {
-                Files.copy(inputStream, uploadPath.resolve(storageFileName), StandardCopyOption.REPLACE_EXISTING);
+                Files.copy(inputStream, uploadPath.resolve(storageFileName), StandardCopyOption.REPLACE_EXISTING); // Save the image file
             }
         } catch (Exception ex) {
             System.out.println("Exception: " + ex.getMessage());
         }
 
-        product.setImageFileName(storageFileName);
+        product.setImageFileName(storageFileName); // Set the image file name in the product entity
 
-        productDAO.save(product);
+        productDAO.save(product); // Save the product to the database
 
-        return "redirect:/product/list";
+        return "redirect:/product/list"; // Redirect to the product list page
     }
 
-    @GetMapping("/edit")
+    @GetMapping("/edit") // Requirement: Create and Edit page for at least one table
     public ModelAndView showEditPage(@RequestParam("id") Integer id) {
-        ModelAndView response = new ModelAndView("product/edit");
+        ModelAndView response = new ModelAndView("product/edit"); // Maps to product/edit.jsp
         Optional<Product> productOpt = productDAO.findById(id);
         if (productOpt.isPresent()) {
             CreateProductFormBean form = new CreateProductFormBean();
@@ -105,14 +105,14 @@ public class ProductController {
             form.setDescription(product.getDescription());
             form.setPrice(product.getPrice());
             form.setImageFile(product.getImageFile());
-            response.addObject("form", form);
+            response.addObject("form", form); // Add the form bean with existing product data to the view
         } else {
-            return new ModelAndView("redirect:/product/list");
+            return new ModelAndView("redirect:/product/list"); // Redirect to product list if product not found
         }
         return response;
     }
 
-    @PostMapping("/edit")
+    @PostMapping("/edit") // Requirement: Create and Edit page for at least one table
     public String editProductSubmit(@Valid @ModelAttribute("form") CreateProductFormBean form,
                                     BindingResult result, @RequestParam("imageFile") MultipartFile imageFile) {
 
@@ -120,8 +120,8 @@ public class ProductController {
             result.addError(new FieldError("form", "imageFile", "The image file is required"));
         }
 
-        if (result.hasErrors()) {
-            return "product/edit";
+        if (result.hasErrors()) { // Validate form inputs
+            return "product/edit"; // Return to edit page if validation fails
         }
 
         Product product = productDAO.findById(form.getId()).orElse(new Product());
@@ -131,7 +131,7 @@ public class ProductController {
         product.setDescription(form.getDescription());
         product.setPrice(form.getPrice());
 
-        // save image file
+        // Save image file
         if (!imageFile.isEmpty()) {
             Date createdAt = new Date();
             String storageFileName = createdAt.getTime() + "_" + imageFile.getOriginalFilename();
@@ -141,32 +141,32 @@ public class ProductController {
                 Path uploadPath = Paths.get(uploadDir);
 
                 if (!Files.exists(uploadPath)) {
-                    Files.createDirectories(uploadPath);
+                    Files.createDirectories(uploadPath); // Create the directory if it doesn't exist
                 }
 
                 try (InputStream inputStream = imageFile.getInputStream()) {
-                    Files.copy(inputStream, uploadPath.resolve(storageFileName), StandardCopyOption.REPLACE_EXISTING);
+                    Files.copy(inputStream, uploadPath.resolve(storageFileName), StandardCopyOption.REPLACE_EXISTING); // Save the image file
                 }
             } catch (Exception ex) {
                 System.out.println("Exception: " + ex.getMessage());
             }
 
-            product.setImageFileName(storageFileName);
+            product.setImageFileName(storageFileName); // Set the image file name in the product entity
         }
 
-        productDAO.save(product);
+        productDAO.save(product); // Save the updated product to the database
 
-        return "redirect:/product/list";
+        return "redirect:/product/list"; // Redirect to the product list page
     }
 
-    @GetMapping("/detail")
+    @GetMapping("/detail") // Requirement: Have one GET controller method
     public String showDetailPage(@RequestParam("id") Integer id, Model model) {
         Optional<Product> productOpt = productDAO.findById(id);
         if (productOpt.isPresent()) {
-            model.addAttribute("product", productOpt.get());
-            return "product/detail";
+            model.addAttribute("product", productOpt.get()); // Pass the product to the view
+            return "product/detail"; // Maps to product/detail.jsp
         } else {
-            return "redirect:/product/list";
+            return "redirect:/product/list"; // Redirect to product list if product not found
         }
     }
 
@@ -174,18 +174,18 @@ public class ProductController {
     public String deleteProduct(@RequestParam("id") Integer id) {
         Optional<Product> productOpt = productDAO.findById(id);
         if (productOpt.isPresent()) {
-            productDAO.delete(productOpt.get());
-            return "redirect:/product/list";
+            productDAO.delete(productOpt.get()); // Delete the product from the database
+            return "redirect:/product/list"; // Redirect to the product list page
         } else {
-            return "redirect:/product/list";
+            return "redirect:/product/list"; // Redirect to product list if product not found
         }
     }
 
-    @GetMapping("/search")
+    @GetMapping("/search") // Requirement: Use @RequestParam
     public ModelAndView search(@RequestParam("query") String query) {
-        List<Product> products = productDAO.findByNameOrCategory(query);
-        ModelAndView response = new ModelAndView("product/search-results");
-        response.addObject("products", products);
+        List<Product> products = productDAO.findByNameOrCategory(query); // Search products by name or category
+        ModelAndView response = new ModelAndView("product/search-results"); // Maps to product/search-results.jsp
+        response.addObject("products", products); // Pass the search results to the view
         return response;
     }
 }

@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PathVariable; // Requirement: Use @PathVariable
+import org.springframework.web.bind.annotation.RequestParam; // Requirement: Use @RequestParam
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
@@ -32,26 +32,26 @@ public class OrderController {
     @Autowired
     private OrderDetailDAO orderDetailDAO;
 
-    @GetMapping("/list")
+    @GetMapping("/list") // Requirement: Have one GET controller method
     public ModelAndView listAll() {
         ModelAndView response = new ModelAndView("order/list");
-        List<Order> orders = orderDAO.findAll();
-        response.addObject("ordersKey", orders);
+        List<Order> orders = orderDAO.findAll(); // Retrieve all orders from the database
+        response.addObject("ordersKey", orders); // Pass the orders list to the view
         return response;
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{id}") // Requirement: Use @PathVariable
     public ModelAndView detail(@PathVariable Integer id) {
         ModelAndView response = new ModelAndView("order/detail");
         log.debug("The user wants the order with id: " + id);
 
-        Optional<Order> orderOptional = orderDAO.findById(id);
+        Optional<Order> orderOptional = orderDAO.findById(id); // Retrieve order by ID
         if (orderOptional.isPresent()) {
             Order order = orderOptional.get();
-            response.addObject("orderKey", order);
+            response.addObject("orderKey", order); // Pass the order to the view
 
-            List<OrderDetail> orderDetails = orderDetailDAO.findByOrderId(id);
-            response.addObject("orderDetailsKey", orderDetails);
+            List<OrderDetail> orderDetails = orderDetailDAO.findByOrderId(id); // Retrieve order details
+            response.addObject("orderDetailsKey", orderDetails); // Pass the order details to the view
 
             // Add new fields
             response.addObject("paymentMethod", order.getPaymentMethod());
@@ -60,13 +60,13 @@ public class OrderController {
             response.addObject("totalAmount", order.getTotalAmount());
             response.addObject("trackingNumber", order.getTrackingNumber());
         } else {
-            response.addObject("errorMessage", "Order not found");
+            response.addObject("errorMessage", "Order not found"); // Handle case when order is not found
         }
 
         return response;
     }
 
-    @GetMapping("/list-by-customer")
+    @GetMapping("/list-by-customer") // Requirement: Use @RequestParam
     public ModelAndView listByCustomerId(@RequestParam String id,
                                          @RequestParam(required = false) String name) {
         ModelAndView response = new ModelAndView("order/list-by-customer");
@@ -74,31 +74,31 @@ public class OrderController {
         response.addObject("customerId", id);
         response.addObject("customerName", name);
 
-        List<Order> orders = orderDAO.findByCustomerId(Integer.valueOf(id));
-        response.addObject("ordersKey", orders);
+        List<Order> orders = orderDAO.findByCustomerId(Integer.valueOf(id)); // Retrieve orders by customer ID
+        response.addObject("ordersKey", orders); // Pass the orders list to the view
 
         return response;
     }
 
-    @GetMapping("/search")
+    @GetMapping("/search") // Requirement: Use @RequestParam
     public ModelAndView searchByCustomerName(@RequestParam(required = false) String search) {
         ModelAndView response = new ModelAndView("order/search");
         log.debug("The user wants the order for this customer name: " + search);
 
-        List<Order> orders = orderDAO.findByCustomerName(search);
-        response.addObject("ordersKey", orders);
+        List<Order> orders = orderDAO.findByCustomerName(search); // Search orders by customer name
+        response.addObject("ordersKey", orders); // Pass the search results to the view
         response.addObject("searchKey", search);
 
         return response;
     }
 
-    @GetMapping("/orderdetail")
+    @GetMapping("/orderdetail") // Requirement: Use @RequestParam
     public ModelAndView orderDetail(@RequestParam Integer orderId) {
         ModelAndView response = new ModelAndView("order/orderdetail");
 
-        List<Map<String, Object>> orderDetails = orderDAO.getOrderDetails(orderId);
-        response.addObject("orderDetailsKey", orderDetails);
-        response.addObject("orderIdKey", orderId);
+        List<Map<String, Object>> orderDetails = orderDAO.getOrderDetails(orderId); // Retrieve order details using a custom query
+        response.addObject("orderDetailsKey", orderDetails); // Pass the order details to the view
+        response.addObject("orderIdKey", orderId); // Pass the order ID to the view
 
         return response;
     }

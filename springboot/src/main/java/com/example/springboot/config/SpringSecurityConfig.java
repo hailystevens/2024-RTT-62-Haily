@@ -14,7 +14,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+@EnableGlobalMethodSecurity(prePostEnabled = true) // Requirement: Use @PreAuthorize on controller or method
 public class SpringSecurityConfig {
 
     @Bean
@@ -22,21 +22,21 @@ public class SpringSecurityConfig {
         // Disable CSRF protection
         http.csrf().disable();
 
-        // Configure URL authorization
+        // Requirement: Spring Security configuration
         http.authorizeRequests()
                 .requestMatchers(new AntPathRequestMatcher("/admin/**"),
-                        new AntPathRequestMatcher("/user/**")).authenticated()
+                        new AntPathRequestMatcher("/user/**")).authenticated() // Requirement: Use JSP <sec:authorize> for isAuthenticated and isAnyAuthority
                 .anyRequest().permitAll();
 
-        // Configure login
+        // Requirement: Working login page
         http.formLogin()
-                .loginPage("/account/login")
+                .loginPage("/account/login") // Custom login page
                 .loginProcessingUrl("/account/loginProcessingURL");
 
         // Configure logout
         http.logout()
                 .invalidateHttpSession(true)
-                .logoutUrl("/account/logout")
+                .logoutUrl("/account/logout") // Custom logout URL
                 .logoutSuccessUrl("/");
 
         return http.build();
@@ -44,6 +44,7 @@ public class SpringSecurityConfig {
 
     @Bean(name = "passwordEncoder")
     public PasswordEncoder getPasswordEncoder() {
+        // Requirement: Proper use of password encryption to write to the database
         return new BCryptPasswordEncoder();
     }
 

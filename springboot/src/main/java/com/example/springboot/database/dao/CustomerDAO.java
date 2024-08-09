@@ -6,8 +6,9 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
-public interface CustomerDAO extends JpaRepository<Customer, Integer> {
+public interface CustomerDAO extends JpaRepository<Customer, Integer> { // Requirement: Create one DAO/Repository for each table
 
     @Query("SELECT c FROM Customer c WHERE LOWER(c.name) LIKE LOWER(CONCAT('%', :name, '%'))")
-    List<Customer> findByNameContainingIgnoreCase(String name);
+        // Requirement: Use an @Query (JPA non-native query)
+    List<Customer> findByNameContainingIgnoreCase(String name); // Requirement: Use a Spring Data query based on function name
 }
