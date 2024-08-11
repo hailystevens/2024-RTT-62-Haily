@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Database Management System</title>
+    <title>Capstone Project</title>
     <link rel="stylesheet" href="/pub/css/global.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
@@ -18,49 +18,47 @@
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
-        <a class="navbar-brand" href="/">capstone</a>
+        <a class="navbar-brand" href="/">Capstone</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link" href="${pageContext.request.contextPath}/order/list">Orders</a>
-                </li>
+                <!-- Common Links for All Users -->
                 <li class="nav-item">
                     <a class="nav-link" href="${pageContext.request.contextPath}/product/list">Products</a>
                 </li>
-                <sec:authorize access="hasAuthority('ROLE_ADMIN')">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="adminDropdown" role="button"
-                           data-bs-toggle="dropdown" aria-expanded="false">
-                            Admin
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="adminDropdown">
-                            <li><a class="dropdown-item" href="${pageContext.request.contextPath}/admin/dashboard">Dashboard</a>
-                            </li>
-                            <li><a class="dropdown-item" href="${pageContext.request.contextPath}/admin/users">Manage
-                                Users</a></li>
-                            <li><a class="dropdown-item" href="${pageContext.request.contextPath}/admin/products">Manage
-                                Products</a></li>
-                        </ul>
+
+                <!-- Admin-Specific Links -->
+                <sec:authorize access="hasRole('ADMIN')">
+                    <li class="nav-item">
+                        <a class="nav-link" href="${pageContext.request.contextPath}/product/list">Manage Products</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="${pageContext.request.contextPath}/order/list">Manage Orders</a>
+                    </li>
+                </sec:authorize>
+
+                <!-- User-Specific Links -->
+                <sec:authorize access="hasRole('USER')">
+                    <li class="nav-item">
+                        <a class="nav-link" href="${pageContext.request.contextPath}/cart">My Cart</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="${pageContext.request.contextPath}/order/list-by-customer">My Orders</a>
                     </li>
                 </sec:authorize>
             </ul>
-            <form class="d-flex" action="${pageContext.request.contextPath}/product/search" method="get">
-                <input class="form-control me-2" type="search" placeholder="Search for products" aria-label="Search"
-                       name="query">
-                <button class="btn btn-outline-success" type="submit">Search</button>
-            </form>
+
+            <!-- Authentication Links -->
             <ul class="navbar-nav">
                 <sec:authorize access="!isAuthenticated()">
                     <li class="nav-item">
                         <a class="nav-link" href="${pageContext.request.contextPath}/account/login">Login</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="${pageContext.request.contextPath}/account/create-account">Create
-                            Account</a>
+                        <a class="nav-link" href="${pageContext.request.contextPath}/account/create-account">Create Account</a>
                     </li>
                 </sec:authorize>
                 <sec:authorize access="isAuthenticated()">

@@ -1,5 +1,5 @@
-
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <jsp:include page="../include/header.jsp"/>
 
 <section>
@@ -23,8 +23,10 @@
                         <th>Category</th>
                         <th>Price</th>
                         <th>Image</th>
-                        <th>Created At</th>
-                        <th>Action</th>
+                        <sec:authorize access="hasAuthority('ROLE_ADMIN')">
+                            <th>Created At</th>
+                            <th>Action</th>
+                        </sec:authorize>
                     </tr>
                     <c:forEach items="${products}" var="product">
                         <tr>
@@ -39,20 +41,24 @@
                                 <img src="${pageContext.request.contextPath}/pub/imgs/${product.imageFileName}"
                                      alt="Product Image" width="100">
                             </td>
-                            <td>${product.createdAt}</td>
-                            <td style="white-space:nowrap">
-                                <a class="btn btn-primary btn-sm"
-                                   href="${pageContext.request.contextPath}/product/edit?id=${product.id}">Edit</a>
-                                <a class="btn btn-danger btn-sm"
-                                   href="${pageContext.request.contextPath}/product/delete?id=${product.id}"
-                                   onclick="return confirm('Are you sure?')">Delete</a>
-                            </td>
+                            <sec:authorize access="hasAuthority('ROLE_ADMIN')">
+                                <td>${product.createdAt}</td>
+                                <td style="white-space:nowrap">
+                                    <a class="btn btn-primary btn-sm"
+                                       href="${pageContext.request.contextPath}/product/edit?id=${product.id}">Edit</a>
+                                    <a class="btn btn-danger btn-sm"
+                                       href="${pageContext.request.contextPath}/product/delete?id=${product.id}"
+                                       onclick="return confirm('Are you sure?')">Delete</a>
+                                </td>
+                            </sec:authorize>
                         </tr>
                     </c:forEach>
                 </table>
             </div>
         </div>
-        <a class="btn btn-primary" href="${pageContext.request.contextPath}/product/create">Create Product</a>
+        <sec:authorize access="hasAuthority('ROLE_ADMIN')">
+            <a class="btn btn-primary" href="${pageContext.request.contextPath}/product/create">Create Product</a>
+        </sec:authorize>
     </div>
 </section>
 

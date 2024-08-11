@@ -1,5 +1,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <jsp:include page="../include/header.jsp"/>
 
 <section>
@@ -47,19 +48,21 @@
                                  alt="${product.name}" width="100">
                         </td>
                     </tr>
+                    <sec:authorize access="hasAuthority('ROLE_ADMIN')">
                     <tr>
                         <th>Created At</th>
                         <td><fmt:formatDate value="${product.createdAt}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
                     </tr>
-                    <tr>
-                        <td style="white-space:nowrap">
-                            <a class="btn btn-primary btn-sm"
-                               href="${pageContext.request.contextPath}/product/edit?id=${product.id}">Edit</a>
-                            <a class="btn btn-danger btn-sm"
-                               href="${pageContext.request.contextPath}/product/delete?id=${product.id}"
-                               onclick="return confirm('Are you sure?')">Delete</a>
-                        </td>
-                    </tr>
+                        <tr>
+                            <td colspan="2" style="white-space:nowrap">
+                                <a class="btn btn-primary btn-sm"
+                                   href="${pageContext.request.contextPath}/product/edit?id=${product.id}">Edit</a>
+                                <a class="btn btn-danger btn-sm"
+                                   href="${pageContext.request.contextPath}/product/delete?id=${product.id}"
+                                   onclick="return confirm('Are you sure?')">Delete</a>
+                            </td>
+                        </tr>
+                    </sec:authorize>
                 </table>
             </div>
         </div>
