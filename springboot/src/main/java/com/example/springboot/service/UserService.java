@@ -15,27 +15,27 @@ import java.util.Date;
 public class UserService {
 
     @Autowired
-    private UserDAO userDAO; // Requirement: Create one DAO/Repository for each table
+    private UserDAO userDAO;
 
     @Autowired
-    private UserRoleDAO userRoleDAO; // Requirement: Create one DAO/Repository for each table
+    private UserRoleDAO userRoleDAO;
 
     @Autowired
-    private PasswordEncoder passwordEncoder; // Requirement: Proper use of password encryption to write to database
+    private PasswordEncoder passwordEncoder;
 
-    public void createUser(CreateAccountFormBean form) {
+    public void createUser(CreateAccountFormBean form, boolean isAdmin) {
         User user = new User();
         user.setEmail(form.getEmail());
-        user.setPassword(passwordEncoder.encode(form.getPassword())); // Requirement: Proper use of password encryption to write to database
-        user.setCreateDate(new Date()); // Sets the creation date of the user
+        user.setPassword(passwordEncoder.encode(form.getPassword()));
+        user.setCreateDate(new Date());
 
-        userDAO.save(user); // Saves the user entity in the database
+        userDAO.save(user); // Save the user entity in the database
 
         UserRole userRole = new UserRole();
-        userRole.setUserId(user.getId()); // Links the user role to the newly created user
-        userRole.setRoleName("USER"); // Assigns the "USER" role to the new user
-        userRole.setCreateDate(new Date()); // Sets the creation date of the user role
+        userRole.setUserId(user.getId());
+        userRole.setRoleName(isAdmin ? "ROLE_ADMIN" : "ROLE_USER"); // Assign role based on isAdmin flag with prefix ROLE_
+        userRole.setCreateDate(new Date());
 
-        userRoleDAO.save(userRole); // Saves the user role entity in the database
+        userRoleDAO.save(userRole); // Save the user role entity in the database
     }
 }

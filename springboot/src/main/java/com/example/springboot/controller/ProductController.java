@@ -13,6 +13,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.security.access.prepost.PreAuthorize;
 
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -38,6 +39,26 @@ public class ProductController {
         return "product/list"; // Maps to product/list.jsp
     }
 
+    @GetMapping("/detail") // Requirement: Have one GET controller method
+    public String showDetailPage(@RequestParam("id") Integer id, Model model) {
+        Optional<Product> productOpt = productDAO.findById(id);
+        if (productOpt.isPresent()) {
+            model.addAttribute("product", productOpt.get()); // Pass the product to the view
+            return "product/detail"; // Maps to product/detail.jsp
+        } else {
+            return "redirect:/product/list"; // Redirect to product list if product not found
+        }
+    }
+
+    @GetMapping("/search") // Requirement: Use @RequestParam
+    public ModelAndView search(@RequestParam("query") String query) {
+        List<Product> products = productDAO.findByNameOrCategory(query); // Search products by name or category
+        ModelAndView response = new ModelAndView("product/search-results"); // Maps to product/search-results.jsp
+        response.addObject("products", products); // Pass the search results to the view
+        return response;
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/create")
     public ModelAndView showCreatePage() {
         ModelAndView response = new ModelAndView("product/create"); // Maps to product/create.jsp
@@ -45,6 +66,7 @@ public class ProductController {
         return response;
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/create") // Requirement: Have one POST controller method
     public String createProductSubmit(@Valid @ModelAttribute("form") CreateProductFormBean form,
                                       BindingResult bindingResult, @RequestParam("imageFile") MultipartFile imageFile) {
@@ -81,7 +103,7 @@ public class ProductController {
                 Files.copy(inputStream, uploadPath.resolve(storageFileName), StandardCopyOption.REPLACE_EXISTING); // Save the image file
             }
         } catch (Exception ex) {
-            System.out.println("Exception: " + ex.getMessage());
+            log.error("Error saving image file", ex);
         }
 
         product.setImageFileName(storageFileName); // Set the image file name in the product entity
@@ -91,6 +113,7 @@ public class ProductController {
         return "redirect:/product/list"; // Redirect to the product list page
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/edit") // Requirement: Create and Edit page for at least one table
     public ModelAndView showEditPage(@RequestParam("id") Integer id) {
         ModelAndView response = new ModelAndView("product/edit"); // Maps to product/edit.jsp
@@ -112,6 +135,7 @@ public class ProductController {
         return response;
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/edit") // Requirement: Create and Edit page for at least one table
     public String editProductSubmit(@Valid @ModelAttribute("form") CreateProductFormBean form,
                                     BindingResult result, @RequestParam("imageFile") MultipartFile imageFile) {
@@ -148,7 +172,7 @@ public class ProductController {
                     Files.copy(inputStream, uploadPath.resolve(storageFileName), StandardCopyOption.REPLACE_EXISTING); // Save the image file
                 }
             } catch (Exception ex) {
-                System.out.println("Exception: " + ex.getMessage());
+                log.error("Error saving image file", ex);
             }
 
             product.setImageFileName(storageFileName); // Set the image file name in the product entity
@@ -159,17 +183,7 @@ public class ProductController {
         return "redirect:/product/list"; // Redirect to the product list page
     }
 
-    @GetMapping("/detail") // Requirement: Have one GET controller method
-    public String showDetailPage(@RequestParam("id") Integer id, Model model) {
-        Optional<Product> productOpt = productDAO.findById(id);
-        if (productOpt.isPresent()) {
-            model.addAttribute("product", productOpt.get()); // Pass the product to the view
-            return "product/detail"; // Maps to product/detail.jsp
-        } else {
-            return "redirect:/product/list"; // Redirect to product list if product not found
-        }
-    }
-
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/delete")
     public String deleteProduct(@RequestParam("id") Integer id) {
         Optional<Product> productOpt = productDAO.findById(id);
@@ -179,13 +193,5 @@ public class ProductController {
         } else {
             return "redirect:/product/list"; // Redirect to product list if product not found
         }
-    }
-
-    @GetMapping("/search") // Requirement: Use @RequestParam
-    public ModelAndView search(@RequestParam("query") String query) {
-        List<Product> products = productDAO.findByNameOrCategory(query); // Search products by name or category
-        ModelAndView response = new ModelAndView("product/search-results"); // Maps to product/search-results.jsp
-        response.addObject("products", products); // Pass the search results to the view
-        return response;
     }
 }

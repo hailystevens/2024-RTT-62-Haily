@@ -11,4 +11,6 @@ public interface CustomerDAO extends JpaRepository<Customer, Integer> { // Requi
     @Query("SELECT c FROM Customer c WHERE LOWER(c.name) LIKE LOWER(CONCAT('%', :name, '%'))")
         // Requirement: Use an @Query (JPA non-native query)
     List<Customer> findByNameContainingIgnoreCase(String name); // Requirement: Use a Spring Data query based on function name
+
+    Customer findByEmail(String email);
 }

@@ -37,4 +37,6 @@ public class CreateProductFormBean {
     private Double price;
 
     private MultipartFile imageFile; // Field for the image file, used for file upload
+
+    private boolean ripe;
 }

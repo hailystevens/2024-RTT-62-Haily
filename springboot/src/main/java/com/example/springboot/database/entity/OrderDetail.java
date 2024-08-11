@@ -8,7 +8,7 @@ import java.util.Objects;
 @Setter
 @Getter
 @Entity
-@ToString
+@ToString(exclude = {"order", "product"}) // Exclude fields that might cause recursion
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "orderdetails")
