@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
@@ -67,7 +68,11 @@ public class ErrorController {
                 response.addObject("rootTrace", rootTrace);
             }
         }
-
         return response;
+    }
+
+    @GetMapping("/access-denied")
+    public ModelAndView accessDenied() {
+        return new ModelAndView("error/403"); // Maps to /WEB-INF/views/error/403.jsp
     }
 }
