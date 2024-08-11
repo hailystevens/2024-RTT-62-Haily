@@ -1,6 +1,8 @@
 package com.example.springboot.security;
 
+import com.example.springboot.database.dao.CustomerDAO;
 import com.example.springboot.database.dao.UserDAO;
+import com.example.springboot.database.entity.Customer;
 import com.example.springboot.database.entity.User;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
@@ -27,6 +29,9 @@ public class AuthenticatedUserUtilities {
     @Autowired
     private AuthenticationManager authenticationManager;
 
+    @Autowired
+    private CustomerDAO customerDAO;
+
     public String getCurrentUsername() {
         // Return the logged-in username or null if not logged in
         SecurityContext context = SecurityContextHolder.getContext();
@@ -48,6 +53,18 @@ public class AuthenticatedUserUtilities {
             return null;
         }
         return userDAO.findByEmailIgnoreCase(username); // Fetches the User entity based on the current username
+    }
+
+    public Customer getCurrentCustomer() {
+        // Fetch the current user
+        User user = getCurrentUser();
+
+        if (user == null) {
+            return null;
+        }
+
+        // Assuming that Customer is associated with User via email or another unique field
+        return customerDAO.findByEmail(user.getEmail());
     }
 
     public void manualAuthentication(HttpSession session, String username, String unencryptedPassword) {

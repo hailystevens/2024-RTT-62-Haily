@@ -13,18 +13,18 @@ import org.springframework.web.servlet.ModelAndView;
 @Slf4j
 @Controller
 @RequestMapping("/admin")
-@PreAuthorize("hasAuthority('ADMIN')") // Requirement: Use @PreAuthorize on controller or method
+@PreAuthorize("hasAuthority('ADMIN')") // Use @PreAuthorize on controller or method
 public class AdminController {
 
     @Autowired
     private AuthenticatedUserUtilities authenticatedUserUtilities;
 
-    @GetMapping("/dashboard") // Requirement: Have one GET controller method
+    @GetMapping("/dashboard") // GET controller method
     public ModelAndView dashboard() {
-        ModelAndView response = new ModelAndView("admin/dashboard"); // Maps to the JSP page "admin/dashboard.jsp"
+        ModelAndView response = new ModelAndView("auth/admin"); // Maps to the JSP page "auth/admin.jsp"
 
         try {
-            User user = authenticatedUserUtilities.getCurrentUser(); // Requirement: Get logged-in user in JSP or Controller
+            User user = authenticatedUserUtilities.getCurrentUser(); // Get logged-in user in JSP or Controller
             log.debug("Current admin user: {}", user); // Logging requirement
             response.addObject("user", user); // Passing user data to the view
         } catch (Exception e) {

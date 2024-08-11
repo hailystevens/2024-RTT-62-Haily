@@ -10,41 +10,39 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true) // Requirement: Use @PreAuthorize on controller or method
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SpringSecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        // Disable CSRF protection
-        http.csrf().disable();
+        http.csrf().disable()  // Disable CSRF protection
+                .authorizeHttpRequests((requests) -> requests
+                        .requestMatchers("/product/list", "/product/detail/**").permitAll() // Allow public access to product pages
+                        .requestMatchers("/order/list", "/product/create", "/product/edit/**", "/product/delete/**").hasRole("ADMIN") // Restrict these pages to admins
+                        .anyRequest().permitAll()); // Allow public access to all other pages
 
-        // Requirement: Spring Security configuration
-        http.authorizeRequests()
-                .requestMatchers(new AntPathRequestMatcher("/admin/**"),
-                        new AntPathRequestMatcher("/user/**")).authenticated() // Requirement: Use JSP <sec:authorize> for isAuthenticated and isAnyAuthority
-                .anyRequest().permitAll();
-
-        // Requirement: Working login page
         http.formLogin()
-                .loginPage("/account/login") // Custom login page
-                .loginProcessingUrl("/account/loginProcessingURL");
+                .loginPage("/account/login")
+                .loginProcessingUrl("/account/loginProcessingURL")
+                .defaultSuccessUrl("/product/list", true)
+                .failureUrl("/account/login?error=true");
 
-        // Configure logout
         http.logout()
                 .invalidateHttpSession(true)
-                .logoutUrl("/account/logout") // Custom logout URL
+                .logoutUrl("/account/logout")
                 .logoutSuccessUrl("/");
+
+        http.exceptionHandling()
+                .accessDeniedPage("/access-denied");
 
         return http.build();
     }
 
     @Bean(name = "passwordEncoder")
     public PasswordEncoder getPasswordEncoder() {
-        // Requirement: Proper use of password encryption to write to the database
         return new BCryptPasswordEncoder();
     }
 

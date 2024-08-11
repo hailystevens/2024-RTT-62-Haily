@@ -1,20 +1,20 @@
 package com.example.springboot.controller;
 
-import com.example.springboot.database.dao.UserDAO;
 import com.example.springboot.form.CreateAccountFormBean;
 import com.example.springboot.security.AuthenticatedUserUtilities;
 import com.example.springboot.service.UserService;
 import jakarta.servlet.http.HttpSession;
-import jakarta.validation.Valid; // Requirement: Form bean with 2 different validation annotations
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult; // Requirement: Use @Valid with BindingResult (not on registration page)
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping; // Requirement: Have one POST controller method
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -22,9 +22,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 @RequestMapping("/account")
 public class LoginController {
-
-    @Autowired
-    private UserDAO userDAO;
 
     @Autowired
     private UserService userService;
@@ -46,7 +43,11 @@ public class LoginController {
     }
 
     @PostMapping("/create-account") // Requirement: Have one POST controller method
-    public ModelAndView createAccountSubmit(@Valid CreateAccountFormBean form, BindingResult bindingResult, HttpSession session, RedirectAttributes redirectAttributes) {
+    public ModelAndView createAccountSubmit(@Valid CreateAccountFormBean form,
+                                            BindingResult bindingResult,
+                                            HttpSession session,
+                                            RedirectAttributes redirectAttributes,
+                                            @RequestParam(name = "admin", required = false) boolean isAdmin) {
         ModelAndView response = new ModelAndView("auth/create-account");
 
         if (bindingResult.hasErrors()) { // Validate form inputs
@@ -58,7 +59,7 @@ public class LoginController {
             response.addObject("form", form);
         } else {
             try {
-                userService.createUser(form); // Create user and save to the database
+                userService.createUser(form, isAdmin); // Create user with admin flag
                 authenticatedUserUtilities.manualAuthentication(session, form.getEmail(), form.getPassword()); // Log the user in after account creation
                 log.debug("User created and authenticated successfully");
 
