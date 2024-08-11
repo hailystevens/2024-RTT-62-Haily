@@ -10,57 +10,56 @@ import java.util.Objects;
 @Setter
 @Getter
 @Entity
-@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "orders")
-// Requirement: Proper primary keys / foreign keys, column names lowercase, pk called id, fk tablename_id
+@ToString(exclude = "customer") // Exclude the `customer` field to prevent recursion
 public class Order {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // Requirement: Proper primary keys
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer id;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false) // Requirement: Proper foreign keys
-    @JoinColumn(name = "customer_id", nullable = false) // The foreign key column is named `customer_id`
-    private Customer customer; // This establishes a many-to-one relationship with the `Customer` entity
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "customer_id", nullable = false)
+    private Customer customer;
 
-    @Column(name = "order_date") // Requirement: Column names lowercase
+    @Column(name = "order_date")
     @Temporal(TemporalType.TIMESTAMP)
     private Date orderDate;
 
-    @Column(name = "status") // Requirement: Column names lowercase
+    @Column(name = "status")
     private String status;
 
-    @Column(name = "total_amount") // Requirement: Column names lowercase
+    @Column(name = "total_amount")
     private Double totalAmount;
 
-    @Column(name = "payment_method") // Requirement: Column names lowercase
+    @Column(name = "payment_method")
     private String paymentMethod;
 
-    @Column(name = "shipping_method") // Requirement: Column names lowercase
+    @Column(name = "shipping_method")
     private String shippingMethod;
 
-    @Column(name = "tracking_number") // Requirement: Column names lowercase
+    @Column(name = "tracking_number")
     private String trackingNumber;
 
-    @Column(name = "special_instructions", columnDefinition = "TEXT") // Requirement: Column names lowercase
+    @Column(name = "special_instructions", columnDefinition = "TEXT")
     private String specialInstructions;
 
-    @OneToMany(mappedBy = "order", fetch = FetchType.LAZY, cascade = CascadeType.ALL) // Requirement: Use @OneToMany
-    private List<OrderDetail> orderDetails; // This establishes a one-to-many relationship with the `OrderDetail` entity
+    @OneToMany(mappedBy = "order", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<OrderDetail> orderDetails;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Order order = (Order) o;
-        return id.equals(order.id); // Basic equality check based on `id`
+        return Objects.equals(id, order.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id); // Generate hash code based on `id`
+        return Objects.hash(id);
     }
 }

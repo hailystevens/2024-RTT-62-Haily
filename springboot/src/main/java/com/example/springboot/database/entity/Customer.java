@@ -9,46 +9,45 @@ import java.util.Objects;
 @Setter
 @Getter
 @Entity
-@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "customers")
-// Requirement: Proper primary keys / foreign keys, column names lowercase, pk called id, fk tablename_id
+@ToString(exclude = "orders") // Exclude the `orders` list to prevent recursion
 public class Customer {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // Requirement: Proper primary keys
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer id;
 
-    @Column(name = "name") // Requirement: Column names lowercase
+    @Column(name = "name")
     private String name;
 
-    @Column(name = "email") // Requirement: Column names lowercase
+    @Column(name = "email")
     private String email;
 
-    @Column(name = "phone") // Requirement: Column names lowercase
+    @Column(name = "phone")
     private String phone;
 
-    @Column(name = "billing_address") // Requirement: Column names lowercase
+    @Column(name = "billing_address")
     private String billingAddress;
 
-    @Column(name = "shipping_address") // Requirement: Column names lowercase
+    @Column(name = "shipping_address")
     private String shippingAddress;
 
-    @OneToMany(mappedBy = "customer", fetch = FetchType.LAZY, cascade = CascadeType.ALL) // Requirement: Use @OneToMany
-    private List<Order> orders; // This establishes a one-to-many relationship with the `Order` entity
+    @OneToMany(mappedBy = "customer", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Order> orders;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Customer customer = (Customer) o;
-        return id.equals(customer.id) && name.equals(customer.name); // Basic equality check based on `id` and `name`
+        return Objects.equals(id, customer.id) && Objects.equals(name, customer.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name); // Generate hash code based on `id` and `name`
+        return Objects.hash(id, name);
     }
 }

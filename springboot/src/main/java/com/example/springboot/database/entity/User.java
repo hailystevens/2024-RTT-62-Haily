@@ -11,7 +11,8 @@ import java.util.Date;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "users") // Requirement: Proper primary keys / foreign keys, column names lowercase, pk called id, fk tablename_id
+@Table(name = "users")
+// Requirement: Proper primary keys / foreign keys, column names lowercase, pk called id, fk tablename_id
 public class User {
 
     @Id
