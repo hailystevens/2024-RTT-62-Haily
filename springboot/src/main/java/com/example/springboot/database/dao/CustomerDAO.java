@@ -13,4 +13,5 @@ public interface CustomerDAO extends JpaRepository<Customer, Integer> { // Requi
     List<Customer> findByNameContainingIgnoreCase(String name); // Requirement: Use a Spring Data query based on function name
 
     Customer findByEmail(String email);
+
 }

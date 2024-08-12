@@ -1,3 +1,4 @@
+
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
@@ -49,10 +50,10 @@
                         </td>
                     </tr>
                     <sec:authorize access="hasAuthority('ROLE_ADMIN')">
-                    <tr>
-                        <th>Created At</th>
-                        <td><fmt:formatDate value="${product.createdAt}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
-                    </tr>
+                        <tr>
+                            <th>Created At</th>
+                            <td><fmt:formatDate value="${product.createdAt}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+                        </tr>
                         <tr>
                             <td colspan="2" style="white-space:nowrap">
                                 <a class="btn btn-primary btn-sm"

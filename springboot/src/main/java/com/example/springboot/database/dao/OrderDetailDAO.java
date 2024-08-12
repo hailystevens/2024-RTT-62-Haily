@@ -24,4 +24,5 @@ public interface OrderDetailDAO extends JpaRepository<OrderDetail, Long> { // Re
     @Query("SELECT od FROM OrderDetail od WHERE od.order.id = :orderId AND od.product.id = :productId")
     Optional<OrderDetail> isProductInCart(@Param("orderId") Integer orderId, @Param("productId") Integer productId); // Custom query to check if a product is in the cart
 
+    void deleteById(Integer orderDetailId);
 }

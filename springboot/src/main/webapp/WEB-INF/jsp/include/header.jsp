@@ -27,14 +27,11 @@
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <!-- Common Links for All Users -->
                 <li class="nav-item">
-                    <a class="nav-link" href="${pageContext.request.contextPath}/product/list">Products</a>
+                    <a class="nav-link" href="${pageContext.request.contextPath}/product/list">View Products</a>
                 </li>
 
                 <!-- Admin-Specific Links -->
                 <sec:authorize access="hasRole('ADMIN')">
-                    <li class="nav-item">
-                        <a class="nav-link" href="${pageContext.request.contextPath}/product/list">Manage Products</a>
-                    </li>
                     <li class="nav-item">
                         <a class="nav-link" href="${pageContext.request.contextPath}/order/list">Manage Orders</a>
                     </li>
@@ -50,6 +47,12 @@
                     </li>
                 </sec:authorize>
             </ul>
+
+            <!-- Search Form -->
+            <form class="d-flex" action="${pageContext.request.contextPath}/product/search" method="get">
+                <input class="form-control me-2" type="search" placeholder="Search for products" aria-label="Search" name="query">
+                <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
 
             <!-- Authentication Links -->
             <ul class="navbar-nav">

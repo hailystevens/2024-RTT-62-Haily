@@ -20,7 +20,8 @@ public class SpringSecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf().disable()  // Disable CSRF protection
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/product/list", "/product/detail/**").permitAll() // Allow public access to product pages
+                        .requestMatchers("/product/list", "/product/detail/**", "/order/addToCart", "/order/viewCart", "/order/removeFromCart/**").permitAll()
+                        // Allow public access to product pages and cart functionality
                         .requestMatchers("/order/list", "/product/create", "/product/edit/**", "/product/delete/**").hasRole("ADMIN") // Restrict these pages to admins
                         .anyRequest().permitAll()); // Allow public access to all other pages
 
